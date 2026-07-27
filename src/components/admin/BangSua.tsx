@@ -15,6 +15,7 @@ import { OSheet } from './OSheet'
 import { ChonChiTiet } from './ChonChiTiet'
 import { ODressCode } from './ODressCode'
 import { OLichTrinh } from './OLichTrinh'
+import { OCauHinh } from './OCauHinh'
 import { TEN_SECTION } from './SapXepSection'
 
 /** Các vị trí họa tiết đủ dễ hiểu để người không rành thiết kế vẫn chỉnh được. */
@@ -88,6 +89,13 @@ export function BangSua({
           banDau={spreadsheetId}
           emailServiceAccount={emailServiceAccount}
         />
+
+        <section>
+          <h3 className="font-semibold">Cấu hình đám cưới</h3>
+          <div className="mt-2">
+            <OCauHinh thiep={thiep} onNhap={setThiep} />
+          </div>
+        </section>
 
         <section>
           <h3 className="font-semibold">Giao diện</h3>
