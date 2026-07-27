@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
-import { taoSupabase } from '@/lib/db/client'
+import { layKhoLuuTru } from '@/lib/luuTru'
 
 const LOAI_CHO_PHEP = ['image/jpeg', 'image/png', 'image/webp', 'audio/mpeg']
 const KICH_THUOC_TOI_DA = 10 * 1024 * 1024
+const DUOI_HOP_LE = /^[a-z0-9]{1,5}$/
 
 export async function POST(req: Request) {
   const form = await req.formData()
@@ -19,19 +20,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ loi: 'Tệp vượt quá 10MB' }, { status: 400 })
   }
 
-  const duoi = file.name.split('.').pop() ?? 'bin'
+  // Đuôi tệp do người dùng đặt, phải lọc trước khi ghép vào đường dẫn.
+  const duoiThô = file.name.split('.').pop()?.toLowerCase() ?? ''
+  const duoi = DUOI_HOP_LE.test(duoiThô) ? duoiThô : 'bin'
   const duongDan = `${slug}/${crypto.randomUUID()}.${duoi}`
 
-  const supabase = taoSupabase()
-  const { error } = await supabase.storage
-    .from('thiep')
-    .upload(duongDan, file, { contentType: file.type, upsert: false })
-
-  if (error) {
-    console.error('Lỗi upload:', error)
+  try {
+    const kho = layKhoLuuTru()
+    return NextResponse.json({ url: await kho.luu(duongDan, file) })
+  } catch (loi) {
+    console.error('Lỗi lưu tệp tải lên:', loi)
     return NextResponse.json({ loi: 'Không tải được tệp lên' }, { status: 500 })
   }
-
-  const { data } = supabase.storage.from('thiep').getPublicUrl(duongDan)
-  return NextResponse.json({ url: data.publicUrl })
 }
