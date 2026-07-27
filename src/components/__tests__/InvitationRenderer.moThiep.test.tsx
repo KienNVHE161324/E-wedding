@@ -21,9 +21,9 @@ describe('InvitationRenderer — mở thiệp', () => {
 
   it('chỉ hiện nút xác nhận nổi sau khi mở thiệp', async () => {
     render(<InvitationRenderer thiep={thiepMau} theme={theme} />)
-    expect(screen.queryByRole('link', { name: 'Xác nhận tham dự' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Xác nhận tham dự' })).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Mở thiệp' }))
-    expect(screen.getByRole('link', { name: 'Xác nhận tham dự' })).toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: 'Xác nhận tham dự' })[0]).toBeInTheDocument()
   })
 
   it('không hiện nút xác nhận nổi khi admin đã tắt phần xác nhận', async () => {
@@ -33,6 +33,6 @@ describe('InvitationRenderer — mở thiệp', () => {
     }
     render(<InvitationRenderer thiep={thiep} theme={theme} />)
     await userEvent.click(screen.getByRole('button', { name: 'Mở thiệp' }))
-    expect(screen.queryByRole('link', { name: 'Xác nhận tham dự' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Xác nhận tham dự' })).not.toBeInTheDocument()
   })
 })

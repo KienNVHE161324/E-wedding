@@ -35,9 +35,28 @@ body.khoa-cuon {
   }
 }
 
+/* Nút xác nhận phập phồng nhẹ để hút mắt mà không chói. */
+@keyframes phap-phong {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.08);
+  }
+}
+
+.nut-rsvp-noi {
+  animation: phap-phong 2.4s ease-in-out infinite;
+}
+
 /* Tôn trọng cài đặt giảm chuyển động của máy khách. */
 @media (prefers-reduced-motion: reduce) {
   [data-section] {
+    animation: none;
+  }
+
+  .nut-rsvp-noi {
     animation: none;
   }
 }

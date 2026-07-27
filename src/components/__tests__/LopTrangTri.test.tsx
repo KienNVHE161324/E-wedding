@@ -63,8 +63,8 @@ describe('renderer gắn chi tiết vào đúng phần', () => {
     }
     const { container } = render(<InvitationRenderer thiep={thiep} theme={theme} />)
 
-    const khungAlbum = container.querySelector('[data-section="album"]')!.parentElement!
-    const khungBia = container.querySelector('[data-section="bia"]')!.parentElement!
+    const khungAlbum = container.querySelector('[data-section="album"]')!.closest('.isolate')!
+    const khungBia = container.querySelector('[data-section="bia"]')!.closest('.isolate')!
 
     expect(khungAlbum.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0)
     // Bìa chỉ có họa tiết của theme, không có chi tiết thêm nào.

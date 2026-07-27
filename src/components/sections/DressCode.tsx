@@ -17,7 +17,13 @@ export function DressCode({ thiep }: SectionProps) {
       {dc.moTa && <p className="mx-auto mt-4 max-w-md">{dc.moTa}</p>}
 
       {dc.mauSac.length > 0 && (
-        <ul className="mt-6 flex flex-wrap justify-center gap-3">
+        <p className="mx-auto mt-4 max-w-md text-sm" style={{ color: 'var(--mau-phu)' }}>
+          Vui lòng mặc trang phục theo tông màu dưới đây để bức ảnh chung thêm trọn vẹn.
+        </p>
+      )}
+
+      {dc.mauSac.length > 0 && (
+        <ul className="mt-5 flex flex-wrap justify-center gap-3">
           {dc.mauSac.map((mau, i) => (
             <li
               key={`${mau}-${i}`}

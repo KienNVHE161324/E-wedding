@@ -23,41 +23,31 @@ export function SuKien({ thiep }: SectionProps) {
         Lịch trình đám cưới
       </h2>
 
+      {/*
+        Dòng thời gian dạng dây leo: mốc lẻ nghiêng về trái, mốc chẵn nghiêng về phải,
+        nối nhau bằng những đoạn cong đổi chiều — mắt đi theo như leo một sợi dây.
+      */}
       <ol className="mt-10">
         {moc.map((sk, i) => {
-          // Chỉ ghi ngày khi sang ngày mới, để dòng thời gian không lặp thừa.
           const sangNgayMoi = i === 0 || moc[i - 1].ngay !== sk.ngay
           const cuoiCung = i === moc.length - 1
+          const beTrai = i % 2 === 0
 
           return (
             <li key={`${sk.ngay}-${sk.gio}-${i}`}>
               {sangNgayMoi && (
                 <p
-                  className="mb-4 text-sm tracking-widest"
+                  className="mb-4 text-center text-sm tracking-widest"
                   style={{ color: 'var(--mau-phu)' }}
                 >
                   {nhanNgay(sk.ngay).toUpperCase()}
                 </p>
               )}
 
-              <div className="flex gap-4">
-                {/* Cột chấm tròn và đường nối dọc */}
-                <div className="flex flex-col items-center">
-                  <span
-                    aria-hidden="true"
-                    className="mt-1.5 block h-3 w-3 shrink-0 rounded-full"
-                    style={{ backgroundColor: 'var(--mau-chinh)' }}
-                  />
-                  {!cuoiCung && (
-                    <span
-                      aria-hidden="true"
-                      className="w-px flex-1"
-                      style={{ backgroundColor: 'var(--mau-phu)', opacity: 0.4 }}
-                    />
-                  )}
-                </div>
-
-                <div className={cuoiCung ? '' : 'pb-8'}>
+              <div className={beTrai ? 'text-left' : 'text-right'}>
+                <div
+                  className={`inline-block max-w-[85%] ${beTrai ? 'pr-2' : 'pl-2'}`}
+                >
                   <p className="text-lg" style={{ color: 'var(--mau-chinh)' }}>
                     <span className="tabular-nums">{sk.gio}</span>
                     <span className="mx-2" aria-hidden="true">
@@ -79,7 +69,7 @@ export function SuKien({ thiep }: SectionProps) {
                       alt={sk.banDoAnh.moTa}
                       width={800}
                       height={500}
-                      sizes="(max-width: 768px) 80vw, 560px"
+                      sizes="(max-width: 768px) 80vw, 480px"
                       className="mt-3 w-full rounded-lg"
                     />
                   )}
@@ -97,6 +87,25 @@ export function SuKien({ thiep }: SectionProps) {
                   )}
                 </div>
               </div>
+
+              {/* Đoạn dây uốn sang phía đối diện, dẫn mắt tới mốc kế tiếp. */}
+              {!cuoiCung && (
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 100 40"
+                  preserveAspectRatio="none"
+                  className="my-2 h-10 w-full"
+                >
+                  <path
+                    d={beTrai ? 'M 14 0 C 14 28, 86 12, 86 40' : 'M 86 0 C 86 28, 14 12, 14 40'}
+                    fill="none"
+                    stroke="var(--mau-phu)"
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    opacity="0.5"
+                  />
+                </svg>
+              )}
             </li>
           )
         })}

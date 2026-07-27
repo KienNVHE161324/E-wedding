@@ -51,7 +51,7 @@ test('tạo đám cưới, chọn phần hiển thị, xuất bản rồi khách
   await expect(page.getByText(/Đang mở, còn 14 ngày/)).toBeVisible()
 
   await trangKhach.goto(`/${slug}`)
-  await expect(trangKhach.getByRole('heading', { name: /Nguyễn Kiểm Thử/ })).toBeVisible()
+  await expect(trangKhach.getByRole('heading', { name: /Nguyễn Kiểm Thử/ }).first()).toBeVisible()
   await expect(trangKhach.locator('[data-section="so-luu-but"]')).toHaveCount(0)
   await expect(trangKhach.locator('[data-section="su-kien"]')).toHaveCount(0)
 

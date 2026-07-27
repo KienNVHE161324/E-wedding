@@ -13,6 +13,8 @@ export interface SectionProps {
   theme: Theme
   /** Chỉ phần 'bia' dùng. */
   onMoThiep?: () => void
+  /** Chỉ phần 'rsvp' dùng: mở popup xác nhận tham dự. */
+  onMoRsvp?: () => void
   /** Chỉ phần 'so-luu-but' dùng. */
   loiChuc?: LoiChuc[]
 }

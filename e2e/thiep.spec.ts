@@ -6,10 +6,10 @@ const SLUG = 'e2e-co-dinh'
 
 test('mở thiệp và thấy đủ các phần', async ({ page }) => {
   await page.goto(`/${SLUG}`)
-  await expect(page.getByRole('heading', { name: /Nguyễn Hoài Nam/ })).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Nguyễn Hoài Nam/ }).first()).toBeVisible()
 
   await page.getByRole('button', { name: 'Mở thiệp' }).click()
-  await expect(page.getByRole('link', { name: 'Xác nhận tham dự' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Xác nhận tham dự' })).toBeVisible()
   await expect(page.locator('[data-section="su-kien"]')).toBeAttached()
   await expect(page.locator('[data-section="mung-cuoi"]')).toBeAttached()
 })
@@ -27,7 +27,7 @@ test('trang không bị tràn ngang', async ({ page }) => {
 test('gửi xác nhận tham dự thành công', async ({ page }) => {
   await page.goto(`/${SLUG}`)
   await page.getByRole('button', { name: 'Mở thiệp' }).click()
-  await page.getByRole('link', { name: 'Xác nhận tham dự' }).click()
+  await page.getByRole('button', { name: 'Điền xác nhận' }).click()
 
   await page.getByLabel('Họ và tên').fill('Khách kiểm thử')
   await page.getByLabel('Bạn là khách của').selectOption('nha-trai')
@@ -42,6 +42,7 @@ test('gửi xác nhận tham dự thành công', async ({ page }) => {
 test('bỏ trống họ tên thì không gửi được', async ({ page }) => {
   await page.goto(`/${SLUG}`)
   await page.getByRole('button', { name: 'Mở thiệp' }).click()
+  await page.getByRole('button', { name: 'Điền xác nhận' }).click()
   await page.getByRole('button', { name: 'Gửi xác nhận' }).click()
   await expect(page.getByText(/Cảm ơn bạn/)).toHaveCount(0)
 })

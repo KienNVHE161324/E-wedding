@@ -8,6 +8,7 @@ import { resolveSections } from '@/lib/invitation/sections'
 import { SECTION_REGISTRY } from './sections/registry'
 import { NutRsvpNoi } from './NutRsvpNoi'
 import { LopTrangTri } from './LopTrangTri'
+import { PopupRsvp } from './PopupRsvp'
 
 /**
  * Dựng thiệp từ dữ liệu. Hàm thuần theo (thiep, theme): không đọc DB,
@@ -24,6 +25,7 @@ export function InvitationRenderer({
 }) {
   const danhSach = resolveSections(theme.thuTuSection, thiep.sections)
   const [daMo, setDaMo] = useState(false)
+  const [moRsvp, setMoRsvp] = useState(false)
 
   // Khóa cuộn cho tới khi khách bấm "Mở thiệp". Cú chạm đó cũng là thứ
   // hợp thức hóa việc phát nhạc, vì trình duyệt mobile chặn tự động phát.
@@ -60,6 +62,7 @@ export function InvitationRenderer({
           const Section = SECTION_REGISTRY[id]
           const rieng =
             id === 'bia' ? { onMoThiep: () => setDaMo(true) }
+            : id === 'rsvp' ? { onMoRsvp: () => setMoRsvp(true) }
             : id === 'so-luu-but' ? { loiChuc }
             : {}
           const trangTri = (thiep.chiTietTrangTri ?? []).filter((ct) => ct.section === id)
@@ -76,7 +79,8 @@ export function InvitationRenderer({
         })}
       </main>
 
-      {daMo && danhSach.includes('rsvp') && <NutRsvpNoi />}
+      {daMo && danhSach.includes('rsvp') && <NutRsvpNoi onMo={() => setMoRsvp(true)} />}
+      {moRsvp && <PopupRsvp thiep={thiep} onDong={() => setMoRsvp(false)} />}
     </div>
   )
 }

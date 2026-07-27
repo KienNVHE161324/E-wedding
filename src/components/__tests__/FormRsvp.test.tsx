@@ -1,11 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Rsvp } from '../Rsvp'
+import { FormRsvp } from '../FormRsvp'
 import { thiepMau } from '@/lib/invitation/mau'
-import { layTheme } from '@/lib/themes'
-
-const theme = layTheme('mac-dinh')
 
 beforeEach(() => {
   vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ ok: true }))))
@@ -21,7 +18,7 @@ async function dienForm() {
 
 describe('Form xác nhận tham dự', () => {
   it('có đủ các trường theo yêu cầu', () => {
-    render(<Rsvp thiep={thiepMau} theme={theme} />)
+    render(<FormRsvp thiep={thiepMau} />)
     for (const nhan of [
       'Họ và tên',
       'Bạn là khách của',
@@ -35,7 +32,7 @@ describe('Form xác nhận tham dự', () => {
   })
 
   it('gửi đúng dữ liệu kèm slug lên API', async () => {
-    render(<Rsvp thiep={thiepMau} theme={theme} />)
+    render(<FormRsvp thiep={thiepMau} />)
     await dienForm()
     await userEvent.click(screen.getByRole('button', { name: 'Gửi xác nhận' }))
 
@@ -49,7 +46,7 @@ describe('Form xác nhận tham dự', () => {
   })
 
   it('hiện lời cảm ơn sau khi gửi thành công', async () => {
-    render(<Rsvp thiep={thiepMau} theme={theme} />)
+    render(<FormRsvp thiep={thiepMau} />)
     await dienForm()
     await userEvent.click(screen.getByRole('button', { name: 'Gửi xác nhận' }))
     expect(await screen.findByText(/Cảm ơn bạn/)).toBeInTheDocument()
@@ -60,7 +57,7 @@ describe('Form xác nhận tham dự', () => {
       'fetch',
       vi.fn(async () => new Response(JSON.stringify({ loi: 'Thiệp này đã đóng' }), { status: 410 })),
     )
-    render(<Rsvp thiep={thiepMau} theme={theme} />)
+    render(<FormRsvp thiep={thiepMau} />)
     await dienForm()
     await userEvent.click(screen.getByRole('button', { name: 'Gửi xác nhận' }))
     expect(await screen.findByRole('alert')).toHaveTextContent('Thiệp này đã đóng')
