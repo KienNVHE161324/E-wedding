@@ -18,11 +18,12 @@ export const macDinh: Theme = {
     tieuDe: 'serif',
     noiDung: 'sans-serif',
   },
+  // Đường dẫn dưới /hoa-tiet, sinh bởi `npm run hoa-tiet`.
   hoaTiet: {
-    divider: 'song-nuoc-may-troi.png',
-    corner: 'hoa-sen-dang-01.png',
-    watermark: 'chu-hy-trien.png',
-    seal: 'chu-hy-trien.png',
+    divider: 'primary-decor/nature/song-nuoc-may-troi-01.png',
+    corner: 'watermarks/florals/single-flowers/WF01-lotus-front.png',
+    watermark: 'primary-decor/symbols/chu-hy-trien-01.png',
+    seal: 'primary-decor/symbols/chu-hy-trien-01.png',
   },
   doDam: {
     divider: 0.5,

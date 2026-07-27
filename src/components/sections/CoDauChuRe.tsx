@@ -1,5 +1,5 @@
 import type { SectionProps } from './types'
-import { HoaTiet } from '@/components/HoaTiet'
+import { HoaTietTheme } from '@/components/HoaTiet'
 
 export function CoDauChuRe({ thiep, theme }: SectionProps) {
   return (
@@ -11,7 +11,7 @@ export function CoDauChuRe({ thiep, theme }: SectionProps) {
         <p className="flex-1">{thiep.chuRe.ten}</p>
         <p className="flex-1">{thiep.coDau.ten}</p>
       </div>
-      <HoaTiet theme={theme} slot="divider" className="mx-auto mt-10 block h-8 w-40" />
+      <HoaTietTheme theme={theme} slot="divider" className="mx-auto mt-10 block h-8 w-40" />
     </section>
   )
 }

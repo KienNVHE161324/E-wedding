@@ -56,6 +56,28 @@ export interface OMungCuoi {
   qrAnh?: Anh
 }
 
+/** Vị trí gắn một chi tiết trang trí trong một phần của thiệp. */
+export type ViTriChiTiet = 'tren' | 'duoi' | 'trai' | 'phai' | 'nen'
+
+/**
+ * Một chi tiết trang trí do nhân viên tự thêm vào thiệp.
+ * Khác với họa tiết của theme ở chỗ: chọn được tệp, màu, độ đậm, kích thước
+ * cho riêng từng thiệp mà không đụng tới theme.
+ */
+export interface ChiTietTrangTri {
+  /** id trong DANH_SACH_HOA_TIET, xem src/lib/motifs/danhSach.ts */
+  id: string
+  /** Gắn vào phần nào của thiệp. */
+  section: SectionId
+  viTri: ViTriChiTiet
+  /** Mã màu, ví dụ '#8B2F20'. */
+  mau: string
+  /** 0–1 */
+  doDam: number
+  /** Chiều rộng tính theo phần trăm khung thiệp, 5–100. */
+  kichThuoc: number
+}
+
 /** Ghi đè giao diện cho riêng một thiệp. Thiếu trường nào thì lấy của theme. */
 export interface TuyChinhGiaoDien {
   mauChinh?: string
@@ -80,4 +102,6 @@ export interface Invitation {
   suKien: SuKien[]
   mungCuoi: OMungCuoi[]
   tuyChinhGiaoDien?: TuyChinhGiaoDien
+  /** Chi tiết trang trí nhân viên tự thêm. Rỗng nghĩa là chỉ dùng họa tiết của theme. */
+  chiTietTrangTri?: ChiTietTrangTri[]
 }

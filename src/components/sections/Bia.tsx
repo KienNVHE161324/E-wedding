@@ -1,5 +1,5 @@
 import type { SectionProps } from './types'
-import { HoaTiet } from '@/components/HoaTiet'
+import { HoaTietTheme } from '@/components/HoaTiet'
 
 // Khung tối thiểu để nền tảng chạy được.
 // Session thiết kế thay toàn bộ phần bên trong <section>, giữ nguyên
@@ -10,7 +10,7 @@ export function Bia({ thiep, theme, onMoThiep }: SectionProps) {
       data-section="bia"
       className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center"
     >
-      <HoaTiet theme={theme} slot="watermark" className="absolute inset-0 m-auto block h-2/3 w-2/3" />
+      <HoaTietTheme theme={theme} slot="watermark" className="absolute inset-0 m-auto block h-2/3 w-2/3" />
 
       <p className="text-sm tracking-[0.3em]" style={{ color: 'var(--mau-phu)' }}>
         THÂN MỜI
@@ -33,7 +33,7 @@ export function Bia({ thiep, theme, onMoThiep }: SectionProps) {
         Mở thiệp
       </button>
 
-      <HoaTiet theme={theme} slot="corner" className="absolute bottom-4 block h-16 w-16" />
+      <HoaTietTheme theme={theme} slot="corner" className="absolute bottom-4 block h-16 w-16" />
     </section>
   )
 }

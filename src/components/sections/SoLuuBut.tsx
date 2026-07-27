@@ -1,5 +1,5 @@
 import type { SectionProps } from './types'
-import { HoaTiet } from '@/components/HoaTiet'
+import { HoaTietTheme } from '@/components/HoaTiet'
 
 export function SoLuuBut({ theme, loiChuc = [] }: SectionProps) {
   return (
@@ -23,7 +23,7 @@ export function SoLuuBut({ theme, loiChuc = [] }: SectionProps) {
         </ul>
       )}
 
-      <HoaTiet theme={theme} slot="divider" className="mx-auto mt-10 block h-8 w-40" />
+      <HoaTietTheme theme={theme} slot="divider" className="mx-auto mt-10 block h-8 w-40" />
     </section>
   )
 }

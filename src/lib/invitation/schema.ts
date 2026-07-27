@@ -52,6 +52,17 @@ export const tuyChinhGiaoDienSchema = z.object({
   doDam: z.partialRecord(slotHoaTietSchema, z.number().min(0).max(1)).optional(),
 })
 
+export const viTriChiTietSchema = z.enum(['tren', 'duoi', 'trai', 'phai', 'nen'])
+
+export const chiTietTrangTriSchema = z.object({
+  id: z.string().min(1),
+  section: sectionIdSchema,
+  viTri: viTriChiTietSchema,
+  mau: z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Màu phải ở dạng #RRGGBB'),
+  doDam: z.number().min(0).max(1),
+  kichThuoc: z.number().min(5).max(100),
+})
+
 export const invitationSchema: z.ZodType<Invitation> = z.object({
   slug: z.string().min(1),
   themeId: z.string().min(1),
@@ -84,4 +95,5 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
     }),
   ),
   tuyChinhGiaoDien: tuyChinhGiaoDienSchema.optional(),
+  chiTietTrangTri: z.array(chiTietTrangTriSchema).optional(),
 })

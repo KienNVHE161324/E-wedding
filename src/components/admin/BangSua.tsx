@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import type { Invitation } from '@/lib/invitation/types'
+import type { Invitation, SectionId } from '@/lib/invitation/types'
 import type { SlotHoaTiet } from '@/lib/themes/types'
 import type { VongDoi } from '@/lib/vongDoi/types'
 import { THEMES, layTheme } from '@/lib/themes'
@@ -12,6 +12,8 @@ import { ThanhDoDam } from './ThanhDoDam'
 import { OAnh } from './OAnh'
 import { NutXuatBan } from './NutXuatBan'
 import { OSheet } from './OSheet'
+import { ChonChiTiet } from './ChonChiTiet'
+import { TEN_SECTION } from './SapXepSection'
 
 /** Các vị trí họa tiết đủ dễ hiểu để người không rành thiết kế vẫn chỉnh được. */
 const SLOT_HIEN_THI: { slot: SlotHoaTiet; nhan: string }[] = [
@@ -34,6 +36,7 @@ export function BangSua({
 }) {
   const [thiep, setThiep] = useState(banDau)
   const [trangThai, setTrangThai] = useState('')
+  const [phanDangTrangTri, setPhanDangTrangTri] = useState<SectionId>('bia')
 
   function sua<K extends keyof Invitation>(khoa: K, giaTri: Invitation[K]) {
     setThiep((t) => ({ ...t, [khoa]: giaTri }))
@@ -159,7 +162,33 @@ export function BangSua({
         </section>
 
         <section>
-          <h3 className="font-semibold">Độ đậm nhạt họa tiết</h3>
+          <h3 className="font-semibold">Chi tiết trang trí</h3>
+          <label className="mt-2 block text-sm">
+            Thêm vào phần
+            <select
+              aria-label="Thêm vào phần"
+              value={phanDangTrangTri}
+              onChange={(e) => setPhanDangTrangTri(e.target.value as SectionId)}
+              className={o}
+            >
+              {(Object.keys(TEN_SECTION) as SectionId[]).map((id) => (
+                <option key={id} value={id}>
+                  {TEN_SECTION[id]}
+                </option>
+              ))}
+            </select>
+          </label>
+          <div className="mt-3">
+            <ChonChiTiet
+              giaTri={thiep.chiTietTrangTri ?? []}
+              section={phanDangTrangTri}
+              onDoi={(v) => sua('chiTietTrangTri', v)}
+            />
+          </div>
+        </section>
+
+        <section>
+          <h3 className="font-semibold">Độ đậm nhạt họa tiết của giao diện</h3>
           <div className="mt-2 space-y-3">
             {SLOT_HIEN_THI.map(({ slot, nhan }) => (
               <ThanhDoDam

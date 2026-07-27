@@ -7,6 +7,7 @@ import type { LoiChuc } from '@/lib/rsvp/types'
 import { resolveSections } from '@/lib/invitation/sections'
 import { SECTION_REGISTRY } from './sections/registry'
 import { NutRsvpNoi } from './NutRsvpNoi'
+import { LopTrangTri } from './LopTrangTri'
 
 /**
  * Dựng thiệp từ dữ liệu. Hàm thuần theo (thiep, theme): không đọc DB,
@@ -61,7 +62,14 @@ export function InvitationRenderer({
             id === 'bia' ? { onMoThiep: () => setDaMo(true) }
             : id === 'so-luu-but' ? { loiChuc }
             : {}
-          return <Section key={id} thiep={thiep} theme={theme} {...rieng} />
+          const trangTri = (thiep.chiTietTrangTri ?? []).filter((ct) => ct.section === id)
+
+          return (
+            <div key={id} className="relative">
+              <Section thiep={thiep} theme={theme} {...rieng} />
+              <LopTrangTri chiTiet={trangTri} />
+            </div>
+          )
         })}
       </main>
 
