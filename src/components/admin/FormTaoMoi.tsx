@@ -62,20 +62,20 @@ export function FormTaoMoi() {
         <input id="tenCoDau" name="tenCoDau" required className={o} />
       </div>
 
-      <label className="flex items-start gap-2 text-sm">
-        <input
-          type="checkbox"
-          className="mt-1"
-          checked={haiNgay}
-          onChange={(e) => setHaiNgay(e.target.checked)}
-        />
-        <span>
+      <div>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={haiNgay}
+            onChange={(e) => setHaiNgay(e.target.checked)}
+          />
           Đám cưới diễn ra trong hai ngày
-          <span className="block text-neutral-500">
-            Ngày muộn hơn luôn được coi là ngày cưới chính.
-          </span>
-        </span>
-      </label>
+        </label>
+        {/* Gợi ý để ngoài nhãn, nếu không tên của ô đánh dấu sẽ dài và lẫn với ô ngày. */}
+        <p className="mt-1 text-sm text-neutral-500">
+          Ngày muộn hơn luôn được coi là ngày cưới chính.
+        </p>
+      </div>
 
       {haiNgay && (
         <div>
