@@ -87,7 +87,7 @@ export function Rsvp({ thiep }: SectionProps) {
           </div>
 
           <div>
-            <label htmlFor="ngayAn">Đến ăn ngày</label>
+            <label htmlFor="ngayAn">Đến tham dự ngày</label>
             <select id="ngayAn" name="ngayAn" required defaultValue="" className={o}>
               <option value="" disabled>Chọn ngày</option>
               {ngayCoThe.map((n) => (

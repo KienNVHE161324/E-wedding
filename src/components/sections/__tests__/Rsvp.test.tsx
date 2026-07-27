@@ -16,7 +16,7 @@ async function dienForm() {
   await userEvent.selectOptions(screen.getByLabelText('Bạn là khách của'), 'nha-trai')
   await userEvent.type(screen.getByLabelText('Quan hệ với cô dâu/chú rể'), 'Bạn học chú rể')
   await userEvent.selectOptions(screen.getByLabelText('Phương tiện di chuyển'), 'Xe máy')
-  await userEvent.selectOptions(screen.getByLabelText('Đến ăn ngày'), '14/11/2026')
+  await userEvent.selectOptions(screen.getByLabelText('Đến tham dự ngày'), '14/11/2026')
 }
 
 describe('Form xác nhận tham dự', () => {
@@ -27,7 +27,7 @@ describe('Form xác nhận tham dự', () => {
       'Bạn là khách của',
       'Quan hệ với cô dâu/chú rể',
       'Phương tiện di chuyển',
-      'Đến ăn ngày',
+      'Đến tham dự ngày',
       'Lời chúc (không bắt buộc)',
     ]) {
       expect(screen.getByLabelText(nhan)).toBeInTheDocument()

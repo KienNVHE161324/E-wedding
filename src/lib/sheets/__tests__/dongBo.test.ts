@@ -51,7 +51,7 @@ describe('chuanBiBangTinh', () => {
       tab: 'Nhà trai',
       dong: [
         'Ngày đăng ký', 'Họ tên', 'Quan hệ với cô dâu/chú rể',
-        'Phương tiện', 'Đến ăn ngày', 'Lời chúc',
+        'Phương tiện', 'Đến tham dự ngày', 'Lời chúc',
       ],
     })
     expect(ghiNhan.them[1].tab).toBe('Nhà gái')

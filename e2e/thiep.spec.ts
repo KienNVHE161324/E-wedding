@@ -33,7 +33,7 @@ test('gửi xác nhận tham dự thành công', async ({ page }) => {
   await page.getByLabel('Bạn là khách của').selectOption('nha-trai')
   await page.getByLabel('Quan hệ với cô dâu/chú rể').fill('Đồng nghiệp')
   await page.getByLabel('Phương tiện di chuyển').selectOption('Xe máy')
-  await page.getByLabel('Đến ăn ngày').selectOption('14/11/2026')
+  await page.getByLabel('Đến tham dự ngày').selectOption('14/11/2026')
   await page.getByRole('button', { name: 'Gửi xác nhận' }).click()
 
   await expect(page.getByText(/Cảm ơn bạn/)).toBeVisible()

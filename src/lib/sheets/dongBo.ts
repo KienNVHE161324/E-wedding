@@ -11,7 +11,7 @@ export const COT = [
   'Họ tên',
   'Quan hệ với cô dâu/chú rể',
   'Phương tiện',
-  'Đến ăn ngày',
+  'Đến tham dự ngày',
   'Lời chúc',
 ]
 
