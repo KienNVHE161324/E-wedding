@@ -315,3 +315,6 @@ photorealistic shading and unrelated decorative objects
 - Bộ cô dâu chú rể hành động: duyệt 3 dáng đầu gồm đi xe đạp, dắt xe và vẫy chào.
 - Các review board tiếp theo bắt buộc đánh mã từng phương án để chọn dễ dàng.
 - Phase kế tiếp sau cô dâu chú rể: nhiều chi tiết hoa.
+- Hoa `primary-decor` F1–F12: đã duyệt toàn bộ.
+- Tiếp tục mở rộng hoa `primary-decor`; chỉ bắt đầu bộ hoa `watermark` sau khi
+  hoàn tất hoa chi tiết.
