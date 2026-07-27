@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-labelledby="title">
+  <title id="title">Cổng tam quan tối giản</title>
+  <path fill="currentColor" d="M28 139c76 4 116-22 163-55 44 8 82-8 129-55 47 47 85 63 129 55 47 33 87 59 163 55-25 22-70 20-119-3-55-26-105-26-173-72-68 46-118 46-173 72-49 23-94 25-119 3Z"/>
+  <path fill="currentColor" fill-rule="evenodd" d="M86 155h468v164H86V155Zm28 24v116h76V179h-76Zm104 0v116h72v-89h60v89h72V179H218Zm232 0v116h76V179h-76Z"/>
+  <path fill="currentColor" d="M58 319h524v18H58z"/>
+</svg>

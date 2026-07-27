@@ -7,16 +7,38 @@ Trạng thái: đã duyệt thiết kế, chưa lập kế hoạch triển khai
 
 Xây dựng hệ thống tạo thiệp cưới online cho thị trường Bắc Ninh.
 
-Mô hình **dịch vụ**: khách đặt hàng, đội ngũ nội bộ nhập liệu qua trang quản trị và giao cho khách một đường link thiệp. Khách không tự đăng ký tài khoản. Hệ quả:
+Mô hình **dịch vụ**: khách đặt hàng, đội ngũ nội bộ nhập liệu qua trang quản trị và giao cho khách một đường link thiệp. Khách không tự đăng ký tài khoản.
 
-- Không cần đăng nhập cho khách, không cần thanh toán, không cần phân quyền nhiều cấp.
-- Trang quản trị chỉ cần bảo vệ ở mức truy cập nội bộ.
+Sản phẩm gồm hai mặt:
+
+- **Web quản trị (nội bộ, phải đăng nhập)** — quản lý danh sách các đám cưới, tạo thiệp mới, sửa nội dung, xuất bản, gia hạn, xem RSVP.
+- **Web app cưới (công khai)** — chính là thiệp khách mời nhận được. Đây là **thứ duy nhất** xem được mà không cần đăng nhập.
 
 Mỗi thiệp là một slug trên một web app dùng chung (ví dụ `/nam-linh`). Không xuất file tĩnh.
 
+### 1.1 Phân quyền
+
+- Mọi đường dẫn dưới `/admin` và `/api/admin` đều yêu cầu đăng nhập. Chưa đăng nhập thì bị chuyển về trang đăng nhập.
+- Mỗi nhân viên có **tài khoản riêng** (email + mật khẩu, qua Supabase Auth). Không dùng mật khẩu chung, để biết ai tạo đơn nào và khóa được từng người khi nghỉ việc.
+- Trang thiệp `/[slug]` và API RSVP là công khai, không cần đăng nhập.
+
+### 1.2 Vòng đời một thiệp
+
+Mỗi thiệp có ba trạng thái:
+
+| Trạng thái | Ý nghĩa | Khách vào link thấy gì |
+|---|---|---|
+| `nhap` | Đang soạn, chưa giao khách | Trang "thiệp chưa mở" |
+| `da-xuat-ban` | Đã giao khách, đang trong hạn | Thiệp đầy đủ |
+| `het-han` | Quá hạn | Trang "thiệp đã hết hạn" |
+
+Đồng hồ **bắt đầu chạy khi admin bấm Xuất bản**, không phải lúc tạo. Soạn thảo trước bao lâu cũng không tính vào hạn. Mặc định **14 ngày**, admin sửa được ngày hết hạn cho từng đơn và **gia hạn** bất cứ lúc nào — bấm gia hạn là thiệp sống lại ngay.
+
+Hết hạn **không xóa dữ liệu**: nội dung thiệp và toàn bộ RSVP vẫn nguyên trong DB và trong Google Sheet. Chỉ chặn hiển thị công khai. Lý do không chọn "cho xem mãi, chỉ khóa RSVP": ảnh phải lưu vô thời hạn, dung lượng tăng tuyến tính theo số đám cưới và sẽ phát sinh chi phí lưu trữ.
+
 ## 2. Phạm vi
 
-**v1 (bản này):** khung hệ thống hoàn chỉnh + **1 theme "Quan họ Bắc Ninh"** chạy được đầu-cuối, gồm renderer, trang quản trị, đồng bộ Google Sheet, thư viện họa tiết.
+**v1 (bản này):** khung hệ thống hoàn chỉnh + **1 theme "Quan họ Bắc Ninh"** chạy được đầu-cuối, gồm renderer, đăng nhập nhân viên, bảng điều khiển quản lý nhiều đám cưới, trang sửa thiệp, vòng đời xuất bản/hết hạn, đồng bộ Google Sheet, thư viện họa tiết.
 
 **Sau v1:** nhân bản thêm 29 theme trên cùng khung. Đây là công việc thiết kế lặp lại, không phát sinh kiến trúc mới.
 
@@ -119,11 +141,23 @@ Sheet là **bản tổng hợp một chiều**. Nguồn sự thật là DB — a
 
 Nếu Google API lỗi hoặc quá hạn mức, RSVP vẫn lưu DB thành công và khách thấy thông báo thành công bình thường. Bản ghi được đánh dấu chưa đồng bộ và đẩy lại sau qua hàng đợi retry. Không bao giờ để lỗi phía Google làm hỏng trải nghiệm khách mời.
 
-## 6. Trang quản trị
+## 6. Web quản trị
+
+### 6.1 Bảng điều khiển
+
+Trang đầu sau khi đăng nhập: **danh sách toàn bộ đám cưới**. Mỗi dòng hiện tên cô dâu chú rể, slug, ngày cưới, trạng thái, số ngày còn lại, số lượt xác nhận tham dự. Có tìm kiếm theo tên hoặc slug, lọc theo trạng thái.
+
+Thao tác trên từng đơn: mở trang sửa, xuất bản, gia hạn, mở link thiệp, mở Google Sheet.
+
+Nút **Tạo đám cưới mới**: nhập slug, tên chú rể, tên cô dâu, ngày cưới, chọn theme. Hệ thống dựng sẵn một thiệp đầy đủ ở trạng thái `nhap` với thứ tự section mặc định của theme, rồi mở thẳng trang sửa. Slug phải là duy nhất và chỉ gồm chữ thường, số, dấu gạch ngang.
+
+### 6.2 Trang sửa thiệp
 
 Một trang tổng hợp mọi phần custom được của một thiệp, thay vì một form dài. Liệt kê theo từng section; mỗi section hiện đủ các ô của nó (chữ, ảnh, bật/tắt, thứ tự). Sửa bên trái, thiệp thật hiện bên phải, đổi là thấy ngay — để ngồi cùng khách và sửa tại chỗ.
 
-Phạm vi v1: sửa chữ, sửa ảnh, bật/tắt section, đảo thứ tự section, đổi bảng màu, xem trước trực tiếp.
+Nguyên tắc bắt buộc: **các chi tiết tách rời nhau**, mỗi ô sửa độc lập và có nhãn tiếng Việt nói rõ nó là gì. Người không biết gì về thiết kế phải tự sửa được mà không sợ làm hỏng phần khác.
+
+Phạm vi v1: sửa chữ, sửa ảnh, bật/tắt section, đảo thứ tự section, đổi theme, xuất bản, gia hạn, xem trước trực tiếp.
 
 Ngoài phạm vi: kéo thả tự do kiểu Canva.
 
@@ -156,5 +190,7 @@ Test tự động, bốn điểm bắt buộc:
 2. Google API sập → khách vẫn submit thành công, dữ liệu được đẩy lại sau.
 3. Đảo và tắt section → thiệp render đúng thứ tự mới, không vỡ bố cục.
 4. Mỗi theme render đầy đủ với dữ liệu mẫu — chạy cho toàn bộ theme, một theme hỏng là phát hiện ngay.
+5. Phân quyền: chưa đăng nhập vào `/admin` bị chuyển về trang đăng nhập; trang thiệp công khai vẫn vào được bình thường.
+6. Vòng đời: thiệp `nhap` và thiệp quá hạn hiện đúng trang thông báo; bấm gia hạn thì thiệp mở lại được.
 
 Kiểm tay bổ sung trên thiết bị thật: iPhone Safari, Android Chrome, và điều kiện mạng chậm.

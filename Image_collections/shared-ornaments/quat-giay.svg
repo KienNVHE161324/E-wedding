@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 360" role="img" aria-labelledby="title">
+  <title id="title">Quạt giấy tối giản</title>
+  <path fill="currentColor" d="M210 325 28 177C71 72 143 28 210 28s139 44 182 149L210 325Zm0-36 137-121c-38-72-88-105-137-105S111 96 73 168l137 121Z"/>
+  <path fill="currentColor" d="m203 55 14 1-7 250-7-251Zm-92 64 11-9 94 190-13 6-92-187Zm198 0-11-9-94 190 13 6 92-187Z"/>
+  <circle cx="210" cy="320" r="18" fill="currentColor"/>
+</svg>

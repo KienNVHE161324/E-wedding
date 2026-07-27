@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "items": [
+    {"id":"mai-dinh-dau-dao","file":"mai-dinh-dau-dao.svg","slots":["cover-frame","section-header","watermark"],"aspectRatio":3.5556},
+    {"id":"cong-tam-quan","file":"cong-tam-quan.svg","slots":["watermark","section-hero","corner"],"aspectRatio":1.7778},
+    {"id":"thap-chua-keo","file":"thap-chua-keo.svg","slots":["watermark","corner","section-hero"],"aspectRatio":0.6923},
+    {"id":"non-quai-thao","file":"non-quai-thao.svg","slots":["corner","watermark"],"aspectRatio":1},
+    {"id":"quat-giay","file":"quat-giay.svg","slots":["corner","watermark"],"aspectRatio":1.1667},
+    {"id":"hoa-sen","file":"hoa-sen.svg","slots":["divider","corner","watermark"],"aspectRatio":1.6},
+    {"id":"song-nuoc-may-troi","file":"song-nuoc-may-troi.svg","slots":["divider","section-footer"],"aspectRatio":4},
+    {"id":"doi-chim","file":"doi-chim.svg","slots":["divider","section-header"],"aspectRatio":2.1538},
+    {"id":"chu-hy-trien","file":"chu-hy-trien.svg","slots":["seal","corner","watermark"],"aspectRatio":1},
+    {"id":"dai-yem","file":"dai-yem.svg","slots":["vertical-divider","corner","watermark"],"aspectRatio":0.4286}
+  ]
+}

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" color="#6F211B" role="img" aria-labelledby="title">
+  <title id="title">Thư viện họa tiết cưới truyền thống</title>
+  <rect width="1200" height="900" fill="#F3E8CF"/>
+  <g font-family="Arial, sans-serif" font-size="20" fill="#4A2F25" text-anchor="middle">
+    <g transform="translate(40 45)"><image href="mai-dinh-dau-dao.svg" width="520" height="146"/><text x="260" y="175">Mái đình đầu đao</text></g>
+    <g transform="translate(670 35)"><image href="cong-tam-quan.svg" width="430" height="242"/><text x="215" y="270">Cổng tam quan</text></g>
+    <g transform="translate(60 280)"><image href="non-quai-thao.svg" width="220" height="220"/><text x="110" y="248">Nón quai thao</text></g>
+    <g transform="translate(345 295)"><image href="quat-giay.svg" width="250" height="214"/><text x="125" y="240">Quạt giấy</text></g>
+    <g transform="translate(660 305)"><image href="hoa-sen.svg" width="330" height="206"/><text x="165" y="234">Hoa sen</text></g>
+    <g transform="translate(1030 285)"><image href="chu-hy-trien.svg" width="160" height="160"/><text x="80" y="190">Hỷ triện</text></g>
+    <g transform="translate(45 570)"><image href="song-nuoc-may-troi.svg" width="520" height="130"/><text x="260" y="160">Sóng nước – mây trời</text></g>
+    <g transform="translate(650 555)"><image href="doi-chim.svg" width="410" height="190"/><text x="205" y="220">Đôi chim</text></g>
+    <g transform="translate(1080 520)"><image href="dai-yem.svg" width="90" height="210"/><text x="45" y="240">Dải yếm</text></g>
+    <g transform="translate(505 690)"><image href="thap-chua-keo.svg" width="110" height="160"/><text x="55" y="188">Tháp chùa</text></g>
+  </g>
+</svg>

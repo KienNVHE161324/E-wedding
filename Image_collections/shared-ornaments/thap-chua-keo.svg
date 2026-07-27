@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 520" role="img" aria-labelledby="title">
+  <title id="title">Tháp chùa tối giản</title>
+  <path fill="currentColor" d="m180 23 20 29h-12v43c27 7 51 19 79 17-14 18-36 26-62 28v52c29 7 56 19 87 17-15 20-40 29-69 31v59c31 8 59 21 94 19-17 22-44 32-76 34v89h-24v-66h-74v66h-24v-89c-32-2-59-12-76-34 35 2 63-11 94-19v-59c-29-2-54-11-69-31 31 2 58-10 87-17v-52c-26-2-48-10-62-28 28 2 52-10 79-17V52h-12l20-29Zm-25 117v52h50v-52h-50Zm-18 100v59h86v-59h-86Zm6 112v25h74v-25h-74Z"/>
+  <path fill="currentColor" d="M80 441h200v19H80zm28 36h144v18H108z"/>
+</svg>

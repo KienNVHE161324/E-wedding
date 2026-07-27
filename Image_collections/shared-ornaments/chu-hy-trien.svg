@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-labelledby="title">
+  <title id="title">Chữ Hỷ triện tối giản</title>
+  <path fill="currentColor" fill-rule="evenodd" d="M24 24h312v312H24V24Zm22 22v268h268V46H46Z"/>
+  <path fill="currentColor" d="M76 78h86v20h-32v30h38v20H70v-20h38V98H76V78Zm4 88h78v72h-27v25h37v20h-37v30h-23v-30H70v-20h38v-25H80v-72Zm22 20v32h34v-32h-34Zm96-108h86v20h-32v30h38v20h-98v-20h38V98h-32V78Zm4 88h78v72h-27v25h37v20h-37v30h-23v-30h-38v-20h38v-25h-28v-72Zm22 20v32h34v-32h-34Z"/>
+</svg>
