@@ -311,5 +311,7 @@ photorealistic shading and unrelated decorative objects
 - Bảng decor chính gồm mái đình, tam quan, tháp, nón nghiêng, quạt, yếm, Hỷ và
   sóng–mây: đã duyệt về hướng hình ảnh; cần regenerate từng asset production.
 - Bản nón quai thao individual trên nền xanh: loại bỏ, không lưu.
-- Bảng bốn dáng cô dâu chú rể: đang chờ duyệt.
+- Bộ cô dâu chú rể đầu tiên: duyệt cả 4 dáng.
+- Bộ cô dâu chú rể hành động: duyệt 3 dáng đầu gồm đi xe đạp, dắt xe và vẫy chào.
+- Các review board tiếp theo bắt buộc đánh mã từng phương án để chọn dễ dàng.
 - Phase kế tiếp sau cô dâu chú rể: nhiều chi tiết hoa.

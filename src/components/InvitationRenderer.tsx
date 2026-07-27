@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, type CSSProperties } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import type { Invitation } from '@/lib/invitation/types'
 import type { Theme } from '@/lib/themes'
 import type { LoiChuc } from '@/lib/rsvp/types'
 import { resolveSections } from '@/lib/invitation/sections'
 import { SECTION_REGISTRY } from './sections/registry'
+import { NutRsvpNoi } from './NutRsvpNoi'
 
 /**
  * Dựng thiệp từ dữ liệu. Hàm thuần theo (thiep, theme): không đọc DB,
@@ -21,7 +22,14 @@ export function InvitationRenderer({
   loiChuc?: LoiChuc[]
 }) {
   const danhSach = resolveSections(theme.thuTuSection, thiep.sections)
-  const [, setDaMo] = useState(false)
+  const [daMo, setDaMo] = useState(false)
+
+  // Khóa cuộn cho tới khi khách bấm "Mở thiệp". Cú chạm đó cũng là thứ
+  // hợp thức hóa việc phát nhạc, vì trình duyệt mobile chặn tự động phát.
+  useEffect(() => {
+    document.body.classList.toggle('khoa-cuon', !daMo)
+    return () => document.body.classList.remove('khoa-cuon')
+  }, [daMo])
 
   // Tùy chỉnh của từng thiệp ghi đè giá trị của theme; thiếu thì lấy theme.
   const tc = thiep.tuyChinhGiaoDien ?? {}
@@ -56,6 +64,8 @@ export function InvitationRenderer({
           return <Section key={id} thiep={thiep} theme={theme} {...rieng} />
         })}
       </main>
+
+      {daMo && danhSach.includes('rsvp') && <NutRsvpNoi />}
     </div>
   )
 }

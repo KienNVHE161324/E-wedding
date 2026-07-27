@@ -37,4 +37,5 @@ Image_collections/
 - Review board nằm ngoài các folder production.
 - Tên file dùng kebab-case và có số thứ tự cho biến thể.
 - Asset văn hóa cần được kiểm tra hình dáng trước khi lưu.
-
+- Mỗi phương án trên review board phải có mã chọn rõ ràng (`A1`, `A2`, ...).
+- Mã chọn nằm ngoài vùng asset và không được đưa vào file production.
