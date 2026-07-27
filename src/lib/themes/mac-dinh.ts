@@ -38,6 +38,7 @@ export const macDinh: Theme = {
     { id: 'chuyen-chung-minh' },
     { id: 'album' },
     { id: 'su-kien' },
+    { id: 'dress-code' },
     { id: 'rsvp' },
     { id: 'mung-cuoi' },
     { id: 'so-luu-but' },

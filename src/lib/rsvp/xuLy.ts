@@ -8,30 +8,36 @@ export interface PhuThuoc {
 }
 
 /**
- * Ghi RSVP vào DB (bắt buộc thành công), rồi cố đẩy sang Google Sheet.
- *
- * Hai trường hợp không đẩy được đều KHÔNG làm hỏng trải nghiệm khách mời:
- * thiệp chưa gắn ID bảng tính, hoặc Google lỗi. Bản ghi vẫn nguyên trong DB,
- * được đánh dấu chưa đồng bộ và đẩy lại sau bởi /api/dong-bo-sheet.
+ * Lưu RSVP vào DB. Đây là bước duy nhất khách mời phải chờ.
+ * Lỗi ở đây được ném lên vì đó là mất dữ liệu thật.
  */
-export async function guiRsvp(
+export async function luuRsvp(
   deps: PhuThuoc,
   dauVao: RsvpDauVao & { slug: string },
-): Promise<{ id: string; daDongBoSheet: boolean }> {
-  const rsvp = await deps.taoRsvp(dauVao)
+): Promise<Rsvp> {
+  return deps.taoRsvp(dauVao)
+}
 
+/**
+ * Đẩy một RSVP sang Google Sheet rồi đánh dấu đã đồng bộ.
+ *
+ * Chạy SAU khi đã trả lời khách mời, vì một vòng gọi Google mất vài giây —
+ * bắt khách ngồi chờ là không chấp nhận được. Mọi lỗi đều được nuốt: bản ghi
+ * vẫn nguyên trong DB và sẽ được đẩy lại bởi /api/dong-bo-sheet.
+ */
+export async function dongBoMotRsvp(deps: PhuThuoc, rsvp: Rsvp): Promise<boolean> {
   try {
-    const spreadsheetId = await deps.laySpreadsheetId(dauVao.slug)
+    const spreadsheetId = await deps.laySpreadsheetId(rsvp.slug)
     if (!spreadsheetId) {
-      console.warn(`Thiệp ${dauVao.slug} chưa gắn ID bảng tính, RSVP sẽ được đẩy sau.`)
-      return { id: rsvp.id, daDongBoSheet: false }
+      console.warn(`Thiệp ${rsvp.slug} chưa gắn ID bảng tính, RSVP sẽ được đẩy sau.`)
+      return false
     }
 
     await deps.dongBoLenSheet(spreadsheetId, rsvp)
     await deps.danhDauDaDongBo(rsvp.id)
-    return { id: rsvp.id, daDongBoSheet: true }
+    return true
   } catch (loi) {
     console.error('Không đẩy được RSVP sang Google Sheet, sẽ thử lại sau:', loi)
-    return { id: rsvp.id, daDongBoSheet: false }
+    return false
   }
 }

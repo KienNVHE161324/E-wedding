@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { SapXepSection } from '../SapXepSection'
+import { SapXepSection, TEN_SECTION } from '../SapXepSection'
 import type { SectionRef } from '@/lib/invitation/types'
 
 const giaTri: SectionRef[] = [
@@ -63,9 +63,9 @@ describe('SapXepSection', () => {
     expect(xuong[xuong.length - 1]).toBeDisabled()
   })
 
-  it('luôn liệt kê đủ chín phần dù danh sách truyền vào thiếu', () => {
+  it('luôn liệt kê đủ mọi phần dù danh sách truyền vào thiếu', () => {
     render(<SapXepSection giaTri={[{ id: 'bia' }]} onDoi={() => {}} />)
-    expect(screen.getAllByRole('checkbox')).toHaveLength(9)
+    expect(screen.getAllByRole('checkbox')).toHaveLength(Object.keys(TEN_SECTION).length)
   })
 
   it('phần bị thiếu trong danh sách được coi là đang tắt', () => {

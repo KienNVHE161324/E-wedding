@@ -9,6 +9,7 @@ export const TEN_SECTION: Record<SectionId, string> = {
   'chuyen-chung-minh': 'Chuyện chúng mình',
   'album': 'Album ảnh',
   'su-kien': 'Lịch trình đám cưới',
+  'dress-code': 'Dress code',
   'rsvp': 'Xác nhận tham dự',
   'mung-cuoi': 'Mừng cưới',
   'so-luu-but': 'Sổ lưu bút',

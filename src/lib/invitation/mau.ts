@@ -46,6 +46,10 @@ export const thiepMau: Invitation = {
       linkChiDuong: 'https://maps.google.com/?q=Ly+Thai+To+Bac+Ninh',
     },
   ],
+  dressCode: {
+    moTa: 'Mời quý khách mặc tông đỏ – be để bức ảnh chung thêm đẹp.',
+    mauSac: ['#8B2F20', '#F5EFE2', '#B0833C'],
+  },
   mungCuoi: [
     {
       ben: 'nha-trai',

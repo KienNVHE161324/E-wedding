@@ -6,6 +6,13 @@ const anhSchema = z.object({
   moTa: z.string(),
 })
 
+const maMauSchema = z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Màu phải ở dạng #RRGGBB')
+
+const dressCodeSchema = z.object({
+  moTa: z.string(),
+  mauSac: z.array(maMauSchema),
+})
+
 const nguoiCuoiSchema = z.object({
   ten: z.string().min(1),
   anh: anhSchema.optional(),
@@ -22,6 +29,7 @@ export const sectionIdSchema = z.enum([
   'chuyen-chung-minh',
   'album',
   'su-kien',
+  'dress-code',
   'rsvp',
   'mung-cuoi',
   'so-luu-but',
@@ -85,6 +93,8 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
       linkChiDuong: z.string().optional(),
     }),
   ),
+  dressCode: dressCodeSchema.optional(),
+  mungCuoiKieuHopQua: z.boolean().optional(),
   mungCuoi: z.array(
     z.object({
       ben: z.enum(['nha-trai', 'nha-gai']),

@@ -7,6 +7,7 @@ import { CoDauChuRe } from './CoDauChuRe'
 import { ChuyenChungMinh } from './ChuyenChungMinh'
 import { Album } from './Album'
 import { SuKien } from './SuKien'
+import { DressCode } from './DressCode'
 import { Rsvp } from './Rsvp'
 import { MungCuoi } from './MungCuoi'
 import { SoLuuBut } from './SoLuuBut'
@@ -19,6 +20,7 @@ export const SECTION_REGISTRY: Record<SectionId, FC<SectionProps>> = {
   'chuyen-chung-minh': ChuyenChungMinh,
   'album': Album,
   'su-kien': SuKien,
+  'dress-code': DressCode,
   'rsvp': Rsvp,
   'mung-cuoi': MungCuoi,
   'so-luu-but': SoLuuBut,

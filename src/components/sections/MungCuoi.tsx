@@ -1,9 +1,64 @@
+'use client'
+
+import { useState } from 'react'
+import Image from 'next/image'
 import type { SectionProps } from './types'
-import type { Ben } from '@/lib/invitation/types'
+import type { Ben, OMungCuoi } from '@/lib/invitation/types'
 
 const TEN_BEN: Record<Ben, string> = {
   'nha-trai': 'Nhà trai',
   'nha-gai': 'Nhà gái',
+}
+
+function ThongTin({ o }: { o: OMungCuoi }) {
+  return (
+    <>
+      {o.qrAnh && (
+        <Image
+          src={o.qrAnh.url}
+          alt={o.qrAnh.moTa}
+          width={220}
+          height={220}
+          className="mx-auto h-40 w-40 object-contain"
+        />
+      )}
+      <p className="mt-3 font-medium">{o.chuTaiKhoan}</p>
+      <p className="text-sm" style={{ color: 'var(--mau-phu)' }}>
+        {o.nganHang}
+      </p>
+      <p className="mt-1 tracking-wider">{o.soTaiKhoan}</p>
+      <button
+        type="button"
+        onClick={() => navigator.clipboard?.writeText(o.soTaiKhoan)}
+        className="mt-3 rounded-full border px-4 py-1.5 text-sm"
+        style={{ borderColor: 'var(--mau-phu)', color: 'var(--mau-phu)' }}
+      >
+        Chép số tài khoản
+      </button>
+    </>
+  )
+}
+
+/** Hộp quà đóng, chạm vào mới mở ra thông tin chuyển khoản. */
+function HopQua({ o }: { o: OMungCuoi }) {
+  const [daMo, setDaMo] = useState(false)
+
+  if (daMo) return <ThongTin o={o} />
+
+  return (
+    <button
+      type="button"
+      onClick={() => setDaMo(true)}
+      aria-label={`Mở hộp quà ${TEN_BEN[o.ben]}`}
+      className="mx-auto flex h-40 w-40 flex-col items-center justify-center rounded-lg border-2 transition-transform hover:scale-105"
+      style={{ borderColor: 'var(--mau-chinh)', color: 'var(--mau-chinh)' }}
+    >
+      <span className="text-4xl" aria-hidden="true">
+        🎁
+      </span>
+      <span className="mt-2 text-sm">Chạm để mở</span>
+    </button>
+  )
 }
 
 export function MungCuoi({ thiep }: SectionProps) {
@@ -11,15 +66,20 @@ export function MungCuoi({ thiep }: SectionProps) {
 
   return (
     <section data-section="mung-cuoi" className="px-6 py-16 text-center">
-      <h2 className="text-2xl" style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}>
+      <h2
+        className="text-2xl"
+        style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
+      >
         Mừng cưới
       </h2>
-      <div className="mt-6 flex flex-col gap-6 md:flex-row">
+
+      <div className="mt-6 flex flex-col gap-8 md:flex-row">
         {thiep.mungCuoi.map((o) => (
           <div key={o.ben} className="flex-1">
-            <p style={{ color: 'var(--mau-phu)' }}>{TEN_BEN[o.ben]}</p>
-            <p className="mt-1">{o.chuTaiKhoan}</p>
-            <p className="text-sm">{o.soTaiKhoan}</p>
+            <p className="mb-3 text-sm tracking-widest" style={{ color: 'var(--mau-phu)' }}>
+              {TEN_BEN[o.ben]}
+            </p>
+            {thiep.mungCuoiKieuHopQua ? <HopQua o={o} /> : <ThongTin o={o} />}
           </div>
         ))}
       </div>

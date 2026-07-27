@@ -7,6 +7,7 @@ export type SectionId =
   | 'chuyen-chung-minh'
   | 'album'
   | 'su-kien'
+  | 'dress-code'
   | 'rsvp'
   | 'mung-cuoi'
   | 'so-luu-but'
@@ -44,6 +45,13 @@ export interface SuKien {
   diaChi: string
   banDoAnh?: Anh
   linkChiDuong?: string
+}
+
+export interface DressCode {
+  /** Ví dụ: 'Mời quý khách mặc tông đỏ – be'. */
+  moTa: string
+  /** Các ô màu tròn gợi ý, dạng #RRGGBB. */
+  mauSac: string[]
 }
 
 export type Ben = 'nha-trai' | 'nha-gai'
@@ -100,7 +108,10 @@ export interface Invitation {
   chuyenChungMinh: ChangChuyen[]
   album: Anh[]
   suKien: SuKien[]
+  dressCode?: DressCode
   mungCuoi: OMungCuoi[]
+  /** Bật thì phần Mừng cưới hiện hộp quà đóng, khách chạm vào mới hiện QR. */
+  mungCuoiKieuHopQua?: boolean
   tuyChinhGiaoDien?: TuyChinhGiaoDien
   /** Chi tiết trang trí nhân viên tự thêm. Rỗng nghĩa là chỉ dùng họa tiết của theme. */
   chiTietTrangTri?: ChiTietTrangTri[]

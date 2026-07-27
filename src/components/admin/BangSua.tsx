@@ -13,6 +13,7 @@ import { OAnh } from './OAnh'
 import { NutXuatBan } from './NutXuatBan'
 import { OSheet } from './OSheet'
 import { ChonChiTiet } from './ChonChiTiet'
+import { ODressCode } from './ODressCode'
 import { TEN_SECTION } from './SapXepSection'
 
 /** Các vị trí họa tiết đủ dễ hiểu để người không rành thiết kế vẫn chỉnh được. */
@@ -129,6 +130,31 @@ export function BangSua({
               value={thiep.ngayCuoi}
               onChange={(e) => sua('ngayCuoi', e.target.value)}
             />
+          </label>
+        </section>
+
+        <section>
+          <h3 className="font-semibold">Dress code</h3>
+          <div className="mt-2">
+            <ODressCode giaTri={thiep.dressCode} onDoi={(v) => sua('dressCode', v)} />
+          </div>
+        </section>
+
+        <section>
+          <h3 className="font-semibold">Mừng cưới</h3>
+          <label className="mt-2 flex items-start gap-2 text-sm">
+            <input
+              type="checkbox"
+              className="mt-1"
+              checked={thiep.mungCuoiKieuHopQua ?? false}
+              onChange={(e) => sua('mungCuoiKieuHopQua', e.target.checked)}
+            />
+            <span>
+              Hiện hộp quà, khách chạm vào mới ra QR
+              <span className="block text-neutral-500">
+                Tắt thì QR và số tài khoản hiện thẳng.
+              </span>
+            </span>
           </label>
         </section>
 

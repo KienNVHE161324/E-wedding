@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { guiRsvp, type PhuThuoc } from '../xuLy'
+import { luuRsvp, dongBoMotRsvp, type PhuThuoc } from '../xuLy'
 import type { Rsvp } from '../types'
 
 const dauVao = {
@@ -28,38 +28,17 @@ function deps(ghiDe: Partial<PhuThuoc> = {}): PhuThuoc {
   }
 }
 
-describe('guiRsvp', () => {
-  it('ghi DB rồi đẩy sang Sheet và đánh dấu đã đồng bộ', async () => {
+describe('luuRsvp', () => {
+  it('ghi vào DB và trả về bản ghi', async () => {
     const d = deps()
-    expect(await guiRsvp(d, dauVao)).toEqual({ id: 'r1', daDongBoSheet: true })
-    expect(d.dongBoLenSheet).toHaveBeenCalledWith('sheet-123', expect.objectContaining({ id: 'r1' }))
-    expect(d.danhDauDaDongBo).toHaveBeenCalledWith('r1')
+    expect(await luuRsvp(d, dauVao)).toMatchObject({ id: 'r1', hoTen: 'Lê Văn Toàn' })
   })
 
-  it('thiệp chưa gắn bảng tính thì vẫn lưu thành công, chờ đẩy sau', async () => {
-    const d = deps({ laySpreadsheetId: vi.fn(async () => null) })
-    expect(await guiRsvp(d, dauVao)).toEqual({ id: 'r1', daDongBoSheet: false })
+  it('KHÔNG gọi Google, để khách mời không phải chờ', async () => {
+    const d = deps()
+    await luuRsvp(d, dauVao)
     expect(d.dongBoLenSheet).not.toHaveBeenCalled()
-    expect(d.danhDauDaDongBo).not.toHaveBeenCalled()
-  })
-
-  it('vẫn báo thành công khi Google hỏng, và không đánh dấu đã đồng bộ', async () => {
-    const d = deps({
-      dongBoLenSheet: vi.fn(async () => {
-        throw new Error('Google 503')
-      }),
-    })
-    expect(await guiRsvp(d, dauVao)).toEqual({ id: 'r1', daDongBoSheet: false })
-    expect(d.danhDauDaDongBo).not.toHaveBeenCalled()
-  })
-
-  it('vẫn báo thành công khi không đọc được cấu hình bảng tính', async () => {
-    const d = deps({
-      laySpreadsheetId: vi.fn(async () => {
-        throw new Error('DB timeout')
-      }),
-    })
-    expect((await guiRsvp(d, dauVao)).daDongBoSheet).toBe(false)
+    expect(d.laySpreadsheetId).not.toHaveBeenCalled()
   })
 
   it('ném lỗi khi ghi DB thất bại, vì đó là mất dữ liệu thật', async () => {
@@ -68,6 +47,41 @@ describe('guiRsvp', () => {
         throw new Error('DB down')
       }),
     })
-    await expect(guiRsvp(d, dauVao)).rejects.toThrow('DB down')
+    await expect(luuRsvp(d, dauVao)).rejects.toThrow('DB down')
+  })
+})
+
+describe('dongBoMotRsvp', () => {
+  it('đẩy sang Sheet rồi đánh dấu đã đồng bộ', async () => {
+    const d = deps()
+    expect(await dongBoMotRsvp(d, rsvpTao())).toBe(true)
+    expect(d.dongBoLenSheet).toHaveBeenCalledWith('sheet-123', expect.objectContaining({ id: 'r1' }))
+    expect(d.danhDauDaDongBo).toHaveBeenCalledWith('r1')
+  })
+
+  it('thiệp chưa gắn bảng tính thì bỏ qua, chờ đẩy sau', async () => {
+    const d = deps({ laySpreadsheetId: vi.fn(async () => null) })
+    expect(await dongBoMotRsvp(d, rsvpTao())).toBe(false)
+    expect(d.dongBoLenSheet).not.toHaveBeenCalled()
+    expect(d.danhDauDaDongBo).not.toHaveBeenCalled()
+  })
+
+  it('nuốt lỗi Google và không đánh dấu đã đồng bộ', async () => {
+    const d = deps({
+      dongBoLenSheet: vi.fn(async () => {
+        throw new Error('Google 503')
+      }),
+    })
+    expect(await dongBoMotRsvp(d, rsvpTao())).toBe(false)
+    expect(d.danhDauDaDongBo).not.toHaveBeenCalled()
+  })
+
+  it('nuốt cả lỗi khi không đọc được cấu hình bảng tính', async () => {
+    const d = deps({
+      laySpreadsheetId: vi.fn(async () => {
+        throw new Error('DB timeout')
+      }),
+    })
+    expect(await dongBoMotRsvp(d, rsvpTao())).toBe(false)
   })
 })

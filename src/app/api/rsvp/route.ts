@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, after } from 'next/server'
 import { rsvpDauVaoSchema } from '@/lib/rsvp/types'
-import { guiRsvp, type PhuThuoc } from '@/lib/rsvp/xuLy'
+import { luuRsvp, dongBoMotRsvp, type PhuThuoc } from '@/lib/rsvp/xuLy'
 import { taoRsvp, danhDauDaDongBo } from '@/lib/db/rsvps'
 import { layThiepTheoSlug, laySpreadsheetId } from '@/lib/db/invitations'
 import { taoSheetsApi } from '@/lib/sheets/client'
@@ -42,8 +42,14 @@ export async function POST(req: Request) {
   }
 
   try {
-    const kq = await guiRsvp(phuThuoc(), { ...kiemTra.data, slug })
-    return NextResponse.json({ ok: true, id: kq.id })
+    const deps = phuThuoc()
+    const rsvp = await luuRsvp(deps, { ...kiemTra.data, slug })
+
+    // Đẩy sang Google Sheet sau khi đã trả lời khách: một vòng gọi Google mất
+    // vài giây, không được để khách ngồi chờ. Thất bại thì cron đẩy lại sau.
+    after(() => dongBoMotRsvp(deps, rsvp))
+
+    return NextResponse.json({ ok: true, id: rsvp.id })
   } catch (loi) {
     console.error('Lỗi lưu RSVP:', loi)
     return NextResponse.json({ loi: 'Không lưu được xác nhận. Vui lòng thử lại.' }, { status: 500 })
