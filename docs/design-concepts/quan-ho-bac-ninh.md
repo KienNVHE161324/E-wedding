@@ -175,3 +175,114 @@ Registry: `Image_collections/shared-ornaments/registry.json`
 `contact-sheet.svg` và `contact-sheet.png` dùng để duyệt nhanh thư viện. Khi đưa
 vào web, SVG phải được inline hoặc import thành component để `currentColor` nhận
 màu từ token của theme; không dùng thẻ `<img>` nếu cần đổi màu động.
+
+## 11. Phase minh họa cưới nét thanh
+
+### 11.1 Hai cấp độ chi tiết
+
+Không tiếp tục dùng icon silhouette hiện tại làm ngôn ngữ minh họa chính. Phase
+sau tạo một họ asset mới theo hai cấp độ:
+
+#### `watermark-line`
+
+Theo tinh thần `couple-watermark-reference.png`:
+
+- nét bút mảnh, nhẹ, có độ rung tự nhiên;
+- hình người toàn thân, bố cục dọc;
+- chi tiết vừa đủ để đọc được áo dài, khăn đóng, tà áo và bó hoa;
+- không tô mảng lớn;
+- dùng ở opacity 4–12% làm nền mờ, góc section hoặc lớp sau chữ;
+- không đặt nét quan trọng ngay sau nội dung dài.
+
+#### `primary-engraving`
+
+Theo tinh thần `doves-primary-reference.png`:
+
+- contour rõ, nét trong có chọn lọc;
+- tương phản mạnh hơn `watermark-line`;
+- nhận diện tốt ở chiều rộng 120–320 px;
+- dùng làm focal ornament, divider lớn hoặc điểm đóng/mở section;
+- không dùng hatch dày toàn bộ hình; chỉ dùng ở cánh, vải hoặc vùng cần diễn tả
+  chuyển động.
+
+Hai ảnh trong `Image_collections/references/wedding-line-art/` chỉ là **style
+reference**, không phải asset production và không được phát hành cùng thiệp nếu
+chưa xác minh quyền sử dụng.
+
+### 11.2 Danh mục cần tạo
+
+#### Trang phục và con người
+
+1. Cô dâu áo dài, khăn đóng, cầm bó hoa — toàn thân.
+2. Chú rể áo dài, khăn đóng — toàn thân.
+3. Cặp cô dâu chú rể đứng cạnh nhau — dùng làm watermark.
+4. Cặp cô dâu chú rể nhìn nhau — focal illustration.
+5. Tà áo dài bay và đường cong vạt áo — corner/divider.
+6. Liền chị Quan họ với áo nhiều lớp, váy, yếm và nón quai thao.
+7. Liền anh Quan họ với áo the, khăn xếp.
+8. Cặp liền anh liền chị hát đối đáp — chỉ dùng ở theme Quan họ, không thay thế
+   hình cô dâu chú rể.
+
+#### Vật phẩm cưới dùng chung
+
+1. Đôi chim/uyên ương hoặc bồ câu.
+2. Trầu cau và trầu têm cánh phượng.
+3. Cặp nhẫn.
+4. Bó hoa cưới.
+5. Mâm quả.
+6. Thiệp và phong bì.
+7. Ruy băng hoặc dải lụa.
+8. Chữ Hỷ dạng triện.
+9. Bình hoa và chân nến.
+
+#### Chi tiết riêng Kinh Bắc
+
+1. Bánh phu thê Đình Bảng trong hộp vuông, buộc lạt đỏ.
+2. Nón quai thao đặt nghiêng.
+3. Quạt giấy.
+4. Cơi trầu và miếng trầu cánh phượng.
+5. Liền anh/liền chị ở tư thế hát đối đáp.
+6. Đường nét mái đình hoặc tam quan làm bối cảnh rất mờ.
+
+### 11.3 Ranh giới văn hóa
+
+- Không mặc định cô dâu chú rể là liền anh/liền chị.
+- Áo dài cưới và trang phục Quan họ là hai nhóm asset riêng.
+- Không trộn áo Nhật Bình/cung đình Huế vào theme Kinh Bắc.
+- Không biến nón quai thao thành nón lá thông thường.
+- Không dùng hồng pastel hoặc hoa hồng Tây làm dấu hiệu chính của Kinh Bắc.
+- Tránh mô tả trang phục quá chi tiết khi chưa có ảnh tư liệu đủ rõ.
+
+### 11.4 Prompt khung cho `watermark-line`
+
+```text
+Use case: stylized-concept
+Asset type: reusable wedding invitation watermark illustration
+Primary request: <chủ thể>
+Style/medium: elegant monochrome pen-and-ink fashion illustration, very fine
+contour lines, restrained internal detail, subtle hand-drawn variation
+Composition/framing: complete silhouette with generous padding; vertical when
+the subject is a standing couple
+Color palette: one ink color only; designed to inherit the invitation theme color
+Constraints: no text, no background, no frame, no cast shadow, no large solid
+black areas; culturally accurate Vietnamese clothing; readable at low opacity
+Avoid: cartoon style, photorealism, dense cross-hatching, Western suits or
+European bridal styling unless explicitly requested
+```
+
+### 11.5 Prompt khung cho `primary-engraving`
+
+```text
+Use case: stylized-concept
+Asset type: reusable primary wedding ornament
+Primary request: <chủ thể>
+Style/medium: refined monochrome engraving-inspired line illustration; strong
+outer contour with selective feather, fabric or botanical interior lines
+Composition/framing: balanced emblem-like composition, clear negative space,
+recognizable at small size
+Color palette: one ink color only; suitable for recoloring
+Constraints: no text, no background, no border, no watermark; keep line density
+moderate; preserve a clean silhouette
+Avoid: clip-art geometry, heavy black fill, excessive hatching, gradients,
+photorealistic shading and unrelated decorative objects
+```
