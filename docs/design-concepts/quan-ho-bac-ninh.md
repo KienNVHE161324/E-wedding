@@ -319,5 +319,8 @@ photorealistic shading and unrelated decorative objects
 - Hoa `primary-decor` F13–F24: đã duyệt toàn bộ.
 - Bó hoa nhỏ `primary-decor` SB1–SB12: đã duyệt toàn bộ.
 - Hoa `watermark` WF1–WF12: đã duyệt toàn bộ.
+- Cành và cỏ `watermark` WG1–WG12: đã duyệt toàn bộ.
+- `WG3` cành lá tròn: loại khỏi production.
+- Cành và cỏ `watermark` WG13–WG24: đã duyệt toàn bộ.
 - Tiếp tục mở rộng hoa `primary-decor`; chỉ bắt đầu bộ hoa `watermark` sau khi
   hoàn tất hoa chi tiết.

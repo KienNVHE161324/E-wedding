@@ -6,7 +6,7 @@ const SLUG = 'e2e-co-dinh'
 
 test('mở thiệp và thấy đủ các phần', async ({ page }) => {
   await page.goto(`/${SLUG}`)
-  await expect(page.getByText(/Nguyễn Hoài Nam/)).toBeVisible()
+  await expect(page.getByRole('heading', { name: /Nguyễn Hoài Nam/ })).toBeVisible()
 
   await page.getByRole('button', { name: 'Mở thiệp' }).click()
   await expect(page.getByRole('link', { name: 'Xác nhận tham dự' })).toBeVisible()

@@ -42,6 +42,9 @@ export function HoaTiet({
         maskPosition: 'center',
         backgroundColor: mau,
         opacity: doDam,
+        // Họa tiết chỉ để trang trí: không bao giờ được chặn cú chạm của khách,
+        // nếu không nó sẽ che mất nút bên dưới.
+        pointerEvents: 'none',
         ...style,
       }}
     />

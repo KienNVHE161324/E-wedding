@@ -46,6 +46,11 @@ describe('HoaTiet', () => {
     const { container } = render(<HoaTiet tep={TEP} />)
     expect(container.firstElementChild).toHaveAttribute('aria-hidden', 'true')
   })
+
+  it('không chặn cú chạm, để không che mất nút nằm dưới', () => {
+    const { container } = render(<HoaTiet tep={TEP} />)
+    expect((container.firstElementChild as HTMLElement).style.pointerEvents).toBe('none')
+  })
 })
 
 describe('HoaTietTheme', () => {
