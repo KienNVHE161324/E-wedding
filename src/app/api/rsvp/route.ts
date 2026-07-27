@@ -2,21 +2,18 @@ import { NextResponse } from 'next/server'
 import { rsvpDauVaoSchema } from '@/lib/rsvp/types'
 import { guiRsvp, type PhuThuoc } from '@/lib/rsvp/xuLy'
 import { taoRsvp, danhDauDaDongBo } from '@/lib/db/rsvps'
-import { layThiepTheoSlug, laySpreadsheetId, luuSpreadsheetId } from '@/lib/db/invitations'
+import { layThiepTheoSlug, laySpreadsheetId } from '@/lib/db/invitations'
 import { taoSheetsApi } from '@/lib/sheets/client'
-import { taoBangTinh, themeDongRsvp } from '@/lib/sheets/dongBo'
+import { dongBoLenSheet } from '@/lib/sheets/dongBo'
 import { tinhTrangThai } from '@/lib/vongDoi/tinhTrangThai'
 
 function phuThuoc(): PhuThuoc {
   const sheets = taoSheetsApi()
   return {
     taoRsvp,
-    layThiep: async (slug) => (await layThiepTheoSlug(slug))?.thiep ?? null,
     laySpreadsheetId,
-    luuSpreadsheetId,
     danhDauDaDongBo,
-    taoBangTinh: (thiep) => taoBangTinh(thiep, sheets),
-    themeDongRsvp: (id, rsvp) => themeDongRsvp(id, rsvp, sheets),
+    dongBoLenSheet: (id, rsvp) => dongBoLenSheet(id, rsvp, sheets),
   }
 }
 

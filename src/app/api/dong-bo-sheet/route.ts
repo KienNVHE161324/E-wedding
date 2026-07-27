@@ -1,26 +1,35 @@
 import { NextResponse } from 'next/server'
 import { layRsvpChuaDongBo, danhDauDaDongBo } from '@/lib/db/rsvps'
-import { layThiepTheoSlug, laySpreadsheetId, luuSpreadsheetId } from '@/lib/db/invitations'
+import { laySpreadsheetId } from '@/lib/db/invitations'
 import { taoSheetsApi } from '@/lib/sheets/client'
-import { taoBangTinh, themeDongRsvp } from '@/lib/sheets/dongBo'
+import { dongBoLenSheet } from '@/lib/sheets/dongBo'
 
-/** Đẩy lại các RSVP chưa lên được Google Sheet. Chạy theo lịch mỗi 15 phút. */
+/**
+ * Đẩy lại các RSVP chưa lên được Google Sheet. Chạy theo lịch mỗi 15 phút.
+ * Cũng là cách các RSVP cũ được đẩy lên khi admin mới gắn ID bảng tính.
+ */
 export async function GET() {
   const sheets = taoSheetsApi()
   const danhSach = await layRsvpChuaDongBo()
+
   let thanhCong = 0
   let thatBai = 0
+  let chuaGanSheet = 0
+  const idTheoSlug = new Map<string, string | null>()
 
   for (const rsvp of danhSach) {
     try {
-      let spreadsheetId = await laySpreadsheetId(rsvp.slug)
-      if (!spreadsheetId) {
-        const ban = await layThiepTheoSlug(rsvp.slug)
-        if (!ban) throw new Error(`Không tìm thấy thiệp ${rsvp.slug}`)
-        spreadsheetId = await taoBangTinh(ban.thiep, sheets)
-        await luuSpreadsheetId(rsvp.slug, spreadsheetId)
+      if (!idTheoSlug.has(rsvp.slug)) {
+        idTheoSlug.set(rsvp.slug, await laySpreadsheetId(rsvp.slug))
       }
-      await themeDongRsvp(spreadsheetId, rsvp, sheets)
+      const spreadsheetId = idTheoSlug.get(rsvp.slug)
+
+      if (!spreadsheetId) {
+        chuaGanSheet++
+        continue
+      }
+
+      await dongBoLenSheet(spreadsheetId, rsvp, sheets)
       await danhDauDaDongBo(rsvp.id)
       thanhCong++
     } catch (loi) {
@@ -29,5 +38,5 @@ export async function GET() {
     }
   }
 
-  return NextResponse.json({ tong: danhSach.length, thanhCong, thatBai })
+  return NextResponse.json({ tong: danhSach.length, thanhCong, thatBai, chuaGanSheet })
 }

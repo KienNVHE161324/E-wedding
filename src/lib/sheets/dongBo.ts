@@ -1,4 +1,4 @@
-import type { Ben, Invitation } from '@/lib/invitation/types'
+import type { Ben } from '@/lib/invitation/types'
 import type { Rsvp } from '@/lib/rsvp/types'
 
 export const TEN_TAB: Record<Ben, string> = {
@@ -17,12 +17,15 @@ export const COT = [
 
 /**
  * Cổng trừu tượng tới Google Sheets.
- * Nhờ nó mà toàn bộ logic đồng bộ test được không cần mạng, và giả lập được lỗi Google.
+ *
+ * Không có thao tác tạo file: service account của Google có hạn mức Drive bằng 0
+ * nên không tạo được file mới. Bảng tính do người dùng tự tạo và chia sẻ, app chỉ
+ * dựng tab và ghi thêm dòng — đều là sửa file đã tồn tại nên không vướng hạn mức.
  */
 export interface SheetsApi {
-  taoBangTinh(tieuDe: string, tenTab: string[]): Promise<string>
+  layTenTab(spreadsheetId: string): Promise<string[]>
+  themTab(spreadsheetId: string, ten: string): Promise<void>
   themDong(spreadsheetId: string, tab: string, dong: string[]): Promise<void>
-  moQuyenTruyCap(spreadsheetId: string): Promise<void>
 }
 
 function ngayVn(iso: string): string {
@@ -31,17 +34,18 @@ function ngayVn(iso: string): string {
   return `${p(d.getUTCDate())}/${p(d.getUTCMonth() + 1)}/${d.getUTCFullYear()}`
 }
 
-export async function taoBangTinh(thiep: Invitation, sheets: SheetsApi): Promise<string> {
-  const tieuDe = `RSVP - ${thiep.chuRe.ten} & ${thiep.coDau.ten}`
-  const tenTab = [TEN_TAB['nha-trai'], TEN_TAB['nha-gai']]
-  const spreadsheetId = await sheets.taoBangTinh(tieuDe, tenTab)
+/**
+ * Bảo đảm bảng tính có đủ hai tab kèm hàng tiêu đề.
+ * Gọi được nhiều lần: tab đã có thì bỏ qua, không ghi đè dữ liệu cũ.
+ */
+export async function chuanBiBangTinh(spreadsheetId: string, sheets: SheetsApi): Promise<void> {
+  const dangCo = new Set(await sheets.layTenTab(spreadsheetId))
 
-  for (const tab of tenTab) {
+  for (const tab of [TEN_TAB['nha-trai'], TEN_TAB['nha-gai']]) {
+    if (dangCo.has(tab)) continue
+    await sheets.themTab(spreadsheetId, tab)
     await sheets.themDong(spreadsheetId, tab, COT)
   }
-  await sheets.moQuyenTruyCap(spreadsheetId)
-
-  return spreadsheetId
 }
 
 export async function themeDongRsvp(
@@ -57,4 +61,14 @@ export async function themeDongRsvp(
     rsvp.ngayAn,
     rsvp.loiChuc ?? '',
   ])
+}
+
+/** Dựng tab nếu thiếu rồi ghi một dòng RSVP. Đây là điểm vào duy nhất khi đồng bộ. */
+export async function dongBoLenSheet(
+  spreadsheetId: string,
+  rsvp: Rsvp,
+  sheets: SheetsApi,
+): Promise<void> {
+  await chuanBiBangTinh(spreadsheetId, sheets)
+  await themeDongRsvp(spreadsheetId, rsvp, sheets)
 }

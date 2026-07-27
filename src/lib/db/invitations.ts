@@ -5,10 +5,10 @@ import type { VongDoi } from '@/lib/vongDoi/types'
 
 export async function layThiepTheoSlug(
   slug: string,
-): Promise<{ thiep: Invitation; vongDoi: VongDoi } | null> {
+): Promise<{ thiep: Invitation; vongDoi: VongDoi; spreadsheetId: string | null } | null> {
   const { data, error } = await taoSupabase()
     .from('invitations')
-    .select('noi_dung, trang_thai, ngay_xuat_ban, ngay_het_han')
+    .select('noi_dung, trang_thai, ngay_xuat_ban, ngay_het_han, spreadsheet_id')
     .eq('slug', slug)
     .maybeSingle()
 
@@ -17,6 +17,7 @@ export async function layThiepTheoSlug(
 
   return {
     thiep: invitationSchema.parse(data.noi_dung),
+    spreadsheetId: data.spreadsheet_id,
     vongDoi: {
       trangThaiLuu: data.trang_thai as 'nhap' | 'da-xuat-ban',
       ngayXuatBan: data.ngay_xuat_ban,

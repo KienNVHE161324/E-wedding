@@ -51,7 +51,7 @@ def main() -> None:
     parser.add_argument("output_root", type=Path)
     parser.add_argument(
         "--batch",
-        choices=("F01-F12", "F13-F24"),
+        choices=("F01-F12", "F13-F24", "SB01-SB12", "WF01-WF12"),
         default="F01-F12",
     )
     args = parser.parse_args()
@@ -72,7 +72,7 @@ def main() -> None:
             ("F11-vertical-flower-stem.png", 2, 2),
             ("F12-leaf-bud-filler.png", 3, 2),
         ]
-    else:
+    elif args.batch == "F13-F24":
         assets = [
             ("F13-garden-rose.png", 0, 0),
             ("F14-spray-rose.png", 1, 0),
@@ -86,6 +86,36 @@ def main() -> None:
             ("F22-apricot-blossom.png", 1, 2),
             ("F23-carnation.png", 2, 2),
             ("F24-freesia.png", 3, 2),
+        ]
+    elif args.batch == "SB01-SB12":
+        assets = [
+            ("small-bouquets/SB01-lotus-cluster.png", 0, 0),
+            ("small-bouquets/SB02-peony-jasmine.png", 1, 0),
+            ("small-bouquets/SB03-orchid-cluster.png", 2, 0),
+            ("small-bouquets/SB04-chrysanthemum-buds.png", 3, 0),
+            ("small-bouquets/SB05-rose-babys-breath.png", 0, 1),
+            ("small-bouquets/SB06-hydrangea-leaves.png", 1, 1),
+            ("small-bouquets/SB07-calla-leaves.png", 2, 1),
+            ("small-bouquets/SB08-lily-freesia.png", 3, 1),
+            ("small-bouquets/SB09-magnolia-buds.png", 0, 2),
+            ("small-bouquets/SB10-peach-plum.png", 1, 2),
+            ("small-bouquets/SB11-camellia-carnation.png", 2, 2),
+            ("small-bouquets/SB12-lotus-areca.png", 3, 2),
+        ]
+    else:
+        assets = [
+            ("single-flowers/WF01-lotus-front.png", 0, 0),
+            ("single-flowers/WF02-lotus-side.png", 1, 0),
+            ("single-flowers/WF03-peony.png", 2, 0),
+            ("single-flowers/WF04-chrysanthemum.png", 3, 0),
+            ("single-flowers/WF05-orchid-spray.png", 0, 1),
+            ("single-flowers/WF06-small-flower-branch.png", 1, 1),
+            ("single-flowers/WF07-areca-blossom.png", 2, 1),
+            ("single-flowers/WF08-peach-blossom.png", 3, 1),
+            ("single-flowers/WF09-camellia.png", 0, 2),
+            ("single-flowers/WF10-magnolia.png", 1, 2),
+            ("single-flowers/WF11-vertical-flower-stem.png", 2, 2),
+            ("single-flowers/WF12-leaf-bud-filler.png", 3, 2),
         ]
 
     for filename, column, row in assets:

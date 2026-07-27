@@ -11,5 +11,12 @@ export default async function TrangSuaThiep({ params }: { params: Promise<{ slug
   const ban = await layThiepTheoSlug(slug)
   if (!ban) notFound()
 
-  return <BangSua banDau={ban.thiep} vongDoi={ban.vongDoi} />
+  return (
+    <BangSua
+      banDau={ban.thiep}
+      vongDoi={ban.vongDoi}
+      spreadsheetId={ban.spreadsheetId}
+      emailServiceAccount={process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL ?? '(chưa cấu hình)'}
+    />
+  )
 }

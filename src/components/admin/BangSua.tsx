@@ -11,6 +11,7 @@ import { SapXepSection } from './SapXepSection'
 import { ThanhDoDam } from './ThanhDoDam'
 import { OAnh } from './OAnh'
 import { NutXuatBan } from './NutXuatBan'
+import { OSheet } from './OSheet'
 
 /** Các vị trí họa tiết đủ dễ hiểu để người không rành thiết kế vẫn chỉnh được. */
 const SLOT_HIEN_THI: { slot: SlotHoaTiet; nhan: string }[] = [
@@ -20,7 +21,17 @@ const SLOT_HIEN_THI: { slot: SlotHoaTiet; nhan: string }[] = [
   { slot: 'watermark', nhan: 'Họa tiết nền' },
 ]
 
-export function BangSua({ banDau, vongDoi }: { banDau: Invitation; vongDoi: VongDoi }) {
+export function BangSua({
+  banDau,
+  vongDoi,
+  spreadsheetId,
+  emailServiceAccount,
+}: {
+  banDau: Invitation
+  vongDoi: VongDoi
+  spreadsheetId: string | null
+  emailServiceAccount: string
+}) {
   const [thiep, setThiep] = useState(banDau)
   const [trangThai, setTrangThai] = useState('')
 
@@ -66,6 +77,12 @@ export function BangSua({ banDau, vongDoi }: { banDau: Invitation; vongDoi: Vong
         </div>
 
         <NutXuatBan slug={thiep.slug} vongDoi={vongDoi} />
+
+        <OSheet
+          slug={thiep.slug}
+          banDau={spreadsheetId}
+          emailServiceAccount={emailServiceAccount}
+        />
 
         <section>
           <h3 className="font-semibold">Giao diện</h3>

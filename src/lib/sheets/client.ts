@@ -7,32 +7,33 @@ function xacThuc() {
   const key = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n')
   if (!email || !key) throw new Error('Thiếu thông tin service account Google')
 
+  // Chỉ xin quyền spreadsheets: app không tạo hay tìm file trên Drive.
   return new google.auth.JWT({
     email,
     key,
-    scopes: [
-      'https://www.googleapis.com/auth/spreadsheets',
-      'https://www.googleapis.com/auth/drive',
-    ],
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   })
 }
 
 export function taoSheetsApi(): SheetsApi {
-  const auth = xacThuc()
-  const sheets = google.sheets({ version: 'v4', auth })
-  const drive = google.drive({ version: 'v3', auth })
+  const sheets = google.sheets({ version: 'v4', auth: xacThuc() })
 
   return {
-    async taoBangTinh(tieuDe, tenTab) {
-      const res = await sheets.spreadsheets.create({
-        requestBody: {
-          properties: { title: tieuDe },
-          sheets: tenTab.map((title) => ({ properties: { title } })),
-        },
+    async layTenTab(spreadsheetId) {
+      const res = await sheets.spreadsheets.get({
+        spreadsheetId,
+        fields: 'sheets.properties.title',
       })
-      const id = res.data.spreadsheetId
-      if (!id) throw new Error('Google không trả về spreadsheetId')
-      return id
+      return (res.data.sheets ?? [])
+        .map((s) => s.properties?.title)
+        .filter((t): t is string => Boolean(t))
+    },
+
+    async themTab(spreadsheetId, ten) {
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId,
+        requestBody: { requests: [{ addSheet: { properties: { title: ten } } }] },
+      })
     },
 
     async themDong(spreadsheetId, tab, dong) {
@@ -41,13 +42,6 @@ export function taoSheetsApi(): SheetsApi {
         range: `'${tab}'!A:F`,
         valueInputOption: 'USER_ENTERED',
         requestBody: { values: [dong] },
-      })
-    },
-
-    async moQuyenTruyCap(spreadsheetId) {
-      await drive.permissions.create({
-        fileId: spreadsheetId,
-        requestBody: { role: 'writer', type: 'anyone' },
       })
     },
   }
