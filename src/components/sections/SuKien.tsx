@@ -57,11 +57,6 @@ export function SuKien({ thiep }: SectionProps) {
                   </p>
 
                   {sk.diaDiem && <p className="mt-1 font-medium">{sk.diaDiem}</p>}
-                  {sk.diaChi && (
-                    <p className="mt-0.5 text-sm" style={{ color: 'var(--mau-phu)' }}>
-                      {sk.diaChi}
-                    </p>
-                  )}
 
                   {sk.banDoAnh && (
                     <Image

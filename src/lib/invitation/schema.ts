@@ -60,17 +60,14 @@ export const tuyChinhGiaoDienSchema = z.object({
   doDam: z.partialRecord(slotHoaTietSchema, z.number().min(0).max(1)).optional(),
 })
 
-export const viTriChiTietSchema = z.enum(['tren', 'duoi', 'trai', 'phai', 'nen'])
-
 export const chiTietTrangTriSchema = z.object({
   id: z.string().min(1),
   section: sectionIdSchema,
-  viTri: viTriChiTietSchema,
+  x: z.number().min(0).max(100),
+  y: z.number().min(0).max(100),
   mau: z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Màu phải ở dạng #RRGGBB'),
   doDam: z.number().min(0).max(1),
   kichThuoc: z.number().min(5).max(100),
-  dichNgang: z.number().min(-50).max(50).optional(),
-  dichDoc: z.number().min(-50).max(50).optional(),
   raSauChu: z.boolean().optional(),
 })
 
@@ -95,8 +92,7 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
       ngay: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Ngày phải theo dạng YYYY-MM-DD'),
       gio: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'Giờ phải theo dạng HH:mm'),
       ten: z.string(),
-      diaDiem: z.string(),
-      diaChi: z.string(),
+      diaDiem: z.string().optional(),
       banDoAnh: anhSchema.optional(),
     }),
   ),

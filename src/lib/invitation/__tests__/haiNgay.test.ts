@@ -62,8 +62,8 @@ describe('cacNgayCoSuKien với hai ngày', () => {
 
   it('không lặp khi mốc lịch trình rơi đúng vào hai ngày đó', () => {
     const moc = [
-      { ngay: '2026-11-14', gio: '09:00', ten: 'Lễ', diaDiem: '', diaChi: '' },
-      { ngay: '2026-11-15', gio: '11:00', ten: 'Tiệc', diaDiem: '', diaChi: '' },
+      { ngay: '2026-11-14', gio: '09:00', ten: 'Lễ', diaDiem: '' },
+      { ngay: '2026-11-15', gio: '11:00', ten: 'Tiệc', diaDiem: '' },
     ]
     expect(cacNgayCoSuKien(moc, '2026-11-15', '2026-11-14')).toEqual([
       '14/11/2026',

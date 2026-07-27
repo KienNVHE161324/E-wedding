@@ -58,7 +58,11 @@ export function InvitationRenderer({
   return (
     <div style={style}>
       <main className="mx-auto w-full max-w-[520px] md:max-w-[720px]">
-        {danhSach.map((id) => {
+        {/*
+          Trước khi khách bấm "Mở thiệp" chỉ có bìa tồn tại. Các phần sau không
+          render, nên không tải ảnh và cũng không lộ nội dung nếu khách kéo lướt.
+        */}
+        {(daMo ? danhSach : danhSach.filter((id) => id === 'bia')).map((id) => {
           const Section = SECTION_REGISTRY[id]
           const rieng =
             id === 'bia' ? { onMoThiep: () => setDaMo(true) }

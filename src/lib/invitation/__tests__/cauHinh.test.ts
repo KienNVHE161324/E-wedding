@@ -26,7 +26,8 @@ describe('taoGoiCauHinh', () => {
         {
           id: 'x',
           section: 'bia' as const,
-          viTri: 'tren' as const,
+          x: 50,
+          y: 10,
           mau: '#8B2F20',
           doDam: 0.5,
           kichThuoc: 20,

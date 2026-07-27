@@ -45,8 +45,8 @@ export interface SuKien {
   /** HH:mm — dùng để xếp thứ tự trên dòng thời gian. */
   gio: string
   ten: string
-  diaDiem: string
-  diaChi: string
+  /** Không bắt buộc: nhiều mốc chỉ cần giờ và tên. */
+  diaDiem?: string
   banDoAnh?: Anh
 }
 
@@ -67,9 +67,6 @@ export interface OMungCuoi {
   qrAnh?: Anh
 }
 
-/** Vị trí gắn một chi tiết trang trí trong một phần của thiệp. */
-export type ViTriChiTiet = 'tren' | 'duoi' | 'trai' | 'phai' | 'nen'
-
 /**
  * Một chi tiết trang trí do nhân viên tự thêm vào thiệp.
  * Khác với họa tiết của theme ở chỗ: chọn được tệp, màu, độ đậm, kích thước
@@ -80,17 +77,16 @@ export interface ChiTietTrangTri {
   id: string
   /** Gắn vào phần nào của thiệp. */
   section: SectionId
-  viTri: ViTriChiTiet
+  /** Vị trí ngang tính theo phần trăm chiều rộng phần, 0 là mép trái. */
+  x: number
+  /** Vị trí dọc tính theo phần trăm chiều cao phần, 0 là mép trên. */
+  y: number
   /** Mã màu, ví dụ '#8B2F20'. */
   mau: string
   /** 0–1 */
   doDam: number
   /** Chiều rộng tính theo phần trăm khung thiệp, 5–100. */
   kichThuoc: number
-  /** Dịch ngang so với vị trí gốc, tính theo phần trăm khung. -50 đến 50. */
-  dichNgang?: number
-  /** Dịch dọc so với vị trí gốc, tính theo phần trăm khung. -50 đến 50. */
-  dichDoc?: number
   /** Đưa chi tiết ra sau chữ, dùng khi nó che mất nội dung. */
   raSauChu?: boolean
 }

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { LopTrangTri } from '../LopTrangTri'
 import { InvitationRenderer } from '../InvitationRenderer'
 import { thiepMau } from '@/lib/invitation/mau'
@@ -17,7 +18,8 @@ const MUC = DANH_SACH_HOA_TIET.find((m) => !dungBoiTheme.has(m.tep))!
 const chiTiet = (ghiDe: Partial<ChiTietTrangTri> = {}): ChiTietTrangTri => ({
   id: MUC.id,
   section: 'bia',
-  viTri: 'tren',
+  x: 50,
+  y: 10,
   mau: '#8B2F20',
   doDam: 0.8,
   kichThuoc: 25,
@@ -55,13 +57,14 @@ describe('LopTrangTri', () => {
 })
 
 describe('renderer gắn chi tiết vào đúng phần', () => {
-  it('chỉ vẽ chi tiết ở phần được chỉ định', () => {
+  it('chỉ vẽ chi tiết ở phần được chỉ định', async () => {
     const thiep = {
       ...thiepMau,
       sections: [{ id: 'bia' as const }, { id: 'album' as const }],
       chiTietTrangTri: [chiTiet({ section: 'album' })],
     }
     const { container } = render(<InvitationRenderer thiep={thiep} theme={theme} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Mở thiệp' }))
 
     const khungAlbum = container.querySelector('[data-section="album"]')!.closest('.isolate')!
     const khungBia = container.querySelector('[data-section="bia"]')!.closest('.isolate')!

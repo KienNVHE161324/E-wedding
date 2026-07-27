@@ -34,14 +34,12 @@ export const thiepMau: Invitation = {
       gio: '06:30',
       ten: 'Đón dâu',
       diaDiem: 'Tư gia nhà gái',
-      diaChi: 'Thôn Đình Bảng, Từ Sơn, Bắc Ninh',
     },
     {
       ngay: '2026-11-14',
       gio: '09:00',
       ten: 'Lễ Vu Quy',
       diaDiem: 'Tư gia nhà gái',
-      diaChi: 'Thôn Đình Bảng, Từ Sơn, Bắc Ninh',
       banDoAnh: anhMau('Bản đồ nhà gái'),
     },
     {
@@ -49,7 +47,6 @@ export const thiepMau: Invitation = {
       gio: '11:00',
       ten: 'Tiệc cưới',
       diaDiem: 'Trung tâm tiệc cưới Kinh Bắc',
-      diaChi: 'Đường Lý Thái Tổ, TP Bắc Ninh',
       banDoAnh: anhMau('Bản đồ nhà hàng'),
     },
   ],

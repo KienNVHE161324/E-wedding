@@ -13,7 +13,6 @@ const moc = (ngay: string, gio: string, ten: string): MocLichTrinh => ({
   gio,
   ten,
   diaDiem: '',
-  diaChi: '',
 })
 
 function ve(suKien: MocLichTrinh[]) {

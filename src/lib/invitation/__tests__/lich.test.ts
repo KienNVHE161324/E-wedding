@@ -65,7 +65,6 @@ const moc = (ngay: string, gio: string, ten: string): SuKien => ({
   gio,
   ten,
   diaDiem: '',
-  diaChi: '',
 })
 
 describe('sapXepLichTrinh', () => {

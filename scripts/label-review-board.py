@@ -14,6 +14,10 @@ def main() -> None:
     parser.add_argument("--rows", type=int, required=True)
     parser.add_argument("--prefix", required=True)
     parser.add_argument("--start", type=int, default=1)
+    parser.add_argument(
+        "--labels",
+        help="Comma-separated labels in row-major order; overrides prefix/start.",
+    )
     args = parser.parse_args()
 
     image = Image.open(args.source).convert("RGBA")
@@ -27,10 +31,20 @@ def main() -> None:
     cell_width = image.width / args.columns
     cell_height = image.height / args.rows
 
+    labels = (
+        [label.strip() for label in args.labels.split(",")]
+        if args.labels
+        else None
+    )
+    expected = args.columns * args.rows
+    if labels is not None and len(labels) != expected:
+        raise ValueError(f"Expected {expected} labels, received {len(labels)}")
+
     index = args.start
+    cell_index = 0
     for row in range(args.rows):
         for column in range(args.columns):
-            label = f"{args.prefix}{index}"
+            label = labels[cell_index] if labels is not None else f"{args.prefix}{index}"
             x = round(column * cell_width + 18)
             y = round(row * cell_height + 14)
             bounds = draw.textbbox((x, y), label, font=font)
@@ -50,6 +64,7 @@ def main() -> None:
             )
             draw.text((x, y), label, font=font, fill=(64, 45, 38, 255))
             index += 1
+            cell_index += 1
 
     args.destination.parent.mkdir(parents=True, exist_ok=True)
     image.save(args.destination, optimize=True)
