@@ -30,16 +30,25 @@ export const thiepMau: Invitation = {
   album: [anhMau('Ảnh cưới 1'), anhMau('Ảnh cưới 2'), anhMau('Ảnh cưới 3'), anhMau('Ảnh cưới 4')],
   suKien: [
     {
+      ngay: '2026-11-14',
+      gio: '06:30',
+      ten: 'Đón dâu',
+      diaDiem: 'Tư gia nhà gái',
+      diaChi: 'Thôn Đình Bảng, Từ Sơn, Bắc Ninh',
+    },
+    {
+      ngay: '2026-11-14',
+      gio: '09:00',
       ten: 'Lễ Vu Quy',
-      thoiGian: '09:00, Thứ Bảy 14/11/2026',
       diaDiem: 'Tư gia nhà gái',
       diaChi: 'Thôn Đình Bảng, Từ Sơn, Bắc Ninh',
       banDoAnh: anhMau('Bản đồ nhà gái'),
       linkChiDuong: 'https://maps.google.com/?q=Dinh+Bang+Tu+Son+Bac+Ninh',
     },
     {
+      ngay: '2026-11-15',
+      gio: '11:00',
       ten: 'Tiệc cưới',
-      thoiGian: '11:00, Chủ Nhật 15/11/2026',
       diaDiem: 'Trung tâm tiệc cưới Kinh Bắc',
       diaChi: 'Đường Lý Thái Tổ, TP Bắc Ninh',
       banDoAnh: anhMau('Bản đồ nhà hàng'),

@@ -14,6 +14,7 @@ import { NutXuatBan } from './NutXuatBan'
 import { OSheet } from './OSheet'
 import { ChonChiTiet } from './ChonChiTiet'
 import { ODressCode } from './ODressCode'
+import { OLichTrinh } from './OLichTrinh'
 import { TEN_SECTION } from './SapXepSection'
 
 /** Các vị trí họa tiết đủ dễ hiểu để người không rành thiết kế vẫn chỉnh được. */
@@ -131,6 +132,18 @@ export function BangSua({
               onChange={(e) => sua('ngayCuoi', e.target.value)}
             />
           </label>
+        </section>
+
+        <section>
+          <h3 className="font-semibold">Lịch trình đám cưới</h3>
+          <div className="mt-2">
+            <OLichTrinh
+              giaTri={thiep.suKien}
+              ngayCuoi={thiep.ngayCuoi}
+              slug={thiep.slug}
+              onDoi={(v) => sua('suKien', v)}
+            />
+          </div>
         </section>
 
         <section>

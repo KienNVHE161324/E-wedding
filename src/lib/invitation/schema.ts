@@ -85,8 +85,9 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
   album: z.array(anhSchema),
   suKien: z.array(
     z.object({
+      ngay: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Ngày phải theo dạng YYYY-MM-DD'),
+      gio: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'Giờ phải theo dạng HH:mm'),
       ten: z.string(),
-      thoiGian: z.string(),
       diaDiem: z.string(),
       diaChi: z.string(),
       banDoAnh: anhSchema.optional(),

@@ -38,9 +38,13 @@ export interface ChangChuyen {
   noiDung: string
 }
 
+/** Một mốc trong dòng thời gian của đám cưới. */
 export interface SuKien {
+  /** YYYY-MM-DD — cho phép lịch trình trải qua nhiều ngày. */
+  ngay: string
+  /** HH:mm — dùng để xếp thứ tự trên dòng thời gian. */
+  gio: string
   ten: string
-  thoiGian: string
   diaDiem: string
   diaChi: string
   banDoAnh?: Anh

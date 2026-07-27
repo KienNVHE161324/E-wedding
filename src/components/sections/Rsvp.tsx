@@ -2,22 +2,16 @@
 
 import { useState } from 'react'
 import type { SectionProps } from './types'
+import { cacNgayCoSuKien } from '@/lib/invitation/lich'
 
 const PHUONG_TIEN = ['Xe máy', 'Ô tô riêng', 'Xe khách', 'Xe của gia đình', 'Khác']
-
-function ngayVn(iso: string) {
-  const [nam, thang, ngay] = iso.split('-')
-  return `${ngay}/${thang}/${nam}`
-}
 
 export function Rsvp({ thiep }: SectionProps) {
   const [dangGui, setDangGui] = useState(false)
   const [xong, setXong] = useState(false)
   const [loi, setLoi] = useState('')
 
-  const ngayCoThe = Array.from(
-    new Set([ngayVn(thiep.ngayCuoi), ...thiep.suKien.map((sk) => sk.thoiGian)]),
-  )
+  const ngayCoThe = cacNgayCoSuKien(thiep.suKien, thiep.ngayCuoi)
 
   async function guiForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()

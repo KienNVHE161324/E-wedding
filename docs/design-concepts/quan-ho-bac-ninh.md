@@ -322,5 +322,6 @@ photorealistic shading and unrelated decorative objects
 - Cành và cỏ `watermark` WG1–WG12: đã duyệt toàn bộ.
 - `WG3` cành lá tròn: loại khỏi production.
 - Cành và cỏ `watermark` WG13–WG24: đã duyệt toàn bộ.
+- Cành và cỏ `primary-decor` PG1–PG12: đã duyệt toàn bộ.
 - Tiếp tục mở rộng hoa `primary-decor`; chỉ bắt đầu bộ hoa `watermark` sau khi
   hoàn tất hoa chi tiết.

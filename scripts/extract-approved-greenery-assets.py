@@ -49,7 +49,7 @@ def main() -> None:
     parser.add_argument("output_root", type=Path)
     parser.add_argument(
         "--batch",
-        choices=("WG01-WG12", "WG13-WG24"),
+        choices=("WG01-WG12", "WG13-WG24", "PG01-PG12"),
         default="WG01-WG12",
     )
     args = parser.parse_args()
@@ -69,7 +69,7 @@ def main() -> None:
             "WG11-areca-frond.png",
             "WG12-wild-grass.png",
         ]
-    else:
+    elif args.batch == "WG13-WG24":
         names = [
             "WG13-betel-vine.png",
             "WG14-banyan-branch.png",
@@ -83,6 +83,21 @@ def main() -> None:
             "WG22-dry-bud-branch.png",
             "WG23-berry-branch.png",
             "WG24-small-leaf-garland.png",
+        ]
+    else:
+        names = [
+            "PG01-bamboo-branch.png",
+            "PG02-weeping-willow.png",
+            "PG03-fern-frond.png",
+            "PG04-pampas-grass.png",
+            "PG05-rice-stalks.png",
+            "PG06-reeds.png",
+            "PG07-meadow-grass.png",
+            "PG08-horizontal-leaf-branch.png",
+            "PG09-curling-vine.png",
+            "PG10-areca-frond.png",
+            "PG11-wild-grass.png",
+            "PG12-betel-vine.png",
         ]
 
     image = Image.open(args.source)
