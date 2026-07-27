@@ -10,12 +10,13 @@ import { HoaTiet } from './HoaTiet'
  * giữ đúng nguyên tắc mỗi phần độc lập, đảo hay tắt thoải mái.
  */
 
-const VI_TRI: Record<ViTriChiTiet, CSSProperties> = {
-  tren: { top: 0, left: '50%', transform: 'translate(-50%, -30%)' },
-  duoi: { bottom: 0, left: '50%', transform: 'translate(-50%, 30%)' },
-  trai: { top: '50%', left: 0, transform: 'translate(-25%, -50%)' },
-  phai: { top: '50%', right: 0, transform: 'translate(25%, -50%)' },
-  nen: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' },
+/** Vị trí gốc, tính bằng phần trăm so với khung của phần. */
+const VI_TRI: Record<ViTriChiTiet, { x: number; y: number }> = {
+  tren: { x: 50, y: 0 },
+  duoi: { x: 50, y: 100 },
+  trai: { x: 0, y: 50 },
+  phai: { x: 100, y: 50 },
+  nen: { x: 50, y: 50 },
 }
 
 export function LopTrangTri({ chiTiet }: { chiTiet: ChiTietTrangTri[] }) {
@@ -28,18 +29,27 @@ export function LopTrangTri({ chiTiet }: { chiTiet: ChiTietTrangTri[] }) {
         // Asset bị xóa khỏi Image_collections thì bỏ qua, không làm vỡ thiệp.
         if (!muc) return null
 
+        const goc = VI_TRI[ct.viTri]
+        const style: CSSProperties = {
+          position: 'absolute',
+          left: `${goc.x + (ct.dichNgang ?? 0)}%`,
+          top: `${goc.y + (ct.dichDoc ?? 0)}%`,
+          transform: 'translate(-50%, -50%)',
+          width: `${ct.kichThuoc}%`,
+          aspectRatio: '1 / 1',
+          // Nội dung của phần nằm ở lớp 10 (xem InvitationRenderer):
+          // dưới 10 là ra sau chữ, trên 10 là đè lên trên.
+          zIndex: ct.raSauChu ? 0 : 20,
+        }
+
         return (
           <HoaTiet
             key={`${ct.id}-${i}`}
             tep={muc.tep}
             mau={ct.mau}
             doDam={ct.doDam}
-            className="pointer-events-none absolute block"
-            style={{
-              width: `${ct.kichThuoc}%`,
-              aspectRatio: '1 / 1',
-              ...VI_TRI[ct.viTri],
-            }}
+            className="block"
+            style={style}
           />
         )
       })}

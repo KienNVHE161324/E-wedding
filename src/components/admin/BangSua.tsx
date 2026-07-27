@@ -9,7 +9,10 @@ import { THEMES, layTheme } from '@/lib/themes'
 import { InvitationRenderer } from '@/components/InvitationRenderer'
 import { SapXepSection } from './SapXepSection'
 import { ThanhDoDam } from './ThanhDoDam'
-import { OAnh } from './OAnh'
+import { OAlbum } from './OAlbum'
+import { ONguoiCuoi } from './ONguoiCuoi'
+import { OMungCuoi } from './OMungCuoi'
+import { ONhac } from './ONhac'
 import { NutXuatBan } from './NutXuatBan'
 import { OSheet } from './OSheet'
 import { ChonChiTiet } from './ChonChiTiet'
@@ -114,23 +117,25 @@ export function BangSua({
         </section>
 
         <section>
-          <h3 className="font-semibold">Thông tin chính</h3>
-          <label className="mt-2 block text-sm">
-            Tên chú rể
-            <input
-              className={o}
-              value={thiep.chuRe.ten}
-              onChange={(e) => sua('chuRe', { ...thiep.chuRe, ten: e.target.value })}
+          <h3 className="font-semibold">Cô dâu và chú rể</h3>
+          <div className="mt-2 space-y-3">
+            <ONguoiCuoi
+              nhan="Chú rể"
+              slug={thiep.slug}
+              giaTri={thiep.chuRe}
+              onDoi={(v) => sua('chuRe', v)}
             />
-          </label>
-          <label className="mt-2 block text-sm">
-            Tên cô dâu
-            <input
-              className={o}
-              value={thiep.coDau.ten}
-              onChange={(e) => sua('coDau', { ...thiep.coDau, ten: e.target.value })}
+            <ONguoiCuoi
+              nhan="Cô dâu"
+              slug={thiep.slug}
+              giaTri={thiep.coDau}
+              onDoi={(v) => sua('coDau', v)}
             />
-          </label>
+          </div>
+        </section>
+
+        <section>
+          <h3 className="font-semibold">Ngày cưới</h3>
           <label className="mt-2 block text-sm">
             Ngày đầu (nếu cưới hai ngày)
             <input
@@ -179,7 +184,14 @@ export function BangSua({
 
         <section>
           <h3 className="font-semibold">Mừng cưới</h3>
-          <label className="mt-2 flex items-start gap-2 text-sm">
+          <div className="mt-2">
+            <OMungCuoi
+              giaTri={thiep.mungCuoi}
+              slug={thiep.slug}
+              onDoi={(v) => sua('mungCuoi', v)}
+            />
+          </div>
+          <label className="mt-3 flex items-start gap-2 text-sm">
             <input
               type="checkbox"
               className="mt-1"
@@ -196,20 +208,16 @@ export function BangSua({
         </section>
 
         <section>
-          <h3 className="font-semibold">Ảnh</h3>
-          <div className="mt-2 space-y-3">
-            <OAnh
-              nhan="Ảnh chú rể"
-              slug={thiep.slug}
-              giaTri={thiep.chuRe.anh}
-              onDoi={(a) => sua('chuRe', { ...thiep.chuRe, anh: a })}
-            />
-            <OAnh
-              nhan="Ảnh cô dâu"
-              slug={thiep.slug}
-              giaTri={thiep.coDau.anh}
-              onDoi={(a) => sua('coDau', { ...thiep.coDau, anh: a })}
-            />
+          <h3 className="font-semibold">Album ảnh</h3>
+          <div className="mt-2">
+            <OAlbum giaTri={thiep.album} slug={thiep.slug} onDoi={(v) => sua('album', v)} />
+          </div>
+        </section>
+
+        <section>
+          <h3 className="font-semibold">Nhạc nền</h3>
+          <div className="mt-2">
+            <ONhac giaTri={thiep.nhac} slug={thiep.slug} onDoi={(v) => sua('nhac', v)} />
           </div>
         </section>
 

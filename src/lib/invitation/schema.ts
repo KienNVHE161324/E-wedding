@@ -69,6 +69,9 @@ export const chiTietTrangTriSchema = z.object({
   mau: z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Màu phải ở dạng #RRGGBB'),
   doDam: z.number().min(0).max(1),
   kichThuoc: z.number().min(5).max(100),
+  dichNgang: z.number().min(-50).max(50).optional(),
+  dichDoc: z.number().min(-50).max(50).optional(),
+  raSauChu: z.boolean().optional(),
 })
 
 export const invitationSchema: z.ZodType<Invitation> = z.object({

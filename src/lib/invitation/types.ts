@@ -88,6 +88,12 @@ export interface ChiTietTrangTri {
   doDam: number
   /** Chiều rộng tính theo phần trăm khung thiệp, 5–100. */
   kichThuoc: number
+  /** Dịch ngang so với vị trí gốc, tính theo phần trăm khung. -50 đến 50. */
+  dichNgang?: number
+  /** Dịch dọc so với vị trí gốc, tính theo phần trăm khung. -50 đến 50. */
+  dichDoc?: number
+  /** Đưa chi tiết ra sau chữ, dùng khi nó che mất nội dung. */
+  raSauChu?: boolean
 }
 
 /** Ghi đè giao diện cho riêng một thiệp. Thiếu trường nào thì lấy của theme. */

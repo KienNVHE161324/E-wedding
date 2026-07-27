@@ -65,8 +65,11 @@ export function InvitationRenderer({
           const trangTri = (thiep.chiTietTrangTri ?? []).filter((ct) => ct.section === id)
 
           return (
-            <div key={id} className="relative">
-              <Section thiep={thiep} theme={theme} {...rieng} />
+            <div key={id} className="relative isolate">
+              {/* Nội dung ở lớp 10 để chi tiết trang trí đặt được cả trước lẫn sau chữ. */}
+              <div className="relative z-10">
+                <Section thiep={thiep} theme={theme} {...rieng} />
+              </div>
               <LopTrangTri chiTiet={trangTri} />
             </div>
           )

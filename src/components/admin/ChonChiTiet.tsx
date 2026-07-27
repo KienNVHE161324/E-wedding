@@ -158,6 +158,60 @@ export function ChonChiTiet({
                     />
                     <span className="w-12 text-right tabular-nums">{ct.kichThuoc}%</span>
                   </label>
+
+                  <label className="col-span-2 flex items-center gap-2">
+                    <span className="w-20">Dịch ngang</span>
+                    <input
+                      type="range"
+                      aria-label={`Dịch ngang ${muc?.nhan ?? ct.id}`}
+                      min={-50}
+                      max={50}
+                      step={1}
+                      value={ct.dichNgang ?? 0}
+                      onChange={(e) =>
+                        sua(viTriTrongMang, { dichNgang: Number(e.target.value) })
+                      }
+                      className="flex-1"
+                    />
+                    <span className="w-12 text-right tabular-nums">{ct.dichNgang ?? 0}</span>
+                  </label>
+
+                  <label className="col-span-2 flex items-center gap-2">
+                    <span className="w-20">Dịch dọc</span>
+                    <input
+                      type="range"
+                      aria-label={`Dịch dọc ${muc?.nhan ?? ct.id}`}
+                      min={-50}
+                      max={50}
+                      step={1}
+                      value={ct.dichDoc ?? 0}
+                      onChange={(e) => sua(viTriTrongMang, { dichDoc: Number(e.target.value) })}
+                      className="flex-1"
+                    />
+                    <span className="w-12 text-right tabular-nums">{ct.dichDoc ?? 0}</span>
+                  </label>
+
+                  <label className="col-span-2 flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      aria-label={`Đưa ${muc?.nhan ?? ct.id} ra sau chữ`}
+                      checked={ct.raSauChu ?? false}
+                      onChange={(e) =>
+                        sua(viTriTrongMang, { raSauChu: e.target.checked || undefined })
+                      }
+                    />
+                    Đưa ra sau chữ
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      sua(viTriTrongMang, { dichNgang: 0, dichDoc: 0 })
+                    }
+                    className="col-span-2 rounded border py-1 text-sm"
+                  >
+                    Đưa về vị trí gốc
+                  </button>
                 </div>
               </li>
             )
