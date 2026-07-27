@@ -107,6 +107,8 @@ Renderer chỉ đọc danh sách này và dựng theo đúng thứ tự. Theme k
 
 Khách điền trên web. Mỗi dòng ghi nhận: ngày đăng ký, họ tên, quan hệ với cô dâu/chú rể, phương tiện di chuyển, đến ăn ngày nào, bên nhà trai hay nhà gái.
 
+Cuối form có thêm ô **"Lời chúc"** không bắt buộc. Nội dung ô này hiển thị ở section Sổ lưu bút sau khi được duyệt, và cũng được ghi vào Sheet như một cột. Khách chỉ phải điền một lần duy nhất.
+
 ### 5.2 Google Sheet
 
 Dùng service account. Khi tạo một đơn thiệp có bật tính năng này, hệ thống tự sinh một spreadsheet gồm **2 tab: `Nhà trai` và `Nhà gái`**, đặt quyền truy cập đầy đủ. Mỗi RSVP được append vào đúng tab theo bên khách chọn.
