@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { layThiepTheoSlug } from '@/lib/db/invitations'
-import { layLoiChucDaDuyet } from '@/lib/db/rsvps'
+import { layLoiChuc } from '@/lib/db/loiChuc'
 import { layTheme } from '@/lib/themes'
 import { tinhTrangThai } from '@/lib/vongDoi/tinhTrangThai'
 import { InvitationRenderer } from '@/components/InvitationRenderer'
@@ -48,7 +48,7 @@ export default async function TrangThiep({ params }: { params: Promise<{ slug: s
   const trangThai = tinhTrangThai(ban.vongDoi, new Date())
   if (trangThai !== 'da-xuat-ban') return <ThongBaoTrangThai trangThai={trangThai} />
 
-  const loiChuc = await layLoiChucDaDuyet(slug)
+  const loiChuc = await layLoiChuc(slug)
   return (
     <InvitationRenderer thiep={ban.thiep} theme={layTheme(ban.thiep.themeId)} loiChuc={loiChuc} />
   )

@@ -1,6 +1,6 @@
 import type { Invitation } from '@/lib/invitation/types'
 import type { Theme } from '@/lib/themes'
-import type { LoiChuc } from '@/lib/rsvp/types'
+import type { LoiChucDayDu } from '@/lib/db/loiChuc'
 
 /**
  * HỢP ĐỒNG với session thiết kế. Mọi phần của thiệp nhận đúng bộ prop này.
@@ -16,5 +16,5 @@ export interface SectionProps {
   /** Chỉ phần 'rsvp' dùng: mở popup xác nhận tham dự. */
   onMoRsvp?: () => void
   /** Chỉ phần 'so-luu-but' dùng. */
-  loiChuc?: LoiChuc[]
+  loiChuc?: LoiChucDayDu[]
 }

@@ -43,7 +43,6 @@ export const thiepMau: Invitation = {
       diaDiem: 'Tư gia nhà gái',
       diaChi: 'Thôn Đình Bảng, Từ Sơn, Bắc Ninh',
       banDoAnh: anhMau('Bản đồ nhà gái'),
-      linkChiDuong: 'https://maps.google.com/?q=Dinh+Bang+Tu+Son+Bac+Ninh',
     },
     {
       ngay: '2026-11-15',
@@ -52,7 +51,6 @@ export const thiepMau: Invitation = {
       diaDiem: 'Trung tâm tiệc cưới Kinh Bắc',
       diaChi: 'Đường Lý Thái Tổ, TP Bắc Ninh',
       banDoAnh: anhMau('Bản đồ nhà hàng'),
-      linkChiDuong: 'https://maps.google.com/?q=Ly+Thai+To+Bac+Ninh',
     },
   ],
   dressCode: {

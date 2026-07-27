@@ -1,5 +1,5 @@
 import { taoSupabase } from './client'
-import type { LoiChuc, Rsvp, RsvpDauVao } from '@/lib/rsvp/types'
+import type { Rsvp, RsvpDauVao } from '@/lib/rsvp/types'
 
 interface DongDb {
   id: string
@@ -65,19 +65,4 @@ export async function danhDauDaDongBo(id: string): Promise<void> {
     .update({ da_dong_bo_sheet: true })
     .eq('id', id)
   if (error) throw error
-}
-
-export async function layLoiChucDaDuyet(slug: string): Promise<LoiChuc[]> {
-  const { data, error } = await taoSupabase()
-    .from('rsvps')
-    .select('ho_ten, loi_chuc')
-    .eq('slug', slug)
-    .eq('loi_chuc_da_duyet', true)
-    .not('loi_chuc', 'is', null)
-    .order('ngay_dang_ky', { ascending: false })
-  if (error) throw error
-  return (data as { ho_ten: string; loi_chuc: string }[]).map((d) => ({
-    hoTen: d.ho_ten,
-    noiDung: d.loi_chuc,
-  }))
 }

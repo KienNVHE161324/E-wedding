@@ -74,17 +74,6 @@ export function SuKien({ thiep }: SectionProps) {
                     />
                   )}
 
-                  {sk.linkChiDuong && (
-                    <a
-                      href={sk.linkChiDuong}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-3 inline-block rounded-full px-5 py-1.5 text-sm text-white"
-                      style={{ backgroundColor: 'var(--mau-chinh)' }}
-                    >
-                      Chỉ đường
-                    </a>
-                  )}
                 </div>
               </div>
 

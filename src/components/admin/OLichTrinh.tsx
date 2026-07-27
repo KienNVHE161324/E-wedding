@@ -116,16 +116,6 @@ export function OLichTrinh({
                   />
                 </label>
 
-                <label className="mt-2 block text-sm">
-                  Link chỉ đường
-                  <input
-                    aria-label={`Link chỉ đường của mốc ${i + 1}`}
-                    value={sk.linkChiDuong ?? ''}
-                    onChange={(e) => sua(i, { linkChiDuong: e.target.value || undefined })}
-                    placeholder="Dán link Google Maps của địa điểm"
-                    className={o}
-                  />
-                </label>
 
                 <div className="mt-3">
                   <OAnh

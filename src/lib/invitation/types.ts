@@ -48,7 +48,6 @@ export interface SuKien {
   diaDiem: string
   diaChi: string
   banDoAnh?: Anh
-  linkChiDuong?: string
 }
 
 export interface DressCode {

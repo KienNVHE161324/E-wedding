@@ -57,13 +57,6 @@ describe('Lịch trình đám cưới', () => {
     expect(screen.getByText(/THỨ BẢY/)).toBeInTheDocument()
   })
 
-  it('chỉ hiện nút chỉ đường ở mốc có link', () => {
-    ve([
-      { ...moc('2026-11-14', '09:00', 'Lễ'), linkChiDuong: 'https://maps.google.com/?q=x' },
-      moc('2026-11-14', '11:00', 'Tiệc'),
-    ])
-    expect(screen.getAllByRole('link', { name: 'Chỉ đường' })).toHaveLength(1)
-  })
 
   it('không dùng iframe bản đồ', () => {
     const { container } = ve(thiepMau.suKien)

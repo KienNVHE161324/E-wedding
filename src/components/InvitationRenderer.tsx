@@ -3,7 +3,7 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import type { Invitation } from '@/lib/invitation/types'
 import type { Theme } from '@/lib/themes'
-import type { LoiChuc } from '@/lib/rsvp/types'
+import type { LoiChucDayDu } from '@/lib/db/loiChuc'
 import { resolveSections } from '@/lib/invitation/sections'
 import { SECTION_REGISTRY } from './sections/registry'
 import { NutRsvpNoi } from './NutRsvpNoi'
@@ -21,7 +21,7 @@ export function InvitationRenderer({
 }: {
   thiep: Invitation
   theme: Theme
-  loiChuc?: LoiChuc[]
+  loiChuc?: LoiChucDayDu[]
 }) {
   const danhSach = resolveSections(theme.thuTuSection, thiep.sections)
   const [daMo, setDaMo] = useState(false)

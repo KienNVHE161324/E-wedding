@@ -98,7 +98,6 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
       diaDiem: z.string(),
       diaChi: z.string(),
       banDoAnh: anhSchema.optional(),
-      linkChiDuong: z.string().optional(),
     }),
   ),
   dressCode: dressCodeSchema.optional(),
