@@ -286,3 +286,30 @@ moderate; preserve a clean silhouette
 Avoid: clip-art geometry, heavy black fill, excessive hatching, gradients,
 photorealistic shading and unrelated decorative objects
 ```
+
+## 12. Thứ tự sản xuất asset
+
+1. Chốt các dáng cô dâu chú rể ở cấp `primary-decor`.
+2. Generate riêng từng dáng được duyệt, không crop từ bảng phương án.
+3. Tạo biến thể cô dâu chú rể ở cấp `watermark` nếu cần.
+4. Chuyển sang phase **thư viện hoa**, ưu tiên nhiều dáng và nhiều cách ghép:
+   - hoa đơn nhìn chính diện;
+   - hoa đơn góc nghiêng;
+   - nụ và cành;
+   - cụm hoa nhỏ cho góc;
+   - cụm hoa ngang làm divider;
+   - cụm hoa dọc;
+   - vòng hoa/khung hoa;
+   - hoa rơi hoặc cánh hoa rời;
+   - phiên bản `watermark`;
+   - phiên bản `primary-decor`.
+5. Mỗi loại hoa được generate thành file riêng, có biến thể được đánh số và chỉ
+   lưu vào `Image_collections` sau khi duyệt.
+
+### Trạng thái duyệt hiện tại
+
+- Bảng decor chính gồm mái đình, tam quan, tháp, nón nghiêng, quạt, yếm, Hỷ và
+  sóng–mây: đã duyệt về hướng hình ảnh; cần regenerate từng asset production.
+- Bản nón quai thao individual trên nền xanh: loại bỏ, không lưu.
+- Bảng bốn dáng cô dâu chú rể: đang chờ duyệt.
+- Phase kế tiếp sau cô dâu chú rể: nhiều chi tiết hoa.
