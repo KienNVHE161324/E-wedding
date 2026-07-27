@@ -78,6 +78,10 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
   chuRe: nguoiCuoiSchema,
   coDau: nguoiCuoiSchema,
   ngayCuoi: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Ngày cưới phải theo dạng YYYY-MM-DD'),
+  ngayPhu: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, 'Ngày đầu phải theo dạng YYYY-MM-DD')
+    .optional(),
   nhac: z.object({ url: z.string().min(1), ten: z.string() }).optional(),
   chuyenChungMinh: z.array(
     z.object({ anh: anhSchema, tieuDe: z.string(), noiDung: z.string() }),

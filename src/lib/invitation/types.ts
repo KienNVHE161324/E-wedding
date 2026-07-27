@@ -106,8 +106,10 @@ export interface Invitation {
   sections: SectionRef[]
   chuRe: NguoiCuoi
   coDau: NguoiCuoi
-  /** Định dạng YYYY-MM-DD */
+  /** YYYY-MM-DD — ngày cưới chính. Nếu đám cưới trải hai ngày, đây là ngày muộn hơn. */
   ngayCuoi: string
+  /** YYYY-MM-DD — ngày đầu của đám cưới hai ngày. */
+  ngayPhu?: string
   nhac?: { url: string; ten: string }
   chuyenChungMinh: ChangChuyen[]
   album: Anh[]

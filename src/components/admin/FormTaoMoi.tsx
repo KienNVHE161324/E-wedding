@@ -9,10 +9,14 @@ export function FormTaoMoi() {
   const router = useRouter()
   const [dangGui, setDangGui] = useState(false)
   const [loi, setLoi] = useState('')
+  const [goiY, setGoiY] = useState('')
+  const [slug, setSlug] = useState('')
+  const [haiNgay, setHaiNgay] = useState(false)
 
   async function taoMoi(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoi('')
+    setGoiY('')
     setDangGui(true)
 
     const fd = new FormData(e.currentTarget)
@@ -24,6 +28,7 @@ export function FormTaoMoi() {
         tenChuRe: fd.get('tenChuRe'),
         tenCoDau: fd.get('tenCoDau'),
         ngayCuoi: fd.get('ngayCuoi'),
+        ngayPhu: fd.get('ngayPhu') || undefined,
         themeId: fd.get('themeId'),
       }),
     })
@@ -34,6 +39,7 @@ export function FormTaoMoi() {
       router.push(`/admin/${data.slug}`)
     } else {
       setLoi(data.loi ?? 'Không tạo được thiệp')
+      if (data.goiY) setGoiY(data.goiY)
     }
   }
 
@@ -56,8 +62,30 @@ export function FormTaoMoi() {
         <input id="tenCoDau" name="tenCoDau" required className={o} />
       </div>
 
+      <label className="flex items-start gap-2 text-sm">
+        <input
+          type="checkbox"
+          className="mt-1"
+          checked={haiNgay}
+          onChange={(e) => setHaiNgay(e.target.checked)}
+        />
+        <span>
+          Đám cưới diễn ra trong hai ngày
+          <span className="block text-neutral-500">
+            Ngày muộn hơn luôn được coi là ngày cưới chính.
+          </span>
+        </span>
+      </label>
+
+      {haiNgay && (
+        <div>
+          <label htmlFor="ngayPhu">Ngày đầu</label>
+          <input id="ngayPhu" name="ngayPhu" type="date" required={haiNgay} className={o} />
+        </div>
+      )}
+
       <div>
-        <label htmlFor="ngayCuoi">Ngày cưới</label>
+        <label htmlFor="ngayCuoi">{haiNgay ? 'Ngày cưới chính' : 'Ngày cưới'}</label>
         <input id="ngayCuoi" name="ngayCuoi" type="date" required className={o} />
       </div>
 
@@ -67,6 +95,8 @@ export function FormTaoMoi() {
           id="slug"
           name="slug"
           required
+          value={slug}
+          onChange={(e) => setSlug(e.target.value)}
           placeholder="nam-linh"
           pattern="[a-z0-9]+(-[a-z0-9]+)*"
           className={o}
@@ -93,6 +123,24 @@ export function FormTaoMoi() {
       {loi && (
         <p role="alert" className="text-sm text-red-600">
           {loi}
+          {goiY && (
+            <>
+              {' '}
+              Dùng{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  setSlug(goiY)
+                  setLoi('')
+                  setGoiY('')
+                }}
+                className="underline"
+              >
+                {goiY}
+              </button>{' '}
+              thay nhé?
+            </>
+          )}
         </p>
       )}
 

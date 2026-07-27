@@ -132,14 +132,30 @@ export function BangSua({
             />
           </label>
           <label className="mt-2 block text-sm">
-            Ngày cưới
+            Ngày đầu (nếu cưới hai ngày)
             <input
               type="date"
+              aria-label="Ngày đầu"
+              className={o}
+              value={thiep.ngayPhu ?? ''}
+              onChange={(e) => sua('ngayPhu', e.target.value || undefined)}
+            />
+          </label>
+          <label className="mt-2 block text-sm">
+            Ngày cưới chính
+            <input
+              type="date"
+              aria-label="Ngày cưới chính"
               className={o}
               value={thiep.ngayCuoi}
               onChange={(e) => sua('ngayCuoi', e.target.value)}
             />
           </label>
+          {thiep.ngayPhu && thiep.ngayPhu >= thiep.ngayCuoi && (
+            <p role="alert" className="mt-1 text-sm text-red-600">
+              Ngày đầu phải sớm hơn ngày cưới chính.
+            </p>
+          )}
         </section>
 
         <section>

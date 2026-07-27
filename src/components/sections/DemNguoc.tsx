@@ -5,6 +5,10 @@ export function DemNguoc({ thiep }: SectionProps) {
   const tuan = luoiLichThang(thiep.ngayCuoi)
   const ngayCuoi = ngayTrongThang(thiep.ngayCuoi)
 
+  // Ngày đầu chỉ đánh dấu được khi rơi vào cùng tháng với ngày cưới chính.
+  const cungThang = thiep.ngayPhu?.slice(0, 7) === thiep.ngayCuoi.slice(0, 7)
+  const ngayDau = cungThang && thiep.ngayPhu ? ngayTrongThang(thiep.ngayPhu) : null
+
   return (
     <section data-section="dem-nguoc" className="px-6 py-16 text-center">
       <h2
@@ -38,17 +42,25 @@ export function DemNguoc({ thiep }: SectionProps) {
             <tr key={i}>
               {hang.map((ngay, j) => {
                 const laNgayCuoi = ngay === ngayCuoi
+                const laNgayDau = ngay !== null && ngay === ngayDau
                 return (
                   <td key={j} className="h-10 w-10 text-sm">
                     {ngay !== null && (
                       <span
-                        // Ngày cưới được khoanh tròn để khách nhận ra ngay.
+                        // Ngày cưới chính tô đặc, ngày đầu chỉ viền — để khách
+                        // phân biệt được đâu là ngày quan trọng nhất.
                         aria-current={laNgayCuoi ? 'date' : undefined}
+                        data-ngay-dau={laNgayDau ? 'true' : undefined}
                         className="flex h-10 w-10 items-center justify-center rounded-full"
                         style={
                           laNgayCuoi
                             ? { backgroundColor: 'var(--mau-chinh)', color: '#fff' }
-                            : undefined
+                            : laNgayDau
+                              ? {
+                                  border: '2px solid var(--mau-chinh)',
+                                  color: 'var(--mau-chinh)',
+                                }
+                              : undefined
                         }
                       >
                         {ngay}

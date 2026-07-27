@@ -40,6 +40,13 @@ export async function taoThiepTrongDb(thiep: Invitation, nguoiTao: string): Prom
   }
 }
 
+/** Toàn bộ đường dẫn đang dùng, để đề xuất tên thay thế khi bị trùng. */
+export async function laySlugDaCo(): Promise<string[]> {
+  const { data, error } = await taoSupabase().from('invitations').select('slug')
+  if (error) throw error
+  return (data as { slug: string }[]).map((d) => d.slug)
+}
+
 export async function luuThiep(thiep: Invitation): Promise<void> {
   const hopLe = invitationSchema.parse(thiep)
   const { error } = await taoSupabase()

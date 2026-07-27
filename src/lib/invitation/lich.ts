@@ -44,8 +44,14 @@ export function sapXepLichTrinh(suKien: SuKien[]): SuKien[] {
 }
 
 /** Các ngày có sự kiện, dạng dd/mm/yyyy, dùng cho ô chọn trong form xác nhận. */
-export function cacNgayCoSuKien(suKien: SuKien[], ngayCuoi: string): string[] {
-  const iso = [...new Set([ngayCuoi, ...suKien.map((sk) => sk.ngay)])].sort()
+export function cacNgayCoSuKien(
+  suKien: SuKien[],
+  ngayCuoi: string,
+  ngayPhu?: string,
+): string[] {
+  const iso = [
+    ...new Set([ngayCuoi, ...(ngayPhu ? [ngayPhu] : []), ...suKien.map((sk) => sk.ngay)]),
+  ].sort()
   return iso.map((n) => {
     const [nam, thang, ngay] = n.split('-')
     return `${ngay}/${thang}/${nam}`

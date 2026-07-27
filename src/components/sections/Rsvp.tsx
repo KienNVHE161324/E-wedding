@@ -11,7 +11,7 @@ export function Rsvp({ thiep }: SectionProps) {
   const [xong, setXong] = useState(false)
   const [loi, setLoi] = useState('')
 
-  const ngayCoThe = cacNgayCoSuKien(thiep.suKien, thiep.ngayCuoi)
+  const ngayCoThe = cacNgayCoSuKien(thiep.suKien, thiep.ngayCuoi, thiep.ngayPhu)
 
   async function guiForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
