@@ -4,9 +4,26 @@ import {
   ngayTrongThang,
   tenThang,
   sapXepLichTrinh,
+  lienKetThemVaoLich,
   cacNgayCoSuKien,
   TEN_THU,
 } from '../lich'
+
+describe('lienKetThemVaoLich', () => {
+  it('tạo link Google Calendar đúng giờ Việt Nam và địa điểm', () => {
+    const link = lienKetThemVaoLich({
+      ngay: '2026-11-14',
+      gio: '09:00',
+      ten: 'Lễ Vu Quy',
+      diaDiem: 'Tư gia nhà gái',
+    })
+    const url = new URL(link)
+    expect(url.hostname).toBe('calendar.google.com')
+    expect(url.searchParams.get('dates')).toBe('20261114T090000/20261114T110000')
+    expect(url.searchParams.get('ctz')).toBe('Asia/Ho_Chi_Minh')
+    expect(url.searchParams.get('location')).toBe('Tư gia nhà gái')
+  })
+})
 import type { SuKien } from '../types'
 
 describe('luoiLichThang', () => {

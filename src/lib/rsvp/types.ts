@@ -1,13 +1,16 @@
 import { z } from 'zod'
 import type { Ben } from '@/lib/invitation/types'
 
+const chuoiKhongBatBuoc = z.string().trim().min(1).optional().transform((v) => v ?? '')
+
 export const rsvpDauVaoSchema = z.object({
-  hoTen: z.string().trim().min(1, 'Vui lòng nhập họ tên'),
-  ben: z.enum(['nha-trai', 'nha-gai']),
-  quanHe: z.string().trim().min(1, 'Vui lòng cho biết quan hệ với cô dâu chú rể'),
-  phuongTien: z.string().trim().min(1, 'Vui lòng chọn phương tiện di chuyển'),
-  ngayAn: z.string().trim().min(1, 'Vui lòng chọn ngày đến dự'),
+  hoTen: chuoiKhongBatBuoc,
+  ben: z.enum(['nha-trai', 'nha-gai']).default('nha-trai'),
+  quanHe: chuoiKhongBatBuoc,
+  phuongTien: chuoiKhongBatBuoc,
+  ngayAn: chuoiKhongBatBuoc,
   loiChuc: z.string().trim().optional(),
+  tuyChinh: z.record(z.string(), z.string().trim()).default({}),
 })
 
 export type RsvpDauVao = z.infer<typeof rsvpDauVaoSchema>

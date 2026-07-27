@@ -13,6 +13,7 @@ export const COT = [
   'Phương tiện',
   'Đến tham dự ngày',
   'Lời chúc',
+  'Thông tin tùy chỉnh',
 ]
 
 /**
@@ -60,6 +61,9 @@ export async function themeDongRsvp(
     rsvp.phuongTien,
     rsvp.ngayAn,
     rsvp.loiChuc ?? '',
+    Object.entries(rsvp.tuyChinh)
+      .map(([ten, giaTri]) => `${ten}: ${giaTri}`)
+      .join('; '),
   ])
 }
 

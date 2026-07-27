@@ -5,7 +5,6 @@ import Link from 'next/link'
 import type { Invitation, SectionId } from '@/lib/invitation/types'
 import type { SlotHoaTiet } from '@/lib/themes/types'
 import type { VongDoi } from '@/lib/vongDoi/types'
-import type { LoiChucDayDu } from '@/lib/db/loiChuc'
 import { THEMES, layTheme } from '@/lib/themes'
 import { InvitationRenderer } from '@/components/InvitationRenderer'
 import { SapXepSection } from './SapXepSection'
@@ -20,7 +19,7 @@ import { ChonChiTiet } from './ChonChiTiet'
 import { ODressCode } from './ODressCode'
 import { OLichTrinh } from './OLichTrinh'
 import { OCauHinh } from './OCauHinh'
-import { OLoiChuc } from './OLoiChuc'
+import { ORsvp } from './ORsvp'
 import { TEN_SECTION } from './SapXepSection'
 
 /** Các vị trí họa tiết đủ dễ hiểu để người không rành thiết kế vẫn chỉnh được. */
@@ -36,13 +35,11 @@ export function BangSua({
   vongDoi,
   spreadsheetId,
   emailServiceAccount,
-  loiChuc,
 }: {
   banDau: Invitation
   vongDoi: VongDoi
   spreadsheetId: string | null
   emailServiceAccount: string
-  loiChuc: LoiChucDayDu[]
 }) {
   const [thiep, setThiep] = useState(banDau)
   const [trangThai, setTrangThai] = useState('')
@@ -226,9 +223,9 @@ export function BangSua({
         </section>
 
         <section>
-          <h3 className="font-semibold">Sổ lưu bút</h3>
+          <h3 className="font-semibold">Form xác nhận tham dự</h3>
           <div className="mt-2">
-            <OLoiChuc banDau={loiChuc} />
+            <ORsvp giaTri={thiep.cauHinhRsvp} onDoi={(v) => sua('cauHinhRsvp', v)} />
           </div>
         </section>
 

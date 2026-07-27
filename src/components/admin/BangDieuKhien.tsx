@@ -93,6 +93,9 @@ export function BangDieuKhien({ danhSach }: { danhSach: ThiepTomTat[] }) {
                 <Link href={`/admin/${t.slug}`} className="underline">
                   Sửa thiệp
                 </Link>
+                <Link href={`/admin/${t.slug}/loi-chuc`} className="underline">
+                  Xem lời chúc
+                </Link>
                 <a href={`/${t.slug}`} target="_blank" rel="noopener noreferrer" className="underline">
                   Xem thiệp
                 </a>

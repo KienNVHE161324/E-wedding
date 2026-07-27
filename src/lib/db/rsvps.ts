@@ -10,6 +10,7 @@ interface DongDb {
   phuong_tien: string
   ngay_an: string
   loi_chuc: string | null
+  tuy_chinh: Record<string, string> | null
   da_dong_bo_sheet: boolean
   ngay_dang_ky: string
 }
@@ -24,6 +25,7 @@ function sangRsvp(d: DongDb): Rsvp {
     phuongTien: d.phuong_tien,
     ngayAn: d.ngay_an,
     loiChuc: d.loi_chuc ?? undefined,
+    tuyChinh: d.tuy_chinh ?? {},
     daDongBoSheet: d.da_dong_bo_sheet,
     ngayDangKy: d.ngay_dang_ky,
   }
@@ -40,6 +42,7 @@ export async function taoRsvp(dauVao: RsvpDauVao & { slug: string }): Promise<Rs
       phuong_tien: dauVao.phuongTien,
       ngay_an: dauVao.ngayAn,
       loi_chuc: dauVao.loiChuc ?? null,
+      tuy_chinh: dauVao.tuyChinh,
     })
     .select()
     .single()

@@ -5,6 +5,7 @@ import type { Invitation } from '@/lib/invitation/types'
 import { cacNgayCoSuKien } from '@/lib/invitation/lich'
 
 const PHUONG_TIEN = ['Xe máy', 'Ô tô riêng', 'Xe khách', 'Xe của gia đình', 'Khác']
+const TRUONG_MAC_DINH = ['hoTen', 'ben', 'quanHe', 'ngayAn'] as const
 
 /** Form xác nhận tham dự. Dùng trong popup, tách riêng để phần thiệp không phình ra. */
 export function FormRsvp({ thiep }: { thiep: Invitation }) {
@@ -20,17 +21,21 @@ export function FormRsvp({ thiep }: { thiep: Invitation }) {
     setDangGui(true)
 
     const fd = new FormData(e.currentTarget)
+    const tuyChinh = Object.fromEntries(
+      (thiep.cauHinhRsvp?.truongTuyChinh ?? []).map((t) => [t.id, String(fd.get(`custom-${t.id}`) ?? '')]),
+    )
     const res = await fetch('/api/rsvp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         slug: thiep.slug,
-        hoTen: fd.get('hoTen'),
-        ben: fd.get('ben'),
-        quanHe: fd.get('quanHe'),
-        phuongTien: fd.get('phuongTien'),
-        ngayAn: fd.get('ngayAn'),
+        hoTen: fd.get('hoTen') || undefined,
+        ben: fd.get('ben') || undefined,
+        quanHe: fd.get('quanHe') || undefined,
+        phuongTien: fd.get('phuongTien') || undefined,
+        ngayAn: fd.get('ngayAn') || undefined,
         loiChuc: fd.get('loiChuc') || undefined,
+        tuyChinh,
       }),
     })
 
@@ -44,6 +49,7 @@ export function FormRsvp({ thiep }: { thiep: Invitation }) {
   }
 
   const o = 'mt-1 w-full rounded border px-3 py-2.5'
+  const truong = new Set(thiep.cauHinhRsvp?.truongChuan ?? TRUONG_MAC_DINH)
 
   if (xong) {
     return (
@@ -59,33 +65,40 @@ export function FormRsvp({ thiep }: { thiep: Invitation }) {
   return (
     <>
       <h2
-        className="mb-6 text-center text-xl"
+        className="mb-2 text-center text-2xl"
         style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
       >
         Xác nhận tham dự
       </h2>
+      <p className="mx-auto mb-7 max-w-sm text-center text-sm opacity-70">
+        Vui lòng để lại thông tin để gia đình chuẩn bị đón tiếp bạn chu đáo hơn.
+      </p>
 
-      <form onSubmit={guiForm} className="space-y-4">
-        <div>
+      <form
+        onSubmit={guiForm}
+        className="mx-auto max-w-md space-y-5 rounded-2xl border bg-white/35 p-5 shadow-sm sm:p-6"
+        style={{ borderColor: 'color-mix(in srgb, var(--mau-chinh) 20%, transparent)' }}
+      >
+        {truong.has('hoTen') && <div>
           <label htmlFor="hoTen">Họ và tên</label>
           <input id="hoTen" name="hoTen" required className={o} />
-        </div>
+        </div>}
 
-        <div>
+        {truong.has('ben') && <div>
           <label htmlFor="ben">Bạn là khách của</label>
           <select id="ben" name="ben" required defaultValue="" className={o}>
             <option value="" disabled>Chọn một bên</option>
             <option value="nha-trai">Nhà trai</option>
             <option value="nha-gai">Nhà gái</option>
           </select>
-        </div>
+        </div>}
 
-        <div>
+        {truong.has('quanHe') && <div>
           <label htmlFor="quanHe">Quan hệ với cô dâu/chú rể</label>
           <input id="quanHe" name="quanHe" required className={o} />
-        </div>
+        </div>}
 
-        <div>
+        {truong.has('phuongTien') && <div>
           <label htmlFor="phuongTien">Phương tiện di chuyển</label>
           <select id="phuongTien" name="phuongTien" required defaultValue="" className={o}>
             <option value="" disabled>Chọn phương tiện</option>
@@ -93,9 +106,9 @@ export function FormRsvp({ thiep }: { thiep: Invitation }) {
               <option key={p} value={p}>{p}</option>
             ))}
           </select>
-        </div>
+        </div>}
 
-        <div>
+        {truong.has('ngayAn') && <div>
           <label htmlFor="ngayAn">Đến tham dự ngày</label>
           <select id="ngayAn" name="ngayAn" required defaultValue="" className={o}>
             <option value="" disabled>Chọn ngày</option>
@@ -103,12 +116,33 @@ export function FormRsvp({ thiep }: { thiep: Invitation }) {
               <option key={n} value={n}>{n}</option>
             ))}
           </select>
-        </div>
+        </div>}
 
-        <div>
+        {truong.has('loiChuc') && <div>
           <label htmlFor="loiChuc">Lời chúc (không bắt buộc)</label>
           <textarea id="loiChuc" name="loiChuc" rows={3} className={o} />
-        </div>
+        </div>}
+
+        {(thiep.cauHinhRsvp?.truongTuyChinh ?? []).map((t) => {
+          const id = `custom-${t.id}`
+          return (
+            <div key={t.id}>
+              <label htmlFor={id}>{t.nhan}</label>
+              {t.kieu === 'textarea' ? (
+                <textarea id={id} name={id} required={t.batBuoc} rows={3} className={o} />
+              ) : t.kieu === 'select' ? (
+                <select id={id} name={id} required={t.batBuoc} defaultValue="" className={o}>
+                  <option value="" disabled={t.batBuoc}>Chọn một phương án</option>
+                  {t.luaChon?.map((luaChon) => (
+                    <option key={luaChon} value={luaChon}>{luaChon}</option>
+                  ))}
+                </select>
+              ) : (
+                <input id={id} name={id} required={t.batBuoc} className={o} />
+              )}
+            </div>
+          )
+        })}
 
         {loi && (
           <p role="alert" className="text-sm" style={{ color: 'var(--mau-chinh)' }}>
@@ -119,7 +153,7 @@ export function FormRsvp({ thiep }: { thiep: Invitation }) {
         <button
           type="submit"
           disabled={dangGui}
-          className="w-full rounded-full py-3 text-white disabled:opacity-60"
+          className="w-full rounded-full py-3.5 font-medium text-white shadow-md hover:-translate-y-0.5 disabled:opacity-60"
           style={{ backgroundColor: 'var(--mau-chinh)' }}
         >
           {dangGui ? 'Đang gửi...' : 'Gửi xác nhận'}

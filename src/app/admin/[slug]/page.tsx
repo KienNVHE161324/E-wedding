@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
 import { batBuocDangNhap } from '@/lib/auth/server'
 import { layThiepTheoSlug } from '@/lib/db/invitations'
-import { layLoiChuc } from '@/lib/db/loiChuc'
 import { BangSua } from '@/components/admin/BangSua'
 
 export const dynamic = 'force-dynamic'
@@ -12,15 +11,12 @@ export default async function TrangSuaThiep({ params }: { params: Promise<{ slug
   const ban = await layThiepTheoSlug(slug)
   if (!ban) notFound()
 
-  const loiChuc = await layLoiChuc(slug)
-
   return (
     <BangSua
       banDau={ban.thiep}
       vongDoi={ban.vongDoi}
       spreadsheetId={ban.spreadsheetId}
       emailServiceAccount={process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL ?? '(chưa cấu hình)'}
-      loiChuc={loiChuc}
     />
   )
 }

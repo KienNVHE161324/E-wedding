@@ -4,6 +4,10 @@ import type { SectionProps } from './types'
 export function Rsvp({ onMoRsvp }: SectionProps) {
   return (
     <section data-section="rsvp" id="rsvp" className="px-6 py-16 text-center">
+      <div
+        className="mx-auto max-w-xl rounded-3xl border bg-white/25 px-6 py-10 shadow-sm backdrop-blur-[2px]"
+        style={{ borderColor: 'color-mix(in srgb, var(--mau-chinh) 22%, transparent)' }}
+      >
       <h2
         className="text-2xl"
         style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
@@ -19,11 +23,12 @@ export function Rsvp({ onMoRsvp }: SectionProps) {
       <button
         type="button"
         onClick={onMoRsvp}
-        className="mt-6 rounded-full px-8 py-3 text-white"
+        className="mt-7 rounded-full px-8 py-3 font-medium text-white shadow-md hover:-translate-y-0.5"
         style={{ backgroundColor: 'var(--mau-chinh)' }}
       >
         Điền xác nhận
       </button>
+      </div>
     </section>
   )
 }

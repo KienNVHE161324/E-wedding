@@ -70,17 +70,6 @@ export function ONguoiCuoi({
         </label>
       </div>
 
-      <label className="mt-2 block text-sm">
-        Liên kết mạng xã hội
-        <input
-          aria-label={`Mạng xã hội ${nhan}`}
-          value={giaTri.lienKetMangXaHoi ?? ''}
-          onChange={(e) => sua({ lienKetMangXaHoi: e.target.value || undefined })}
-          placeholder="https://facebook.com/..."
-          className={o}
-        />
-      </label>
-
       <div className="mt-3">
         <OAnh
           nhan={`Ảnh ${nhan}`}

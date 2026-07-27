@@ -12,23 +12,22 @@ async function dienForm() {
   await userEvent.type(screen.getByLabelText('Họ và tên'), 'Lê Văn Toàn')
   await userEvent.selectOptions(screen.getByLabelText('Bạn là khách của'), 'nha-trai')
   await userEvent.type(screen.getByLabelText('Quan hệ với cô dâu/chú rể'), 'Bạn học chú rể')
-  await userEvent.selectOptions(screen.getByLabelText('Phương tiện di chuyển'), 'Xe máy')
   await userEvent.selectOptions(screen.getByLabelText('Đến tham dự ngày'), '14/11/2026')
 }
 
 describe('Form xác nhận tham dự', () => {
-  it('có đủ các trường theo yêu cầu', () => {
+  it('chỉ hiện các trường cần thiết', () => {
     render(<FormRsvp thiep={thiepMau} />)
     for (const nhan of [
       'Họ và tên',
       'Bạn là khách của',
       'Quan hệ với cô dâu/chú rể',
-      'Phương tiện di chuyển',
       'Đến tham dự ngày',
-      'Lời chúc (không bắt buộc)',
     ]) {
       expect(screen.getByLabelText(nhan)).toBeInTheDocument()
     }
+    expect(screen.queryByLabelText('Phương tiện di chuyển')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('Lời chúc (không bắt buộc)')).not.toBeInTheDocument()
   })
 
   it('gửi đúng dữ liệu kèm slug lên API', async () => {
@@ -38,11 +37,30 @@ describe('Form xác nhận tham dự', () => {
 
     const [url, opts] = (fetch as unknown as ReturnType<typeof vi.fn>).mock.calls[0]
     expect(url).toBe('/api/rsvp')
-    expect(JSON.parse((opts as RequestInit).body as string)).toMatchObject({
+    expect(JSON.parse((opts as RequestInit).body as string)).toEqual({
       slug: 'nam-linh',
       hoTen: 'Lê Văn Toàn',
       ben: 'nha-trai',
+      quanHe: 'Bạn học chú rể',
+      ngayAn: '14/11/2026',
+      tuyChinh: {},
     })
+  })
+
+  it('hiện và gửi trường tùy chỉnh theo cấu hình thiệp', async () => {
+    const thiep = {
+      ...thiepMau,
+      cauHinhRsvp: {
+        ...thiepMau.cauHinhRsvp!,
+        truongTuyChinh: [{ id: 'so-nguoi', nhan: 'Số người đi cùng', kieu: 'text' as const, batBuoc: true }],
+      },
+    }
+    render(<FormRsvp thiep={thiep} />)
+    await dienForm()
+    await userEvent.type(screen.getByLabelText('Số người đi cùng'), '2')
+    await userEvent.click(screen.getByRole('button', { name: 'Gửi xác nhận' }))
+    const [, opts] = (fetch as unknown as ReturnType<typeof vi.fn>).mock.calls[0]
+    expect(JSON.parse((opts as RequestInit).body as string).tuyChinh).toEqual({ 'so-nguoi': '2' })
   })
 
   it('hiện lời cảm ơn sau khi gửi thành công', async () => {

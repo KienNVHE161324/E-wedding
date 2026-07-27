@@ -56,6 +56,12 @@ describe('Lịch trình đám cưới', () => {
     expect(screen.getByText(/THỨ BẢY/)).toBeInTheDocument()
   })
 
+  it('có nút thêm từng mốc vào lịch', () => {
+    ve(thiepMau.suKien)
+    const nut = screen.getAllByRole('link', { name: 'Thêm vào lịch của tôi' })
+    expect(nut).toHaveLength(thiepMau.suKien.length)
+    expect(nut[0]).toHaveAttribute('href', expect.stringContaining('calendar.google.com'))
+  })
 
   it('không dùng iframe bản đồ', () => {
     const { container } = ve(thiepMau.suKien)

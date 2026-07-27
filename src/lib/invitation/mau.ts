@@ -7,6 +7,10 @@ export const thiepMau: Invitation = {
   slug: 'nam-linh',
   themeId: 'mac-dinh',
   sections: [],
+  cauHinhRsvp: {
+    truongChuan: ['hoTen', 'ben', 'quanHe', 'ngayAn'],
+    truongTuyChinh: [],
+  },
   chuRe: {
     ten: 'Nguyễn Hoài Nam',
     anh: anhMau('Ảnh chú rể'),

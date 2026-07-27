@@ -37,22 +37,20 @@ export function PopupRsvp({ thiep, onDong }: { thiep: Invitation; onDong: () => 
         aria-label="Xác nhận tham dự"
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
-        className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-2xl md:rounded-2xl"
+        className="relative max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border shadow-2xl md:rounded-3xl"
         style={{ backgroundColor: 'var(--mau-nen)', color: 'var(--mau-chu)' }}
       >
-        <div className="flex items-center justify-end p-2">
-          <button
-            type="button"
-            onClick={onDong}
-            aria-label="Đóng"
-            className="h-9 w-9 rounded-full text-xl"
-            style={{ color: 'var(--mau-phu)' }}
-          >
-            ×
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={onDong}
+          aria-label="Đóng"
+          className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full border bg-white/70 text-2xl leading-none backdrop-blur-sm"
+          style={{ color: 'var(--mau-phu)', borderColor: 'color-mix(in srgb, var(--mau-phu) 25%, transparent)' }}
+        >
+          ×
+        </button>
 
-        <div className="px-6 pb-8">
+        <div className="px-5 pb-8 pt-14 sm:px-10 sm:pb-10">
           <FormRsvp thiep={thiep} />
         </div>
       </div>

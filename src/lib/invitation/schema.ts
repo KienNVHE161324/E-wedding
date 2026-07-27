@@ -19,7 +19,6 @@ const nguoiCuoiSchema = z.object({
   gioiThieu: z.string().optional(),
   tenBo: z.string().optional(),
   tenMe: z.string().optional(),
-  lienKetMangXaHoi: z.string().optional(),
 })
 
 export const sectionIdSchema = z.enum([
@@ -71,6 +70,32 @@ export const chiTietTrangTriSchema = z.object({
   raSauChu: z.boolean().optional(),
 })
 
+const truongRsvpChuanSchema = z.enum([
+  'hoTen',
+  'ben',
+  'quanHe',
+  'phuongTien',
+  'ngayAn',
+  'loiChuc',
+])
+
+export const cauHinhRsvpSchema = z.object({
+  truongChuan: z.array(truongRsvpChuanSchema),
+  truongTuyChinh: z.array(
+    z.object({
+      id: z.string().regex(/^[a-z0-9-]+$/, 'Mã trường chỉ gồm chữ thường, số và dấu gạch ngang'),
+      nhan: z.string().trim().min(1, 'Tên trường không được để trống'),
+      kieu: z.enum(['text', 'textarea', 'select']),
+      batBuoc: z.boolean().optional(),
+      luaChon: z.array(z.string().trim().min(1)).optional(),
+    }).refine((t) => t.kieu !== 'select' || (t.luaChon?.length ?? 0) > 0, {
+      message: 'Trường lựa chọn phải có ít nhất một phương án',
+    }),
+  ).optional(),
+}).refine((c) => new Set(c.truongChuan).size === c.truongChuan.length, {
+  message: 'Không được lặp trường RSVP',
+})
+
 export const invitationSchema: z.ZodType<Invitation> = z.object({
   slug: z.string().min(1),
   themeId: z.string().min(1),
@@ -109,4 +134,5 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
   ),
   tuyChinhGiaoDien: tuyChinhGiaoDienSchema.optional(),
   chiTietTrangTri: z.array(chiTietTrangTriSchema).optional(),
+  cauHinhRsvp: cauHinhRsvpSchema.optional(),
 })

@@ -56,6 +56,10 @@ export function taoThiepMoi(tt: ThongTinTaoMoi): Invitation {
     slug: tt.slug,
     themeId: tt.themeId,
     sections: layTheme(tt.themeId).thuTuSection,
+    cauHinhRsvp: {
+      truongChuan: ['hoTen', 'ben', 'quanHe', 'ngayAn'],
+      truongTuyChinh: [],
+    },
     chuRe: { ten: tt.tenChuRe },
     coDau: { ten: tt.tenCoDau },
     ...ngay,

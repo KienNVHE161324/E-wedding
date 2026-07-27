@@ -1,5 +1,25 @@
 import type { SuKien } from './types'
 
+function mocGoogle(ngay: string, gio: string, congPhut = 0): string {
+  const [nam, thang, ngayTrongThang] = ngay.split('-').map(Number)
+  const [gioTrongNgay, phut] = gio.split(':').map(Number)
+  const d = new Date(Date.UTC(nam, thang - 1, ngayTrongThang, gioTrongNgay, phut + congPhut))
+  const p = (n: number) => String(n).padStart(2, '0')
+  return `${d.getUTCFullYear()}${p(d.getUTCMonth() + 1)}${p(d.getUTCDate())}T${p(d.getUTCHours())}${p(d.getUTCMinutes())}00`
+}
+
+/** Link tạo sự kiện Google Calendar, dùng giờ địa phương Việt Nam và thời lượng mặc định 2 giờ. */
+export function lienKetThemVaoLich(suKien: SuKien): string {
+  const q = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: suKien.ten,
+    dates: `${mocGoogle(suKien.ngay, suKien.gio)}/${mocGoogle(suKien.ngay, suKien.gio, 120)}`,
+    ctz: 'Asia/Ho_Chi_Minh',
+  })
+  if (suKien.diaDiem) q.set('location', suKien.diaDiem)
+  return `https://calendar.google.com/calendar/render?${q.toString()}`
+}
+
 export const TEN_THU = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
 
 /** Một ô trong lưới lịch tháng. null nghĩa là ô trống ở đầu hoặc cuối tháng. */

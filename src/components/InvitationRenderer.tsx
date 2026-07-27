@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import type { Invitation } from '@/lib/invitation/types'
 import type { Theme } from '@/lib/themes'
 import type { LoiChucDayDu } from '@/lib/db/loiChuc'
@@ -26,6 +26,28 @@ export function InvitationRenderer({
   const danhSach = resolveSections(theme.thuTuSection, thiep.sections)
   const [daMo, setDaMo] = useState(false)
   const [moRsvp, setMoRsvp] = useState(false)
+  const [dangPhatNhac, setDangPhatNhac] = useState(false)
+  const nhac = useRef<HTMLAudioElement>(null)
+
+  function moThiep() {
+    setDaMo(true)
+    if (!nhac.current) return
+    const ketQua = nhac.current.play()
+    setDangPhatNhac(true)
+    ketQua?.catch(() => setDangPhatNhac(false))
+  }
+
+  function batTatNhac() {
+    if (!nhac.current) return
+    if (nhac.current.paused) {
+      const ketQua = nhac.current.play()
+      setDangPhatNhac(true)
+      ketQua?.catch(() => setDangPhatNhac(false))
+    } else {
+      nhac.current.pause()
+      setDangPhatNhac(false)
+    }
+  }
 
   // Khóa cuộn cho tới khi khách bấm "Mở thiệp". Cú chạm đó cũng là thứ
   // hợp thức hóa việc phát nhạc, vì trình duyệt mobile chặn tự động phát.
@@ -65,7 +87,7 @@ export function InvitationRenderer({
         {(daMo ? danhSach : danhSach.filter((id) => id === 'bia')).map((id) => {
           const Section = SECTION_REGISTRY[id]
           const rieng =
-            id === 'bia' ? { onMoThiep: () => setDaMo(true) }
+            id === 'bia' ? { onMoThiep: moThiep }
             : id === 'rsvp' ? { onMoRsvp: () => setMoRsvp(true) }
             : id === 'so-luu-but' ? { loiChuc }
             : {}
@@ -83,6 +105,27 @@ export function InvitationRenderer({
         })}
       </main>
 
+      {thiep.nhac && (
+        <audio
+          ref={nhac}
+          src={thiep.nhac.url}
+          loop
+          preload="metadata"
+          onPlay={() => setDangPhatNhac(true)}
+          onPause={() => setDangPhatNhac(false)}
+        />
+      )}
+      {daMo && thiep.nhac && (
+        <button
+          type="button"
+          onClick={batTatNhac}
+          aria-label={dangPhatNhac ? 'Tắt nhạc' : 'Phát nhạc'}
+          className="fixed right-5 top-5 z-40 grid h-11 w-11 place-items-center rounded-full border bg-white/85 text-lg shadow-lg backdrop-blur-sm"
+          style={{ color: 'var(--mau-chinh)', borderColor: 'var(--mau-chinh)' }}
+        >
+          {dangPhatNhac ? '♫' : '♪'}
+        </button>
+      )}
       {daMo && danhSach.includes('rsvp') && <NutRsvpNoi onMo={() => setMoRsvp(true)} />}
       {moRsvp && <PopupRsvp thiep={thiep} onDong={() => setMoRsvp(false)} />}
     </div>

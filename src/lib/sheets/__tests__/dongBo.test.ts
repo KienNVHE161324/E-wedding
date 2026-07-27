@@ -33,6 +33,7 @@ const rsvpMau: Rsvp = {
   phuongTien: 'Xe máy',
   ngayAn: '14/11/2026',
   loiChuc: 'Chúc hai bạn trăm năm hạnh phúc.',
+  tuyChinh: {},
   ngayDangKy: '2026-10-01T03:00:00.000Z',
   daDongBoSheet: false,
 }
@@ -51,7 +52,7 @@ describe('chuanBiBangTinh', () => {
       tab: 'Nhà trai',
       dong: [
         'Ngày đăng ký', 'Họ tên', 'Quan hệ với cô dâu/chú rể',
-        'Phương tiện', 'Đến tham dự ngày', 'Lời chúc',
+        'Phương tiện', 'Đến tham dự ngày', 'Lời chúc', 'Thông tin tùy chỉnh',
       ],
     })
     expect(ghiNhan.them[1].tab).toBe('Nhà gái')
@@ -88,7 +89,7 @@ describe('themeDongRsvp', () => {
     expect(ghiNhan.them[1].tab).toBe('Nhà gái')
   })
 
-  it('ghi đủ sáu cột đúng thứ tự', async () => {
+  it('ghi đủ các cột đúng thứ tự', async () => {
     const { api, ghiNhan } = sheetsGia(['Nhà trai'])
     await themeDongRsvp('sheet-123', rsvpMau, api)
     expect(ghiNhan.them[0].dong).toEqual([
@@ -98,6 +99,7 @@ describe('themeDongRsvp', () => {
       'Xe máy',
       '14/11/2026',
       'Chúc hai bạn trăm năm hạnh phúc.',
+      '',
     ])
   })
 

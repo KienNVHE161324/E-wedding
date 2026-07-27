@@ -29,7 +29,6 @@ export interface NguoiCuoi {
   gioiThieu?: string
   tenBo?: string
   tenMe?: string
-  lienKetMangXaHoi?: string
 }
 
 export interface ChangChuyen {
@@ -58,6 +57,21 @@ export interface DressCode {
 }
 
 export type Ben = 'nha-trai' | 'nha-gai'
+
+export type TruongRsvpChuan = 'hoTen' | 'ben' | 'quanHe' | 'phuongTien' | 'ngayAn' | 'loiChuc'
+
+export interface TruongRsvpTuyChinh {
+  id: string
+  nhan: string
+  kieu: 'text' | 'textarea' | 'select'
+  batBuoc?: boolean
+  luaChon?: string[]
+}
+
+export interface CauHinhRsvp {
+  truongChuan: TruongRsvpChuan[]
+  truongTuyChinh?: TruongRsvpTuyChinh[]
+}
 
 export interface OMungCuoi {
   ben: Ben
@@ -122,4 +136,6 @@ export interface Invitation {
   tuyChinhGiaoDien?: TuyChinhGiaoDien
   /** Chi tiết trang trí nhân viên tự thêm. Rỗng nghĩa là chỉ dùng họa tiết của theme. */
   chiTietTrangTri?: ChiTietTrangTri[]
+  /** Thiếu cấu hình thì dùng form RSVP gọn mặc định để tương thích thiệp cũ. */
+  cauHinhRsvp?: CauHinhRsvp
 }

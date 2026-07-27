@@ -89,4 +89,13 @@ describe('BangDieuKhien', () => {
     render(<BangDieuKhien danhSach={danhSach} />)
     expect(screen.getAllByRole('link', { name: 'Google Sheet' })).toHaveLength(2)
   })
+
+  it('có lối vào danh sách lời chúc riêng trên mỗi thẻ', () => {
+    render(<BangDieuKhien danhSach={danhSach} />)
+    expect(screen.getAllByRole('link', { name: 'Xem lời chúc' })).toHaveLength(danhSach.length)
+    expect(screen.getAllByRole('link', { name: 'Xem lời chúc' })[0]).toHaveAttribute(
+      'href',
+      '/admin/nam-linh/loi-chuc',
+    )
+  })
 })

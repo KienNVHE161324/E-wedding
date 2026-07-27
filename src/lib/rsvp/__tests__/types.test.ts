@@ -15,9 +15,17 @@ describe('rsvpDauVaoSchema', () => {
     expect(() => rsvpDauVaoSchema.parse(hopLe)).not.toThrow()
   })
 
-  it('lời chúc là tùy chọn', () => {
-    const { loiChuc: _bo, ...khongLoiChuc } = hopLe
-    expect(() => rsvpDauVaoSchema.parse(khongLoiChuc)).not.toThrow()
+  it('chấp nhận form mới không có phương tiện và lời chúc', () => {
+    const formDonGian = {
+      hoTen: hopLe.hoTen,
+      ben: hopLe.ben,
+      quanHe: hopLe.quanHe,
+      ngayAn: hopLe.ngayAn,
+    }
+    expect(rsvpDauVaoSchema.parse(formDonGian)).toMatchObject({
+      ...formDonGian,
+      phuongTien: '',
+    })
   })
 
   it('từ chối họ tên rỗng', () => {

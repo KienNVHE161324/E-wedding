@@ -62,7 +62,6 @@ describe('Popup xác nhận tham dự', () => {
     await userEvent.type(screen.getByLabelText('Họ và tên'), 'Lê Văn Toàn')
     await userEvent.selectOptions(screen.getByLabelText('Bạn là khách của'), 'nha-trai')
     await userEvent.type(screen.getByLabelText('Quan hệ với cô dâu/chú rể'), 'Bạn học')
-    await userEvent.selectOptions(screen.getByLabelText('Phương tiện di chuyển'), 'Xe máy')
     await userEvent.selectOptions(screen.getByLabelText('Đến tham dự ngày'), '14/11/2026')
     await userEvent.click(screen.getByRole('button', { name: 'Gửi xác nhận' }))
 

@@ -10,6 +10,54 @@ body {
   font-family: var(--font-he-thong), system-ui, sans-serif;
 }
 
+/* Mọi phần tử bấm được đều báo hiệu rõ khi rê chuột hoặc dùng bàn phím. */
+button,
+[role="button"] {
+  cursor: pointer;
+  transition:
+    filter 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+button:hover:not(:disabled),
+[role="button"]:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 14%);
+}
+
+button:active:not(:disabled),
+[role="button"]:active {
+  filter: brightness(0.96);
+}
+
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--mau-chinh, #8b2f20) 55%, white);
+  outline-offset: 3px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input,
+select,
+textarea {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--mau-chinh, #8b2f20);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mau-chinh, #8b2f20) 16%, transparent);
+  outline: none;
+}
+
 /* Chặn cuộn trang cho tới khi khách bấm "Mở thiệp". */
 body.khoa-cuon {
   overflow: hidden;
@@ -58,5 +106,13 @@ body.khoa-cuon {
 
   .nut-rsvp-noi {
     animation: none;
+  }
+
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    transition: none;
   }
 }

@@ -9,6 +9,7 @@ const dauVao = {
   quanHe: 'Bạn học chú rể',
   phuongTien: 'Xe máy',
   ngayAn: '14/11/2026',
+  tuyChinh: {},
 }
 
 const rsvpTao = (): Rsvp => ({

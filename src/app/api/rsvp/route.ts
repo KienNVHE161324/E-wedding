@@ -1,5 +1,5 @@
 import { NextResponse, after } from 'next/server'
-import { rsvpDauVaoSchema } from '@/lib/rsvp/types'
+import { kiemTraRsvp } from '@/lib/rsvp/kiemTra'
 import { luuRsvp, dongBoMotRsvp, type PhuThuoc } from '@/lib/rsvp/xuLy'
 import { taoRsvp, danhDauDaDongBo } from '@/lib/db/rsvps'
 import { layThiepTheoSlug, laySpreadsheetId } from '@/lib/db/invitations'
@@ -33,10 +33,10 @@ export async function POST(req: Request) {
     )
   }
 
-  const kiemTra = rsvpDauVaoSchema.safeParse(body)
+  const kiemTra = kiemTraRsvp(body, ban.thiep)
   if (!kiemTra.success) {
     return NextResponse.json(
-      { loi: kiemTra.error.issues[0]?.message ?? 'Dữ liệu không hợp lệ' },
+      { loi: kiemTra.loi },
       { status: 400 },
     )
   }

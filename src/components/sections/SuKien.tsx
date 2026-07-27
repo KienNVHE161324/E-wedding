@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import type { SectionProps } from './types'
-import { sapXepLichTrinh } from '@/lib/invitation/lich'
+import { lienKetThemVaoLich, sapXepLichTrinh } from '@/lib/invitation/lich'
 
 const TEN_THU_DAY_DU = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy']
 
@@ -57,6 +57,16 @@ export function SuKien({ thiep }: SectionProps) {
                   </p>
 
                   {sk.diaDiem && <p className="mt-1 font-medium">{sk.diaDiem}</p>}
+
+                  <a
+                    href={lienKetThemVaoLich(sk)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex items-center rounded-full border px-4 py-2 text-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    style={{ borderColor: 'var(--mau-chinh)', color: 'var(--mau-chinh)' }}
+                  >
+                    Thêm vào lịch của tôi
+                  </a>
 
                   {sk.banDoAnh && (
                     <Image
