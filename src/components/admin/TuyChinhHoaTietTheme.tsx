@@ -37,7 +37,8 @@ export function TuyChinhHoaTietTheme({
   }
 
   function boAnhTuyChinh() {
-    const { id: _id, ...conLai } = giaTri ?? {}
+    const conLai = { ...giaTri }
+    delete conLai.id
     onDoi(conLai)
   }
 
