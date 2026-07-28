@@ -32,6 +32,10 @@ test('tạo đám cưới, chọn phần hiển thị, xuất bản rồi khách
   await page.getByLabel('Ngày cưới').fill('2026-12-20')
   await page.getByLabel('Đường dẫn thiệp').fill(slug)
   await page.getByLabel('Giao diện').selectOption('mac-dinh')
+  await page.getByRole('button', { name: 'Chọn kiểu QR' }).click()
+  await page.getByRole('radio', { name: 'Phong bao' }).check()
+  await page.getByRole('button', { name: 'Dùng kiểu này' }).click()
+  await expect(page.getByText('Phong bao', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: 'Tạo và bắt đầu sửa' }).click()
 
   await expect(page).toHaveURL(new RegExp(`/admin/${slug}$`))
@@ -47,7 +51,7 @@ test('tạo đám cưới, chọn phần hiển thị, xuất bản rồi khách
   await page.getByRole('button', { name: 'Lưu' }).click()
   await expect(page.getByText('Đã lưu')).toBeVisible()
 
-  await page.getByRole('button', { name: 'Xuất bản thiệp' }).click()
+  await page.getByRole('button', { name: 'Mở thiệp cho khách xem' }).click()
   await expect(page.getByText(/Đang mở, còn 14 ngày/)).toBeVisible()
 
   await trangKhach.goto(`/${slug}`)

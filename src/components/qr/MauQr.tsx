@@ -19,7 +19,7 @@ export function MauQr({
     <div
       aria-hidden="true"
       data-mau-qr={kieu}
-      className={`relative mx-auto grid aspect-[4/5] w-24 place-items-center overflow-hidden border p-3 ${
+      className={`pointer-events-none relative mx-auto grid aspect-[4/5] w-24 place-items-center overflow-hidden border p-3 ${
         kieu === 'toi-gian' ? 'rounded-sm'
         : kieu === 'hoa-mem' ? 'rounded-2xl'
         : 'rounded-lg border-4'
