@@ -38,4 +38,66 @@ describe('invitationSchema', () => {
     const thiep = { ...thiepMau, tuyChinhGiaoDien: { doDam: { 'khong-co': 0.5 } } }
     expect(() => invitationSchema.parse(thiep)).toThrow()
   })
+
+  it('giữ cấu hình họa tiết theme và góc xoay chi tiết tự do', () => {
+    const ketQua = invitationSchema.parse({
+      ...thiepMau,
+      tuyChinhGiaoDien: {
+        hoaTiet: {
+          watermark: {
+            id: 'primary-decor/symbols/chu-hy-trien-01',
+            x: 48,
+            y: 42,
+            kichThuoc: 55,
+            gocXoay: -30,
+            mau: '#123456',
+            doDam: 0.25,
+            raSauChu: true,
+            an: false,
+          },
+        },
+      },
+      chiTietTrangTri: [
+        {
+          id: 'primary-decor/symbols/chu-hy-trien-01',
+          section: 'bia',
+          x: 50,
+          y: 50,
+          mau: '#123456',
+          doDam: 0.5,
+          kichThuoc: 25,
+          gocXoay: 45,
+        },
+      ],
+    })
+
+    expect(ketQua.tuyChinhGiaoDien?.hoaTiet?.watermark?.gocXoay).toBe(-30)
+    expect(ketQua.chiTietTrangTri?.[0].gocXoay).toBe(45)
+  })
+
+  it('từ chối góc xoay ngoài khoảng -180 đến 180', () => {
+    expect(() =>
+      invitationSchema.parse({
+        ...thiepMau,
+        tuyChinhGiaoDien: { hoaTiet: { corner: { gocXoay: 181 } } },
+      }),
+    ).toThrow()
+    expect(() =>
+      invitationSchema.parse({
+        ...thiepMau,
+        chiTietTrangTri: [
+          {
+            id: 'primary-decor/symbols/chu-hy-trien-01',
+            section: 'bia',
+            x: 50,
+            y: 50,
+            mau: '#123456',
+            doDam: 0.5,
+            kichThuoc: 25,
+            gocXoay: -181,
+          },
+        ],
+      }),
+    ).toThrow()
+  })
 })

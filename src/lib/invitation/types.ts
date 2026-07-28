@@ -101,8 +101,23 @@ export interface ChiTietTrangTri {
   doDam: number
   /** Chiều rộng tính theo phần trăm khung thiệp, 5–100. */
   kichThuoc: number
+  /** Góc xoay theo độ, từ -180 đến 180. */
+  gocXoay?: number
   /** Đưa chi tiết ra sau chữ, dùng khi nó che mất nội dung. */
   raSauChu?: boolean
+}
+
+export interface TuyChinhHoaTietTheme {
+  /** ID trong DANH_SACH_HOA_TIET; thiếu thì dùng asset của theme. */
+  id?: string
+  x?: number
+  y?: number
+  kichThuoc?: number
+  gocXoay?: number
+  mau?: string
+  doDam?: number
+  raSauChu?: boolean
+  an?: boolean
 }
 
 /** Ghi đè giao diện cho riêng một thiệp. Thiếu trường nào thì lấy của theme. */
@@ -112,6 +127,8 @@ export interface TuyChinhGiaoDien {
   mauPhu?: string
   /** Độ đậm họa tiết theo từng slot, 0–1. Ghi đè doDam của theme. */
   doDam?: Partial<Record<SlotHoaTiet, number>>
+  /** Vị trí và hình dạng riêng cho các họa tiết mặc định trên bìa. */
+  hoaTiet?: Partial<Record<'watermark' | 'corner', TuyChinhHoaTietTheme>>
 }
 
 export interface Invitation {

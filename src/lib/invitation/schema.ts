@@ -57,6 +57,22 @@ export const tuyChinhGiaoDienSchema = z.object({
   mauPhu: z.string().optional(),
   // partialRecord: khóa enum nhưng không bắt buộc có đủ mọi slot.
   doDam: z.partialRecord(slotHoaTietSchema, z.number().min(0).max(1)).optional(),
+  hoaTiet: z
+    .partialRecord(
+      z.enum(['watermark', 'corner']),
+      z.object({
+        id: z.string().min(1).optional(),
+        x: z.number().min(0).max(100).optional(),
+        y: z.number().min(0).max(100).optional(),
+        kichThuoc: z.number().min(5).max(100).optional(),
+        gocXoay: z.number().min(-180).max(180).optional(),
+        mau: maMauSchema.optional(),
+        doDam: z.number().min(0).max(1).optional(),
+        raSauChu: z.boolean().optional(),
+        an: z.boolean().optional(),
+      }),
+    )
+    .optional(),
 })
 
 export const chiTietTrangTriSchema = z.object({
@@ -67,6 +83,7 @@ export const chiTietTrangTriSchema = z.object({
   mau: z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Màu phải ở dạng #RRGGBB'),
   doDam: z.number().min(0).max(1),
   kichThuoc: z.number().min(5).max(100),
+  gocXoay: z.number().min(-180).max(180).optional(),
   raSauChu: z.boolean().optional(),
 })
 
