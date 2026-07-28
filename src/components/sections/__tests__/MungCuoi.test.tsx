@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MungCuoi } from '../MungCuoi'
 import { thiepMau } from '@/lib/invitation/mau'
@@ -34,24 +34,40 @@ describe('Mừng cưới — kiểu hộp quà', () => {
     expect(screen.queryByText('0123456789')).not.toBeInTheDocument()
   })
 
-  it('có một hộp quà cho mỗi bên', () => {
+  it('có một phong bao cho mỗi bên', () => {
     ve(true)
-    expect(screen.getByRole('button', { name: 'Mở hộp quà Nhà trai' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Mở hộp quà Nhà gái' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Mở phong bao Nhà trai' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Mở phong bao Nhà gái' })).toBeInTheDocument()
   })
 
-  it('chạm vào hộp quà thì hiện QR và số tài khoản', async () => {
+  it('chạm vào phong bao thì mở popup đúng bên', async () => {
     ve(true)
-    await userEvent.click(screen.getByRole('button', { name: 'Mở hộp quà Nhà trai' }))
-    expect(screen.getByAltText('QR nhà trai')).toBeInTheDocument()
-    expect(screen.getByText('0123456789')).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Mở phong bao Nhà trai' }))
+    const dialog = screen.getByRole('dialog', { name: 'Mừng cưới Nhà trai' })
+    expect(within(dialog).getByAltText('QR nhà trai')).toBeInTheDocument()
+    expect(within(dialog).getByText('0123456789')).toBeInTheDocument()
+    expect(within(dialog).queryByText('9876543210')).not.toBeInTheDocument()
   })
 
-  it('mở bên này không làm lộ bên kia', async () => {
+  it('đóng popup bằng nút đóng', async () => {
     ve(true)
-    await userEvent.click(screen.getByRole('button', { name: 'Mở hộp quà Nhà trai' }))
-    expect(screen.queryByText('9876543210')).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Mở hộp quà Nhà gái' })).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Mở phong bao Nhà trai' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Đóng' }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('đóng popup khi bấm vùng nền', async () => {
+    ve(true)
+    await userEvent.click(screen.getByRole('button', { name: 'Mở phong bao Nhà trai' }))
+    await userEvent.click(screen.getByTestId('nen-popup-mung-cuoi'))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('đóng popup bằng phím Escape', async () => {
+    ve(true)
+    await userEvent.click(screen.getByRole('button', { name: 'Mở phong bao Nhà gái' }))
+    await userEvent.keyboard('{Escape}')
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('luôn hiện tên bên để khách biết chọn hộp nào', () => {

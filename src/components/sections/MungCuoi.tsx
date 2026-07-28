@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import type { SectionProps } from './types'
 import type { Ben, OMungCuoi } from '@/lib/invitation/types'
+import styles from './MungCuoi.module.css'
 
 const TEN_BEN: Record<Ben, string> = {
   'nha-trai': 'Nhà trai',
@@ -39,29 +41,77 @@ function ThongTin({ o }: { o: OMungCuoi }) {
   )
 }
 
-/** Hộp quà đóng, chạm vào mới mở ra thông tin chuyển khoản. */
-function HopQua({ o }: { o: OMungCuoi }) {
-  const [daMo, setDaMo] = useState(false)
-
-  if (daMo) return <ThongTin o={o} />
-
+function PhongBao({ o, onMo }: { o: OMungCuoi; onMo: (o: OMungCuoi) => void }) {
   return (
     <button
       type="button"
-      onClick={() => setDaMo(true)}
-      aria-label={`Mở hộp quà ${TEN_BEN[o.ben]}`}
-      className="mx-auto flex aspect-square w-full max-w-36 flex-col items-center justify-center rounded-lg border-2 transition-transform hover:scale-105"
-      style={{ borderColor: 'var(--mau-chinh)', color: 'var(--mau-chinh)' }}
+      onClick={() => onMo(o)}
+      aria-label={`Mở phong bao ${TEN_BEN[o.ben]}`}
+      className={`${styles.nutPhongBao} ${o.ben === 'nha-gai' ? styles.lechNhip : ''}`}
     >
-      <span className="text-4xl" aria-hidden="true">
-        🎁
+      <span className={styles.phongBao} aria-hidden="true">
+        <span className={styles.thanPhongBao} />
+        <span className={styles.napPhongBao} />
+        <span className={styles.conDau}>囍</span>
       </span>
-      <span className="mt-2 text-sm">Chạm để mở</span>
+      <span className={styles.goiY}>Chạm để mở</span>
     </button>
   )
 }
 
+function PopupMungCuoi({ o, onDong }: { o: OMungCuoi; onDong: () => void }) {
+  const nutDongRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    const overflowCu = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    nutDongRef.current?.focus()
+
+    function xuLyBanPhim(event: KeyboardEvent) {
+      if (event.key === 'Escape') onDong()
+    }
+
+    document.addEventListener('keydown', xuLyBanPhim)
+    return () => {
+      document.body.style.overflow = overflowCu
+      document.removeEventListener('keydown', xuLyBanPhim)
+    }
+  }, [onDong])
+
+  return createPortal(
+    <div
+      className={styles.nenPopup}
+      data-testid="nen-popup-mung-cuoi"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onDong()
+      }}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Mừng cưới ${TEN_BEN[o.ben]}`}
+        className={styles.popup}
+      >
+        <button
+          ref={nutDongRef}
+          type="button"
+          onClick={onDong}
+          aria-label="Đóng"
+          className={styles.nutDong}
+        >
+          ×
+        </button>
+        <p className={styles.tieuDePopup}>{TEN_BEN[o.ben]}</p>
+        <ThongTin o={o} />
+      </div>
+    </div>,
+    document.body,
+  )
+}
+
 export function MungCuoi({ thiep }: SectionProps) {
+  const [dangMo, setDangMo] = useState<OMungCuoi | null>(null)
+
   if (thiep.mungCuoi.length === 0) return null
 
   return (
@@ -80,10 +130,15 @@ export function MungCuoi({ thiep }: SectionProps) {
             <p className="mb-3 text-sm tracking-widest" style={{ color: 'var(--mau-phu)' }}>
               {TEN_BEN[o.ben]}
             </p>
-            {thiep.mungCuoiKieuHopQua ? <HopQua o={o} /> : <ThongTin o={o} />}
+            {thiep.mungCuoiKieuHopQua ? (
+              <PhongBao o={o} onMo={setDangMo} />
+            ) : (
+              <ThongTin o={o} />
+            )}
           </div>
         ))}
       </div>
+      {dangMo && <PopupMungCuoi o={dangMo} onDong={() => setDangMo(null)} />}
     </section>
   )
 }
