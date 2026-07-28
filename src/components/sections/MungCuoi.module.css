@@ -105,8 +105,8 @@
   display: grid;
   place-items: center;
   padding: 1.25rem;
-  background: rgb(32 12 14 / 62%);
-  backdrop-filter: blur(5px);
+  background: color-mix(in srgb, var(--mau-chu) 58%, transparent);
+  backdrop-filter: blur(6px);
   animation: hien-popup 180ms ease-out;
 }
 
@@ -119,10 +119,68 @@
   border-radius: 1.5rem;
   padding: 2rem 1.5rem 1.75rem;
   background: var(--mau-nen);
+  background: color-mix(in srgb, var(--mau-nen) 92%, white 8%);
   color: var(--mau-chu);
   text-align: center;
   box-shadow: 0 1.5rem 4rem rgb(25 6 8 / 35%);
   animation: mo-popup 220ms ease-out;
+}
+
+.khungQr {
+  position: relative;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.nutIconQr {
+  position: absolute;
+  right: -0.6rem;
+  bottom: -0.35rem;
+  display: grid;
+  width: 2rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--mau-phu) 40%, transparent);
+  border-radius: 999px;
+  background: var(--mau-nen);
+  color: var(--mau-phu);
+  box-shadow: 0 0.25rem 0.7rem color-mix(in srgb, var(--mau-chu) 18%, transparent);
+  transition:
+    color 180ms ease,
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.hangSoTaiKhoan {
+  display: flex;
+  min-height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: 0.2rem;
+}
+
+.nutIcon {
+  display: grid;
+  width: 2rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--mau-phu);
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.nutIconQr:hover,
+.nutIconQr:focus-visible,
+.nutIcon:hover,
+.nutIcon:focus-visible {
+  background: color-mix(in srgb, var(--mau-chinh) 12%, var(--mau-nen));
+  color: var(--mau-chinh);
+  transform: translateY(-1px) scale(1.06);
 }
 
 .nutDong {
@@ -188,7 +246,9 @@
   }
 
   .nutPhongBao,
-  .nutDong {
+  .nutDong,
+  .nutIconQr,
+  .nutIcon {
     transition: none;
   }
 }

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MungCuoi } from '../MungCuoi'
@@ -41,12 +41,42 @@ describe('Mừng cưới — kiểu hộp quà', () => {
   })
 
   it('chạm vào phong bao thì mở popup đúng bên', async () => {
-    ve(true)
+    const { container } = ve(true)
     await userEvent.click(screen.getByRole('button', { name: 'Mở phong bao Nhà trai' }))
     const dialog = screen.getByRole('dialog', { name: 'Mừng cưới Nhà trai' })
+    expect(container.querySelector('[data-section="mung-cuoi"]')!.contains(dialog)).toBe(true)
     expect(within(dialog).getByAltText('QR nhà trai')).toBeInTheDocument()
     expect(within(dialog).getByText('0123456789')).toBeInTheDocument()
     expect(within(dialog).queryByText('9876543210')).not.toBeInTheDocument()
+  })
+
+  it('cho tải ảnh QR của đúng bên', async () => {
+    ve(true)
+    await userEvent.click(screen.getByRole('button', { name: 'Mở phong bao Nhà trai' }))
+    expect(screen.getByRole('link', { name: 'Tải QR Nhà trai' })).toHaveAttribute(
+      'href',
+      thiepMau.mungCuoi[0].qrAnh!.url,
+    )
+    expect(screen.getByRole('link', { name: 'Tải QR Nhà trai' })).toHaveAttribute(
+      'download',
+      'qr-nha-trai.png',
+    )
+  })
+
+  it('sao chép số tài khoản bằng nút icon nhỏ', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText },
+    })
+
+    ve(true)
+    await userEvent.click(screen.getByRole('button', { name: 'Mở phong bao Nhà gái' }))
+    expect(screen.queryByText('Chép số tài khoản')).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Sao chép số tài khoản' }))
+
+    expect(writeText).toHaveBeenCalledWith('9876543210')
+    expect(screen.getByRole('button', { name: 'Đã sao chép' })).toBeInTheDocument()
   })
 
   it('đóng popup bằng nút đóng', async () => {

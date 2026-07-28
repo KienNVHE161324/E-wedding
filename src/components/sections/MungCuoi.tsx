@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import type { SectionProps } from './types'
 import type { Ben, OMungCuoi } from '@/lib/invitation/types'
@@ -12,31 +11,92 @@ const TEN_BEN: Record<Ben, string> = {
   'nha-gai': 'Nhà gái',
 }
 
-function ThongTin({ o }: { o: OMungCuoi }) {
+function BieuTuTai() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+      <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  )
+}
+
+function BieuTuSaoChep({ daChep }: { daChep: boolean }) {
+  return daChep ? (
+    <span aria-hidden="true" className="text-sm">
+      ✓
+    </span>
+  ) : (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+      <rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  )
+}
+
+function ThongTin({ o, kieuGon = false }: { o: OMungCuoi; kieuGon?: boolean }) {
+  const [daChep, setDaChep] = useState(false)
+
+  async function saoChep() {
+    if (!navigator.clipboard) return
+    try {
+      await navigator.clipboard.writeText(o.soTaiKhoan)
+      setDaChep(true)
+    } catch {
+      setDaChep(false)
+    }
+  }
+
   return (
     <>
       {o.qrAnh && (
-        <Image
-          src={o.qrAnh.url}
-          alt={o.qrAnh.moTa}
-          width={220}
-          height={220}
-          className="mx-auto h-28 w-28 object-contain md:h-36 md:w-36"
-        />
+        <div className={kieuGon ? styles.khungQr : undefined}>
+          <Image
+            src={o.qrAnh.url}
+            alt={o.qrAnh.moTa}
+            width={220}
+            height={220}
+            className="mx-auto h-28 w-28 object-contain md:h-36 md:w-36"
+          />
+          {kieuGon && (
+            <a
+              href={o.qrAnh.url}
+              download={`qr-${o.ben}.png`}
+              aria-label={`Tải QR ${TEN_BEN[o.ben]}`}
+              className={styles.nutIconQr}
+            >
+              <BieuTuTai />
+            </a>
+          )}
+        </div>
       )}
       <p className="mt-3 text-sm font-medium">{o.chuTaiKhoan}</p>
       <p className="text-sm" style={{ color: 'var(--mau-phu)' }}>
         {o.nganHang}
       </p>
-      <p className="mt-1 text-sm tracking-wider">{o.soTaiKhoan}</p>
-      <button
-        type="button"
-        onClick={() => navigator.clipboard?.writeText(o.soTaiKhoan)}
-        className="mt-3 rounded-full border px-4 py-1.5 text-sm"
-        style={{ borderColor: 'var(--mau-phu)', color: 'var(--mau-phu)' }}
-      >
-        Chép số tài khoản
-      </button>
+      {kieuGon ? (
+        <div className={styles.hangSoTaiKhoan}>
+          <span className="text-sm tracking-wider">{o.soTaiKhoan}</span>
+          <button
+            type="button"
+            onClick={saoChep}
+            aria-label={daChep ? 'Đã sao chép' : 'Sao chép số tài khoản'}
+            className={styles.nutIcon}
+          >
+            <BieuTuSaoChep daChep={daChep} />
+          </button>
+        </div>
+      ) : (
+        <>
+          <p className="mt-1 text-sm tracking-wider">{o.soTaiKhoan}</p>
+          <button
+            type="button"
+            onClick={() => navigator.clipboard?.writeText(o.soTaiKhoan)}
+            className="mt-3 rounded-full border px-4 py-1.5 text-sm"
+            style={{ borderColor: 'var(--mau-phu)', color: 'var(--mau-phu)' }}
+          >
+            Chép số tài khoản
+          </button>
+        </>
+      )}
     </>
   )
 }
@@ -78,7 +138,7 @@ function PopupMungCuoi({ o, onDong }: { o: OMungCuoi; onDong: () => void }) {
     }
   }, [onDong])
 
-  return createPortal(
+  return (
     <div
       className={styles.nenPopup}
       data-testid="nen-popup-mung-cuoi"
@@ -102,10 +162,9 @@ function PopupMungCuoi({ o, onDong }: { o: OMungCuoi; onDong: () => void }) {
           ×
         </button>
         <p className={styles.tieuDePopup}>{TEN_BEN[o.ben]}</p>
-        <ThongTin o={o} />
+        <ThongTin o={o} kieuGon />
       </div>
-    </div>,
-    document.body,
+    </div>
   )
 }
 
