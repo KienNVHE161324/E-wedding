@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import type { SectionProps } from './types'
 import type { Ben, OMungCuoi } from '@/lib/invitation/types'
@@ -119,7 +120,15 @@ function PhongBao({ o, onMo }: { o: OMungCuoi; onMo: (o: OMungCuoi) => void }) {
   )
 }
 
-function PopupMungCuoi({ o, onDong }: { o: OMungCuoi; onDong: () => void }) {
+function PopupMungCuoi({
+  o,
+  onDong,
+  noiRender,
+}: {
+  o: OMungCuoi
+  onDong: () => void
+  noiRender: Element
+}) {
   const nutDongRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -138,7 +147,7 @@ function PopupMungCuoi({ o, onDong }: { o: OMungCuoi; onDong: () => void }) {
     }
   }, [onDong])
 
-  return (
+  return createPortal(
     <div
       className={styles.nenPopup}
       data-testid="nen-popup-mung-cuoi"
@@ -164,17 +173,19 @@ function PopupMungCuoi({ o, onDong }: { o: OMungCuoi; onDong: () => void }) {
         <p className={styles.tieuDePopup}>{TEN_BEN[o.ben]}</p>
         <ThongTin o={o} kieuGon />
       </div>
-    </div>
+    </div>,
+    noiRender,
   )
 }
 
 export function MungCuoi({ thiep }: SectionProps) {
   const [dangMo, setDangMo] = useState<OMungCuoi | null>(null)
+  const sectionRef = useRef<HTMLElement>(null)
 
   if (thiep.mungCuoi.length === 0) return null
 
   return (
-    <section data-section="mung-cuoi" className="px-6 py-16 text-center">
+    <section ref={sectionRef} data-section="mung-cuoi" className="px-6 py-16 text-center">
       <h2
         className="text-2xl"
         style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
@@ -197,7 +208,15 @@ export function MungCuoi({ thiep }: SectionProps) {
           </div>
         ))}
       </div>
-      {dangMo && <PopupMungCuoi o={dangMo} onDong={() => setDangMo(null)} />}
+      {dangMo && sectionRef.current && (
+        <PopupMungCuoi
+          o={dangMo}
+          onDong={() => setDangMo(null)}
+          noiRender={
+            sectionRef.current.closest('[data-invitation-root]') ?? sectionRef.current
+          }
+        />
+      )}
     </section>
   )
 }

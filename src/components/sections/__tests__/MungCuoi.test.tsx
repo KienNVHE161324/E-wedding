@@ -9,7 +9,9 @@ const theme = layTheme('mac-dinh')
 
 function ve(kieuHopQua: boolean) {
   return render(
-    <MungCuoi thiep={{ ...thiepMau, mungCuoiKieuHopQua: kieuHopQua }} theme={theme} />,
+    <div data-invitation-root>
+      <MungCuoi thiep={{ ...thiepMau, mungCuoiKieuHopQua: kieuHopQua }} theme={theme} />
+    </div>,
   )
 }
 
@@ -44,7 +46,8 @@ describe('Mừng cưới — kiểu hộp quà', () => {
     const { container } = ve(true)
     await userEvent.click(screen.getByRole('button', { name: 'Mở phong bao Nhà trai' }))
     const dialog = screen.getByRole('dialog', { name: 'Mừng cưới Nhà trai' })
-    expect(container.querySelector('[data-section="mung-cuoi"]')!.contains(dialog)).toBe(true)
+    const gocThiep = container.querySelector('[data-invitation-root]')!
+    expect(dialog.parentElement?.parentElement).toBe(gocThiep)
     expect(within(dialog).getByAltText('QR nhà trai')).toBeInTheDocument()
     expect(within(dialog).getByText('0123456789')).toBeInTheDocument()
     expect(within(dialog).queryByText('9876543210')).not.toBeInTheDocument()

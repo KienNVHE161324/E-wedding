@@ -78,7 +78,7 @@ export function InvitationRenderer({
   } as CSSProperties
 
   return (
-    <div style={style}>
+    <div data-invitation-root style={style}>
       <main className="mx-auto w-full max-w-[520px] md:max-w-[720px]">
         {/*
           Trước khi khách bấm "Mở thiệp" chỉ có bìa tồn tại. Các phần sau không
