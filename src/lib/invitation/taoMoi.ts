@@ -1,5 +1,6 @@
 import type { Invitation } from './types'
 import { layTheme } from '@/lib/themes'
+import type { KieuKhungQr } from '@/lib/qr/types'
 
 /** Những đường dẫn thuộc về hệ thống, không được dùng làm slug thiệp. */
 const SLUG_HE_THONG = ['admin', 'api', 'dang-nhap', 'tao-moi', '_next', 'favicon.ico']
@@ -33,6 +34,7 @@ export interface ThongTinTaoMoi {
   /** YYYY-MM-DD — ngày đầu, dành cho đám cưới trải hai ngày. */
   ngayPhu?: string
   themeId: string
+  kieuKhungQr?: KieuKhungQr
 }
 
 /**
@@ -55,6 +57,7 @@ export function taoThiepMoi(tt: ThongTinTaoMoi): Invitation {
   return {
     slug: tt.slug,
     themeId: tt.themeId,
+    kieuKhungQr: tt.kieuKhungQr,
     sections: layTheme(tt.themeId).thuTuSection,
     cauHinhRsvp: {
       truongChuan: ['hoTen', 'ben', 'quanHe', 'ngayAn'],

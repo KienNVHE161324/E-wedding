@@ -100,4 +100,61 @@ describe('invitationSchema', () => {
       }),
     ).toThrow()
   })
+
+  it('giữ cấu hình QR hợp lệ và vẫn chấp nhận thiệp cũ', () => {
+    expect(() => invitationSchema.parse(thiepMau)).not.toThrow()
+
+    const ketQua = invitationSchema.parse({
+      ...thiepMau,
+      kieuKhungQr: 'phong-bao',
+      mungCuoi: [
+        {
+          ...thiepMau.mungCuoi[0],
+          tuyChinhQr: {
+            kieuKhung: 'toi-gian',
+            mauQr: '#111111',
+            mauNen: '#FFFFFF',
+          },
+        },
+      ],
+    })
+
+    expect(ketQua.kieuKhungQr).toBe('phong-bao')
+    expect(ketQua.mungCuoi[0].tuyChinhQr?.mauQr).toBe('#111111')
+  })
+
+  it('từ chối preset và màu QR không hợp lệ', () => {
+    expect(() =>
+      invitationSchema.parse({ ...thiepMau, kieuKhungQr: 'khong-co' }),
+    ).toThrow()
+    expect(() =>
+      invitationSchema.parse({
+        ...thiepMau,
+        mungCuoi: [
+          {
+            ...thiepMau.mungCuoi[0],
+            tuyChinhQr: { mauQr: 'red' },
+          },
+        ],
+      }),
+    ).toThrow()
+  })
+
+  it('chấp nhận cấu hình đoạn nhạc và vẫn nhận dữ liệu nhạc cũ', () => {
+    expect(() => invitationSchema.parse(thiepMau)).not.toThrow()
+    const ketQua = invitationSchema.parse({
+      ...thiepMau,
+      nhac: { ...thiepMau.nhac!, batDau: 80, thoiLuong: 30 },
+    })
+    expect(ketQua.nhac).toMatchObject({ batDau: 80, thoiLuong: 30 })
+  })
+
+  it('từ chối thời lượng đoạn và điểm bắt đầu không hợp lệ', () => {
+    expect(() =>
+      invitationSchema.parse({
+        ...thiepMau,
+        nhac: { ...thiepMau.nhac!, batDau: -1, thoiLuong: 45 },
+      }),
+    ).toThrow()
+  })
 })
