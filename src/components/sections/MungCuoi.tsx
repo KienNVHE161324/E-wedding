@@ -102,11 +102,17 @@ function ThongTin({ o, kieuGon = false }: { o: OMungCuoi; kieuGon?: boolean }) {
   )
 }
 
-function PhongBao({ o, onMo }: { o: OMungCuoi; onMo: (o: OMungCuoi) => void }) {
+function PhongBao({
+  o,
+  onMo,
+}: {
+  o: OMungCuoi
+  onMo: (o: OMungCuoi, nut: HTMLButtonElement) => void
+}) {
   return (
     <button
       type="button"
-      onClick={() => onMo(o)}
+      onClick={(event) => onMo(o, event.currentTarget)}
       aria-label={`Mở phong bao ${TEN_BEN[o.ben]}`}
       className={`${styles.nutPhongBao} ${o.ben === 'nha-gai' ? styles.lechNhip : ''}`}
     >
@@ -180,12 +186,19 @@ function PopupMungCuoi({
 
 export function MungCuoi({ thiep }: SectionProps) {
   const [dangMo, setDangMo] = useState<OMungCuoi | null>(null)
-  const sectionRef = useRef<HTMLElement>(null)
+  const [noiRender, setNoiRender] = useState<Element | null>(null)
+
+  function moPhongBao(o: OMungCuoi, nut: HTMLButtonElement) {
+    setNoiRender(
+      nut.closest('[data-invitation-root]') ?? nut.closest('section') ?? document.body,
+    )
+    setDangMo(o)
+  }
 
   if (thiep.mungCuoi.length === 0) return null
 
   return (
-    <section ref={sectionRef} data-section="mung-cuoi" className="px-6 py-16 text-center">
+    <section data-section="mung-cuoi" className="px-6 py-16 text-center">
       <h2
         className="text-2xl"
         style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
@@ -201,20 +214,18 @@ export function MungCuoi({ thiep }: SectionProps) {
               {TEN_BEN[o.ben]}
             </p>
             {thiep.mungCuoiKieuHopQua ? (
-              <PhongBao o={o} onMo={setDangMo} />
+              <PhongBao o={o} onMo={moPhongBao} />
             ) : (
               <ThongTin o={o} />
             )}
           </div>
         ))}
       </div>
-      {dangMo && sectionRef.current && (
+      {dangMo && noiRender && (
         <PopupMungCuoi
           o={dangMo}
           onDong={() => setDangMo(null)}
-          noiRender={
-            sectionRef.current.closest('[data-invitation-root]') ?? sectionRef.current
-          }
+          noiRender={noiRender}
         />
       )}
     </section>
