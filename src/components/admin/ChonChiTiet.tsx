@@ -21,6 +21,7 @@ const MOI: Omit<ChiTietTrangTri, 'id' | 'section'> = {
   mau: '#8B2F20',
   doDam: 1,
   kichThuoc: 25,
+  raSauChu: true,
 }
 
 export function ChonChiTiet({

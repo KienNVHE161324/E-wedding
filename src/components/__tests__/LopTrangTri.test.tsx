@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LopTrangTri } from '../LopTrangTri'
@@ -7,6 +7,7 @@ import { thiepMau } from '@/lib/invitation/mau'
 import { layTheme } from '@/lib/themes'
 import { DANH_SACH_HOA_TIET } from '@/lib/motifs/danhSach'
 import type { ChiTietTrangTri } from '@/lib/invitation/types'
+import { ChonChiTiet } from '@/components/admin/ChonChiTiet'
 
 const theme = layTheme('mac-dinh')
 
@@ -27,6 +28,19 @@ const chiTiet = (ghiDe: Partial<ChiTietTrangTri> = {}): ChiTietTrangTri => ({
 })
 
 describe('LopTrangTri', () => {
+  it('chi tiết mới mặc định nằm sau chữ', async () => {
+    const onDoi = vi.fn()
+    render(<ChonChiTiet giaTri={[]} section="bia" onDoi={onDoi} />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Thêm chi tiết' }))
+    const cacNutThem = screen.getAllByRole('button', { name: /^Thêm / })
+    await userEvent.click(cacNutThem[0])
+
+    expect(onDoi).toHaveBeenCalledWith([
+      expect.objectContaining({ section: 'bia', raSauChu: true }),
+    ])
+  })
+
   it('vẽ chi tiết với đúng màu, độ đậm và kích thước đã chọn', () => {
     const { container } = render(<LopTrangTri chiTiet={[chiTiet()]} />)
     const el = container.firstElementChild as HTMLElement
