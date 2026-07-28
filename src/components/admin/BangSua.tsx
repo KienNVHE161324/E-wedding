@@ -203,6 +203,8 @@ export function BangSua({
             <OMungCuoi
               giaTri={thiep.mungCuoi}
               slug={thiep.slug}
+              themeQr={theme.qr}
+              kieuKhungThiep={thiep.kieuKhungQr}
               onDoi={(v) => sua('mungCuoi', v)}
             />
           </div>

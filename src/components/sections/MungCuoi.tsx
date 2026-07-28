@@ -2,22 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import Image from 'next/image'
 import type { SectionProps } from './types'
 import type { Ben, OMungCuoi } from '@/lib/invitation/types'
+import { QrTuyChinh } from '@/components/qr/QrTuyChinh'
 import styles from './MungCuoi.module.css'
 
 const TEN_BEN: Record<Ben, string> = {
   'nha-trai': 'Nhà trai',
   'nha-gai': 'Nhà gái',
-}
-
-function BieuTuTai() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none">
-      <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14" stroke="currentColor" strokeWidth="1.8" />
-    </svg>
-  )
 }
 
 function BieuTuSaoChep({ daChep }: { daChep: boolean }) {
@@ -33,7 +25,17 @@ function BieuTuSaoChep({ daChep }: { daChep: boolean }) {
   )
 }
 
-function ThongTin({ o, kieuGon = false }: { o: OMungCuoi; kieuGon?: boolean }) {
+function ThongTin({
+  o,
+  themeQr,
+  kieuKhungThiep,
+  kieuGon = false,
+}: {
+  o: OMungCuoi
+  themeQr: SectionProps['theme']['qr']
+  kieuKhungThiep?: SectionProps['thiep']['kieuKhungQr']
+  kieuGon?: boolean
+}) {
   const [daChep, setDaChep] = useState(false)
 
   async function saoChep() {
@@ -50,23 +52,15 @@ function ThongTin({ o, kieuGon = false }: { o: OMungCuoi; kieuGon?: boolean }) {
     <>
       {o.qrAnh && (
         <div className={kieuGon ? styles.khungQr : undefined}>
-          <Image
-            src={o.qrAnh.url}
-            alt={o.qrAnh.moTa}
-            width={220}
-            height={220}
-            className="mx-auto h-28 w-28 object-contain md:h-36 md:w-36"
+          <QrTuyChinh
+            anh={o.qrAnh}
+            themeQr={themeQr}
+            kieuKhungThiep={kieuKhungThiep}
+            tuyChinh={o.tuyChinhQr}
+            ben={o.ben}
+            choTai={kieuGon}
+            classNameTai={styles.nutIconQr}
           />
-          {kieuGon && (
-            <a
-              href={o.qrAnh.url}
-              download={`qr-${o.ben}.png`}
-              aria-label={`Tải QR ${TEN_BEN[o.ben]}`}
-              className={styles.nutIconQr}
-            >
-              <BieuTuTai />
-            </a>
-          )}
         </div>
       )}
       <p className="mt-3 text-sm font-medium">{o.chuTaiKhoan}</p>
@@ -130,10 +124,14 @@ function PhongBao({
 
 function PopupMungCuoi({
   o,
+  themeQr,
+  kieuKhungThiep,
   onDong,
   noiRender,
 }: {
   o: OMungCuoi
+  themeQr: SectionProps['theme']['qr']
+  kieuKhungThiep?: SectionProps['thiep']['kieuKhungQr']
   onDong: () => void
   noiRender: Element
 }) {
@@ -179,14 +177,19 @@ function PopupMungCuoi({
           ×
         </button>
         <p className={styles.tieuDePopup}>{TEN_BEN[o.ben]}</p>
-        <ThongTin o={o} kieuGon />
+        <ThongTin
+          o={o}
+          themeQr={themeQr}
+          kieuKhungThiep={kieuKhungThiep}
+          kieuGon
+        />
       </div>
     </div>,
     noiRender,
   )
 }
 
-export function MungCuoi({ thiep }: SectionProps) {
+export function MungCuoi({ thiep, theme }: SectionProps) {
   const [dangMo, setDangMo] = useState<OMungCuoi | null>(null)
   const [noiRender, setNoiRender] = useState<Element | null>(null)
 
@@ -218,7 +221,7 @@ export function MungCuoi({ thiep }: SectionProps) {
             {thiep.mungCuoiKieuHopQua ? (
               <PhongBao o={o} onMo={moPhongBao} />
             ) : (
-              <ThongTin o={o} />
+              <ThongTin o={o} themeQr={theme.qr} kieuKhungThiep={thiep.kieuKhungQr} />
             )}
           </div>
         ))}
@@ -226,6 +229,8 @@ export function MungCuoi({ thiep }: SectionProps) {
       {dangMo && noiRender && (
         <PopupMungCuoi
           o={dangMo}
+          themeQr={theme.qr}
+          kieuKhungThiep={thiep.kieuKhungQr}
           onDong={() => setDangMo(null)}
           noiRender={noiRender}
         />

@@ -4,6 +4,7 @@ import { taoThiepMoi, deXuatSlug } from '@/lib/invitation/taoMoi'
 import { taoThiepTrongDb, laySlugDaCo } from '@/lib/db/invitations'
 import { layPhien } from '@/lib/auth/server'
 import { THEMES } from '@/lib/themes'
+import { KIEU_KHUNG_QR } from '@/lib/qr/types'
 
 const dauVaoSchema = z.object({
   slug: z.string().trim().min(1, 'Vui lòng nhập đường dẫn'),
@@ -15,6 +16,7 @@ const dauVaoSchema = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'Ngày đầu không hợp lệ')
     .optional(),
   themeId: z.string().refine((id) => id in THEMES, 'Giao diện không tồn tại'),
+  kieuKhungQr: z.enum(KIEU_KHUNG_QR).optional(),
 })
 
 export async function POST(req: Request) {

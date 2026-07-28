@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { THEMES } from '@/lib/themes'
+import type { KieuKhungQr } from '@/lib/qr/types'
+import { PopupChonKieuQr } from './PopupChonKieuQr'
 
 export function FormTaoMoi() {
   const router = useRouter()
@@ -12,6 +14,8 @@ export function FormTaoMoi() {
   const [goiY, setGoiY] = useState('')
   const [slug, setSlug] = useState('')
   const [haiNgay, setHaiNgay] = useState(false)
+  const [kieuKhungQr, setKieuKhungQr] = useState<KieuKhungQr>('hoa-mem')
+  const [moChonQr, setMoChonQr] = useState(false)
 
   async function taoMoi(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -30,6 +34,7 @@ export function FormTaoMoi() {
         ngayCuoi: fd.get('ngayCuoi'),
         ngayPhu: fd.get('ngayPhu') || undefined,
         themeId: fd.get('themeId'),
+        kieuKhungQr,
       }),
     })
 
@@ -120,6 +125,24 @@ export function FormTaoMoi() {
         </select>
       </div>
 
+      <div>
+        <p>Kiểu QR mừng cưới</p>
+        <div className="mt-1 flex items-center justify-between rounded border px-3 py-2">
+          <span className="text-sm">
+            {kieuKhungQr === 'toi-gian' ? 'Tối giản'
+            : kieuKhungQr === 'hoa-mem' ? 'Hoa mềm'
+            : 'Phong bao'}
+          </span>
+          <button
+            type="button"
+            onClick={() => setMoChonQr(true)}
+            className="text-sm underline"
+          >
+            Chọn kiểu QR
+          </button>
+        </div>
+      </div>
+
       {loi && (
         <p role="alert" className="text-sm text-red-600">
           {loi}
@@ -151,6 +174,13 @@ export function FormTaoMoi() {
       >
         {dangGui ? 'Đang tạo...' : 'Tạo và bắt đầu sửa'}
       </button>
+      {moChonQr && (
+        <PopupChonKieuQr
+          giaTri={kieuKhungQr}
+          onChon={setKieuKhungQr}
+          onDong={() => setMoChonQr(false)}
+        />
+      )}
     </form>
   )
 }

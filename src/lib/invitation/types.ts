@@ -1,4 +1,5 @@
 import type { SlotHoaTiet } from '@/lib/themes/types'
+import type { KieuKhungQr, TuyChinhQr } from '@/lib/qr/types'
 
 export type SectionId =
   | 'bia'
@@ -79,6 +80,7 @@ export interface OMungCuoi {
   soTaiKhoan: string
   nganHang: string
   qrAnh?: Anh
+  tuyChinhQr?: TuyChinhQr
 }
 
 /**
@@ -131,9 +133,19 @@ export interface TuyChinhGiaoDien {
   hoaTiet?: Partial<Record<'watermark' | 'corner', TuyChinhHoaTietTheme>>
 }
 
+export type ThoiLuongDoanNhac = 30 | 60
+
+export type Nhac = {
+  url: string
+  ten: string
+  batDau?: number
+  thoiLuong?: ThoiLuongDoanNhac
+}
+
 export interface Invitation {
   slug: string
   themeId: string
+  kieuKhungQr?: KieuKhungQr
   /** Ghi đè thứ tự phần của theme. Rỗng nghĩa là dùng thứ tự mặc định của theme. */
   sections: SectionRef[]
   chuRe: NguoiCuoi
@@ -142,7 +154,7 @@ export interface Invitation {
   ngayCuoi: string
   /** YYYY-MM-DD — ngày đầu của đám cưới hai ngày. */
   ngayPhu?: string
-  nhac?: { url: string; ten: string }
+  nhac?: Nhac
   chuyenChungMinh: ChangChuyen[]
   album: Anh[]
   suKien: SuKien[]

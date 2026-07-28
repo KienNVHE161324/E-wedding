@@ -9,6 +9,7 @@ import { SECTION_REGISTRY } from './sections/registry'
 import { NutRsvpNoi } from './NutRsvpNoi'
 import { LopTrangTri } from './LopTrangTri'
 import { PopupRsvp } from './PopupRsvp'
+import { gioiHanBatDau, layKetThucDoan } from '@/lib/nhac/doanNhac'
 
 /**
  * Dựng thiệp từ dữ liệu. Hàm thuần theo (thiep, theme): không đọc DB,
@@ -29,9 +30,23 @@ export function InvitationRenderer({
   const [dangPhatNhac, setDangPhatNhac] = useState(false)
   const nhac = useRef<HTMLAudioElement>(null)
 
+  function duaVeDauDoanNeuCan(audio: HTMLAudioElement): void {
+    if (!thiep.nhac?.thoiLuong || !Number.isFinite(audio.duration)) return
+    const batDau = gioiHanBatDau(
+      thiep.nhac.batDau ?? 0,
+      thiep.nhac.thoiLuong,
+      audio.duration,
+    )
+    const ketThuc = layKetThucDoan(batDau, thiep.nhac.thoiLuong, audio.duration)
+    if (audio.currentTime < batDau || audio.currentTime >= ketThuc) {
+      audio.currentTime = batDau
+    }
+  }
+
   function moThiep() {
     setDaMo(true)
     if (!nhac.current) return
+    duaVeDauDoanNeuCan(nhac.current)
     const ketQua = nhac.current.play()
     setDangPhatNhac(true)
     ketQua?.catch(() => setDangPhatNhac(false))
@@ -40,6 +55,7 @@ export function InvitationRenderer({
   function batTatNhac() {
     if (!nhac.current) return
     if (nhac.current.paused) {
+      duaVeDauDoanNeuCan(nhac.current)
       const ketQua = nhac.current.play()
       setDangPhatNhac(true)
       ketQua?.catch(() => setDangPhatNhac(false))
@@ -109,8 +125,26 @@ export function InvitationRenderer({
         <audio
           ref={nhac}
           src={thiep.nhac.url}
-          loop
+          loop={!thiep.nhac.thoiLuong}
           preload="metadata"
+          onLoadedMetadata={(e) => duaVeDauDoanNeuCan(e.currentTarget)}
+          onTimeUpdate={(e) => {
+            const audio = e.currentTarget
+            if (!thiep.nhac?.thoiLuong || !Number.isFinite(audio.duration)) return
+            const batDau = gioiHanBatDau(
+              thiep.nhac.batDau ?? 0,
+              thiep.nhac.thoiLuong,
+              audio.duration,
+            )
+            const ketThuc = layKetThucDoan(
+              batDau,
+              thiep.nhac.thoiLuong,
+              audio.duration,
+            )
+            if (audio.currentTime >= ketThuc) {
+              audio.currentTime = batDau
+            }
+          }}
           onPlay={() => setDangPhatNhac(true)}
           onPause={() => setDangPhatNhac(false)}
         />

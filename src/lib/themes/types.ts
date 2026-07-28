@@ -1,4 +1,5 @@
 import type { SectionRef } from '@/lib/invitation/types'
+import type { CauHinhQrTheme } from '@/lib/qr/types'
 
 /**
  * Các vị trí gắn họa tiết trên thiệp.
@@ -50,5 +51,6 @@ export interface Theme {
   hoaTiet: Partial<Record<SlotHoaTiet, string>>
   /** Độ đậm mặc định của họa tiết ở từng slot, 0–1. Thiếu thì coi là 1. */
   doDam: Partial<Record<SlotHoaTiet, number>>
+  qr: CauHinhQrTheme
   thuTuSection: SectionRef[]
 }
