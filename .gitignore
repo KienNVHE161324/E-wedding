@@ -47,3 +47,4 @@ next-env.d.ts
 du-lieu/
 test-results/
 playwright-report/
+.worktrees/

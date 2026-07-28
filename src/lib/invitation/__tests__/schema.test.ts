@@ -38,4 +38,123 @@ describe('invitationSchema', () => {
     const thiep = { ...thiepMau, tuyChinhGiaoDien: { doDam: { 'khong-co': 0.5 } } }
     expect(() => invitationSchema.parse(thiep)).toThrow()
   })
+
+  it('giữ cấu hình họa tiết theme và góc xoay chi tiết tự do', () => {
+    const ketQua = invitationSchema.parse({
+      ...thiepMau,
+      tuyChinhGiaoDien: {
+        hoaTiet: {
+          watermark: {
+            id: 'primary-decor/symbols/chu-hy-trien-01',
+            x: 48,
+            y: 42,
+            kichThuoc: 55,
+            gocXoay: -30,
+            mau: '#123456',
+            doDam: 0.25,
+            raSauChu: true,
+            an: false,
+          },
+        },
+      },
+      chiTietTrangTri: [
+        {
+          id: 'primary-decor/symbols/chu-hy-trien-01',
+          section: 'bia',
+          x: 50,
+          y: 50,
+          mau: '#123456',
+          doDam: 0.5,
+          kichThuoc: 25,
+          gocXoay: 45,
+        },
+      ],
+    })
+
+    expect(ketQua.tuyChinhGiaoDien?.hoaTiet?.watermark?.gocXoay).toBe(-30)
+    expect(ketQua.chiTietTrangTri?.[0].gocXoay).toBe(45)
+  })
+
+  it('từ chối góc xoay ngoài khoảng -180 đến 180', () => {
+    expect(() =>
+      invitationSchema.parse({
+        ...thiepMau,
+        tuyChinhGiaoDien: { hoaTiet: { corner: { gocXoay: 181 } } },
+      }),
+    ).toThrow()
+    expect(() =>
+      invitationSchema.parse({
+        ...thiepMau,
+        chiTietTrangTri: [
+          {
+            id: 'primary-decor/symbols/chu-hy-trien-01',
+            section: 'bia',
+            x: 50,
+            y: 50,
+            mau: '#123456',
+            doDam: 0.5,
+            kichThuoc: 25,
+            gocXoay: -181,
+          },
+        ],
+      }),
+    ).toThrow()
+  })
+
+  it('giữ cấu hình QR hợp lệ và vẫn chấp nhận thiệp cũ', () => {
+    expect(() => invitationSchema.parse(thiepMau)).not.toThrow()
+
+    const ketQua = invitationSchema.parse({
+      ...thiepMau,
+      kieuKhungQr: 'phong-bao',
+      mungCuoi: [
+        {
+          ...thiepMau.mungCuoi[0],
+          tuyChinhQr: {
+            kieuKhung: 'toi-gian',
+            mauQr: '#111111',
+            mauNen: '#FFFFFF',
+          },
+        },
+      ],
+    })
+
+    expect(ketQua.kieuKhungQr).toBe('phong-bao')
+    expect(ketQua.mungCuoi[0].tuyChinhQr?.mauQr).toBe('#111111')
+  })
+
+  it('từ chối preset và màu QR không hợp lệ', () => {
+    expect(() =>
+      invitationSchema.parse({ ...thiepMau, kieuKhungQr: 'khong-co' }),
+    ).toThrow()
+    expect(() =>
+      invitationSchema.parse({
+        ...thiepMau,
+        mungCuoi: [
+          {
+            ...thiepMau.mungCuoi[0],
+            tuyChinhQr: { mauQr: 'red' },
+          },
+        ],
+      }),
+    ).toThrow()
+  })
+
+  it('chấp nhận cấu hình đoạn nhạc và vẫn nhận dữ liệu nhạc cũ', () => {
+    expect(() => invitationSchema.parse(thiepMau)).not.toThrow()
+    const ketQua = invitationSchema.parse({
+      ...thiepMau,
+      nhac: { ...thiepMau.nhac!, batDau: 80, thoiLuong: 30 },
+    })
+    expect(ketQua.nhac).toMatchObject({ batDau: 80, thoiLuong: 30 })
+  })
+
+  it('từ chối thời lượng đoạn và điểm bắt đầu không hợp lệ', () => {
+    expect(() =>
+      invitationSchema.parse({
+        ...thiepMau,
+        nhac: { ...thiepMau.nhac!, batDau: -1, thoiLuong: 45 },
+      }),
+    ).toThrow()
+  })
 })

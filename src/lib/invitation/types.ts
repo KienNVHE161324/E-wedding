@@ -1,4 +1,5 @@
 import type { SlotHoaTiet } from '@/lib/themes/types'
+import type { KieuKhungQr, TuyChinhQr } from '@/lib/qr/types'
 
 export type SectionId =
   | 'bia'
@@ -79,6 +80,7 @@ export interface OMungCuoi {
   soTaiKhoan: string
   nganHang: string
   qrAnh?: Anh
+  tuyChinhQr?: TuyChinhQr
 }
 
 /**
@@ -101,8 +103,23 @@ export interface ChiTietTrangTri {
   doDam: number
   /** Chiều rộng tính theo phần trăm khung thiệp, 5–100. */
   kichThuoc: number
+  /** Góc xoay theo độ, từ -180 đến 180. */
+  gocXoay?: number
   /** Đưa chi tiết ra sau chữ, dùng khi nó che mất nội dung. */
   raSauChu?: boolean
+}
+
+export interface TuyChinhHoaTietTheme {
+  /** ID trong DANH_SACH_HOA_TIET; thiếu thì dùng asset của theme. */
+  id?: string
+  x?: number
+  y?: number
+  kichThuoc?: number
+  gocXoay?: number
+  mau?: string
+  doDam?: number
+  raSauChu?: boolean
+  an?: boolean
 }
 
 /** Ghi đè giao diện cho riêng một thiệp. Thiếu trường nào thì lấy của theme. */
@@ -112,11 +129,23 @@ export interface TuyChinhGiaoDien {
   mauPhu?: string
   /** Độ đậm họa tiết theo từng slot, 0–1. Ghi đè doDam của theme. */
   doDam?: Partial<Record<SlotHoaTiet, number>>
+  /** Vị trí và hình dạng riêng cho các họa tiết mặc định trên bìa. */
+  hoaTiet?: Partial<Record<'watermark' | 'corner', TuyChinhHoaTietTheme>>
+}
+
+export type ThoiLuongDoanNhac = 30 | 60
+
+export type Nhac = {
+  url: string
+  ten: string
+  batDau?: number
+  thoiLuong?: ThoiLuongDoanNhac
 }
 
 export interface Invitation {
   slug: string
   themeId: string
+  kieuKhungQr?: KieuKhungQr
   /** Ghi đè thứ tự phần của theme. Rỗng nghĩa là dùng thứ tự mặc định của theme. */
   sections: SectionRef[]
   chuRe: NguoiCuoi
@@ -125,7 +154,7 @@ export interface Invitation {
   ngayCuoi: string
   /** YYYY-MM-DD — ngày đầu của đám cưới hai ngày. */
   ngayPhu?: string
-  nhac?: { url: string; ten: string }
+  nhac?: Nhac
   chuyenChungMinh: ChangChuyen[]
   album: Anh[]
   suKien: SuKien[]

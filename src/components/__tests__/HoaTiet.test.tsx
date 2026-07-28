@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { render } from '@testing-library/react'
-import { HoaTiet, HoaTietTheme } from '../HoaTiet'
+import { HoaTiet, HoaTietTheme, HoaTietThemeTuyChinh } from '../HoaTiet'
 import type { Theme } from '@/lib/themes/types'
+import { DANH_SACH_HOA_TIET } from '@/lib/motifs/danhSach'
 
 const theme: Theme = {
   id: 'thu',
@@ -10,6 +11,7 @@ const theme: Theme = {
   font: { tieuDe: 'serif', noiDung: 'sans-serif' },
   hoaTiet: { watermark: 'primary-decor/symbols/chu-hy-trien-01.png' },
   doDam: { watermark: 0.1 },
+  qr: { kieuKhung: 'hoa-mem', mauQr: '#800000', mauNen: '#ffffff' },
   thuTuSection: [{ id: 'bia' }],
 }
 
@@ -71,5 +73,67 @@ describe('HoaTietTheme', () => {
   it('không vẽ gì khi theme không khai báo họa tiết cho vị trí đó', () => {
     const { container } = render(<HoaTietTheme theme={theme} slot="corner" />)
     expect(container.firstElementChild).toBeNull()
+  })
+})
+
+describe('HoaTietThemeTuyChinh', () => {
+  const macDinh = { x: 50, y: 50, kichThuoc: 66, gocXoay: 0, raSauChu: true }
+  const mucKhac = DANH_SACH_HOA_TIET.find(
+    (m) => m.tep !== theme.hoaTiet.watermark,
+  )!
+
+  it('áp dụng đầy đủ cấu hình riêng của thiệp', () => {
+    const { container } = render(
+      <HoaTietThemeTuyChinh
+        theme={theme}
+        slot="watermark"
+        macDinh={macDinh}
+        tuyChinh={{
+          id: mucKhac.id,
+          x: 42,
+          y: 37,
+          kichThuoc: 55,
+          gocXoay: -30,
+          mau: '#123456',
+          doDam: 0.25,
+          raSauChu: false,
+        }}
+      />,
+    )
+    const el = container.firstElementChild as HTMLElement
+    expect(el.style.maskImage).toContain(mucKhac.tep)
+    expect(el.style.left).toBe('42%')
+    expect(el.style.top).toBe('37%')
+    expect(el.style.width).toBe('55%')
+    expect(el.style.transform).toBe('translate(-50%, -50%) rotate(-30deg)')
+    expect(el.style.backgroundColor).toBe('rgb(18, 52, 86)')
+    expect(el.style.opacity).toBe('0.25')
+    expect(el.style.zIndex).toBe('20')
+  })
+
+  it('ẩn slot khi admin tắt', () => {
+    const { container } = render(
+      <HoaTietThemeTuyChinh
+        theme={theme}
+        slot="watermark"
+        macDinh={macDinh}
+        tuyChinh={{ an: true }}
+      />,
+    )
+    expect(container.firstElementChild).toBeNull()
+  })
+
+  it('dùng lại asset theme nếu id tùy chỉnh không còn tồn tại', () => {
+    const { container } = render(
+      <HoaTietThemeTuyChinh
+        theme={theme}
+        slot="watermark"
+        macDinh={macDinh}
+        tuyChinh={{ id: 'khong-ton-tai' }}
+      />,
+    )
+    expect((container.firstElementChild as HTMLElement).style.maskImage).toContain(
+      'chu-hy-trien-01.png',
+    )
   })
 })

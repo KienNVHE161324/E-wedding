@@ -1,0 +1,268 @@
+.nutPhongBao {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 1rem;
+  padding: 0.75rem 0.25rem;
+  cursor: pointer;
+  color: var(--mau-phu);
+  transition:
+    transform 220ms ease,
+    filter 220ms ease,
+    background-color 220ms ease;
+}
+
+.nutPhongBao:hover,
+.nutPhongBao:focus-visible {
+  transform: translateY(-5px);
+  background: color-mix(in srgb, var(--mau-chinh) 6%, transparent);
+  filter: brightness(1.05);
+}
+
+.phongBao {
+  position: relative;
+  display: block;
+  width: min(9rem, 36vw);
+  aspect-ratio: 1.52;
+  filter: drop-shadow(0 0.8rem 0.65rem rgb(74 12 16 / 20%));
+  animation: phong-bao-noi 3.2s ease-in-out infinite;
+}
+
+.lechNhip .phongBao {
+  animation-delay: -1.6s;
+}
+
+.thanPhongBao {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border: 2px solid #e9c36b;
+  border-radius: 0.65rem;
+  background: linear-gradient(145deg, #cb2b31, #92151d);
+}
+
+.thanPhongBao::before,
+.thanPhongBao::after {
+  position: absolute;
+  bottom: -60%;
+  width: 78%;
+  aspect-ratio: 1;
+  content: '';
+  background: #b91f27;
+  transform: rotate(45deg);
+}
+
+.thanPhongBao::before {
+  left: -35%;
+}
+
+.thanPhongBao::after {
+  right: -35%;
+  border-left: 1px solid rgb(239 202 113 / 65%);
+}
+
+.napPhongBao {
+  position: absolute;
+  z-index: 1;
+  top: 2px;
+  left: 8%;
+  width: 84%;
+  height: 73%;
+  background: linear-gradient(150deg, #e33d3c, #c5222a);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.conDau {
+  position: absolute;
+  z-index: 2;
+  top: 45%;
+  left: 50%;
+  display: grid;
+  width: 2.2rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid #f6dc94;
+  border-radius: 999px;
+  background: linear-gradient(145deg, #f2d47e, #c99732);
+  color: #76151a;
+  font-family: serif;
+  font-weight: 700;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0.2rem 0.45rem rgb(90 16 19 / 32%);
+}
+
+.goiY {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+
+.nenPopup {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: color-mix(in srgb, var(--mau-chu) 58%, transparent);
+  backdrop-filter: blur(6px);
+  animation: hien-popup 180ms ease-out;
+}
+
+.popup {
+  position: relative;
+  width: min(100%, 24rem);
+  max-height: calc(100dvh - 2.5rem);
+  overflow-y: auto;
+  border: 1px solid color-mix(in srgb, var(--mau-phu) 35%, transparent);
+  border-radius: 1.5rem;
+  padding: 2rem 1.5rem 1.75rem;
+  background: var(--mau-nen);
+  background: color-mix(in srgb, var(--mau-nen) 92%, white 8%);
+  color: var(--mau-chu);
+  text-align: center;
+  box-shadow: 0 1.5rem 4rem rgb(25 6 8 / 35%);
+  animation: mo-popup 220ms ease-out;
+}
+
+.khungQr {
+  position: relative;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.nutIconQr {
+  position: absolute;
+  right: -0.6rem;
+  bottom: -0.35rem;
+  display: grid;
+  width: 2rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--mau-phu) 40%, transparent);
+  border-radius: 999px;
+  background: var(--mau-nen);
+  color: var(--mau-phu);
+  box-shadow: 0 0.25rem 0.7rem color-mix(in srgb, var(--mau-chu) 18%, transparent);
+  transition:
+    color 180ms ease,
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.hangSoTaiKhoan {
+  position: relative;
+  display: block;
+  width: fit-content;
+  min-height: 2.25rem;
+  margin-top: 0.2rem;
+  margin-inline: auto;
+  padding-block: 0.45rem;
+}
+
+.dongNganHang,
+.giaTriSoTaiKhoan {
+  text-align: center;
+}
+
+.giaTriSoTaiKhoan {
+  display: block;
+}
+
+.nutIcon {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 0.25rem);
+  display: grid;
+  width: 2rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--mau-phu);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    color 180ms ease,
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.nutIconQr:hover,
+.nutIconQr:focus-visible,
+.nutIcon:hover,
+.nutIcon:focus-visible {
+  background: color-mix(in srgb, var(--mau-chinh) 12%, var(--mau-nen));
+  color: var(--mau-chinh);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.nutDong {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: grid;
+  width: 2.25rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--mau-phu);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.nutDong:hover,
+.nutDong:focus-visible {
+  background: color-mix(in srgb, var(--mau-chinh) 10%, transparent);
+  transform: rotate(5deg) scale(1.06);
+}
+
+.tieuDePopup {
+  margin-bottom: 1.25rem;
+  color: var(--mau-chinh);
+  font-family: var(--font-tieu-de);
+  font-size: 1.4rem;
+}
+
+@keyframes phong-bao-noi {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+
+  50% {
+    transform: translateY(-0.45rem) rotate(1deg);
+  }
+}
+
+@keyframes hien-popup {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes mo-popup {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phongBao,
+  .nenPopup,
+  .popup {
+    animation: none;
+  }
+
+  .nutPhongBao,
+  .nutDong,
+  .nutIconQr,
+  .nutIcon {
+    transition: none;
+  }
+}

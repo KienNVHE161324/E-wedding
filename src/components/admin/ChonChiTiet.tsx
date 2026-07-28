@@ -21,6 +21,7 @@ const MOI: Omit<ChiTietTrangTri, 'id' | 'section'> = {
   mau: '#8B2F20',
   doDam: 1,
   kichThuoc: 25,
+  raSauChu: true,
 }
 
 export function ChonChiTiet({
@@ -166,6 +167,20 @@ export function ChonChiTiet({
                       <span className="w-10 text-right tabular-nums">
                         {Math.round(ct.doDam * 100)}%
                       </span>
+                    </label>
+
+                    <label className="flex items-center gap-2">
+                      <span className="w-16">Xoay</span>
+                      <input
+                        type="range"
+                        aria-label={`Góc xoay của ${ten}`}
+                        min={-180}
+                        max={180}
+                        value={ct.gocXoay ?? 0}
+                        onChange={(e) => sua(i, { gocXoay: Number(e.target.value) })}
+                        className="flex-1"
+                      />
+                      <span className="w-10 text-right tabular-nums">{ct.gocXoay ?? 0}°</span>
                     </label>
                   </div>
                 </div>

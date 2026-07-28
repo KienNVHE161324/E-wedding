@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import type { Invitation } from './types'
+import { KIEU_KHUNG_QR } from '@/lib/qr/types'
 
 const anhSchema = z.object({
   url: z.string().min(1),
@@ -7,6 +8,12 @@ const anhSchema = z.object({
 })
 
 const maMauSchema = z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Màu phải ở dạng #RRGGBB')
+const kieuKhungQrSchema = z.enum(KIEU_KHUNG_QR)
+const tuyChinhQrSchema = z.object({
+  kieuKhung: kieuKhungQrSchema.optional(),
+  mauQr: maMauSchema.optional(),
+  mauNen: maMauSchema.optional(),
+})
 
 const dressCodeSchema = z.object({
   moTa: z.string(),
@@ -57,6 +64,22 @@ export const tuyChinhGiaoDienSchema = z.object({
   mauPhu: z.string().optional(),
   // partialRecord: khóa enum nhưng không bắt buộc có đủ mọi slot.
   doDam: z.partialRecord(slotHoaTietSchema, z.number().min(0).max(1)).optional(),
+  hoaTiet: z
+    .partialRecord(
+      z.enum(['watermark', 'corner']),
+      z.object({
+        id: z.string().min(1).optional(),
+        x: z.number().min(0).max(100).optional(),
+        y: z.number().min(0).max(100).optional(),
+        kichThuoc: z.number().min(5).max(100).optional(),
+        gocXoay: z.number().min(-180).max(180).optional(),
+        mau: maMauSchema.optional(),
+        doDam: z.number().min(0).max(1).optional(),
+        raSauChu: z.boolean().optional(),
+        an: z.boolean().optional(),
+      }),
+    )
+    .optional(),
 })
 
 export const chiTietTrangTriSchema = z.object({
@@ -67,6 +90,7 @@ export const chiTietTrangTriSchema = z.object({
   mau: z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Màu phải ở dạng #RRGGBB'),
   doDam: z.number().min(0).max(1),
   kichThuoc: z.number().min(5).max(100),
+  gocXoay: z.number().min(-180).max(180).optional(),
   raSauChu: z.boolean().optional(),
 })
 
@@ -99,6 +123,7 @@ export const cauHinhRsvpSchema = z.object({
 export const invitationSchema: z.ZodType<Invitation> = z.object({
   slug: z.string().min(1),
   themeId: z.string().min(1),
+  kieuKhungQr: kieuKhungQrSchema.optional(),
   sections: z.array(sectionRefSchema),
   chuRe: nguoiCuoiSchema,
   coDau: nguoiCuoiSchema,
@@ -107,7 +132,14 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'Ngày đầu phải theo dạng YYYY-MM-DD')
     .optional(),
-  nhac: z.object({ url: z.string().min(1), ten: z.string() }).optional(),
+  nhac: z
+    .object({
+      url: z.string().min(1),
+      ten: z.string(),
+      batDau: z.number().finite().nonnegative().optional(),
+      thoiLuong: z.union([z.literal(30), z.literal(60)]).optional(),
+    })
+    .optional(),
   chuyenChungMinh: z.array(
     z.object({ anh: anhSchema, tieuDe: z.string(), noiDung: z.string() }),
   ),
@@ -130,6 +162,7 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
       soTaiKhoan: z.string(),
       nganHang: z.string(),
       qrAnh: anhSchema.optional(),
+      tuyChinhQr: tuyChinhQrSchema.optional(),
     }),
   ),
   tuyChinhGiaoDien: tuyChinhGiaoDienSchema.optional(),

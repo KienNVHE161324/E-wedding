@@ -40,6 +40,13 @@ describe('taoThiepMoi', () => {
     expect(() => invitationSchema.parse(taoThiepMoi(tt))).not.toThrow()
   })
 
+  it('giữ kiểu QR được chọn khi tạo', () => {
+    expect(taoThiepMoi({ ...tt, kieuKhungQr: 'phong-bao' }).kieuKhungQr).toBe(
+      'phong-bao',
+    )
+    expect(taoThiepMoi(tt).kieuKhungQr).toBeUndefined()
+  })
+
   it('điền đúng thông tin tối thiểu', () => {
     const thiep = taoThiepMoi(tt)
     expect(thiep.slug).toBe('nam-linh')

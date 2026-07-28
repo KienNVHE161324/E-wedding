@@ -31,6 +31,11 @@ export const macDinh: Theme = {
     watermark: 0.08,
     seal: 0.6,
   },
+  qr: {
+    kieuKhung: 'hoa-mem',
+    mauQr: '#8B2F20',
+    mauNen: '#FFF8EF',
+  },
   thuTuSection: [
     { id: 'bia' },
     { id: 'dem-nguoc' },

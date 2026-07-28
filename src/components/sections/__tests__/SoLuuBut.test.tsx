@@ -32,16 +32,34 @@ beforeEach(() => {
 })
 
 async function vietLoiChuc() {
+  await userEvent.click(screen.getByRole('button', { name: 'Gửi lời chúc' }))
   await userEvent.type(screen.getByLabelText('Tên của bạn'), 'Lê Văn Toàn')
   await userEvent.type(screen.getByLabelText('Lời chúc'), 'Chúc trăm năm hạnh phúc')
-  await userEvent.click(screen.getByRole('button', { name: 'Gửi lời chúc' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Gửi lời chúc ngay' }))
 }
 
 describe('Sổ lưu bút', () => {
-  it('có ô viết riêng, không cần điền form xác nhận', () => {
+  it('mặc định chỉ hiện lịch sử và nút mở popup', () => {
+    ve([lc('1', 'Nguyễn A', 'Chúc mừng hạnh phúc')])
+    expect(screen.queryByLabelText('Tên của bạn')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Gửi lời chúc' })).toBeInTheDocument()
+    expect(screen.getByTestId('lich-su-loi-chuc')).toHaveClass('overflow-y-auto')
+  })
+
+  it('mở popup và đóng bằng phím Escape', async () => {
     ve()
+    await userEvent.click(screen.getByRole('button', { name: 'Gửi lời chúc' }))
+    expect(screen.getByRole('dialog', { name: 'Gửi lời chúc' })).toBeInTheDocument()
     expect(screen.getByLabelText('Tên của bạn')).toBeInTheDocument()
-    expect(screen.getByLabelText('Lời chúc')).toBeInTheDocument()
+    await userEvent.keyboard('{Escape}')
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  })
+
+  it('đóng popup bằng nút đóng', async () => {
+    ve()
+    await userEvent.click(screen.getByRole('button', { name: 'Gửi lời chúc' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Đóng' }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('hiện các lời chúc đã có', () => {
@@ -79,6 +97,7 @@ describe('Sổ lưu bút', () => {
     ve()
     await vietLoiChuc()
     expect(await screen.findByText(/Cảm ơn lời chúc/)).toBeInTheDocument()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('báo lỗi thân thiện khi thiệp đã đóng', async () => {

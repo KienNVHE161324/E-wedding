@@ -21,6 +21,7 @@ import { OLichTrinh } from './OLichTrinh'
 import { OCauHinh } from './OCauHinh'
 import { ORsvp } from './ORsvp'
 import { TEN_SECTION } from './SapXepSection'
+import { TuyChinhHoaTietTheme } from './TuyChinhHoaTietTheme'
 
 /** Các vị trí họa tiết đủ dễ hiểu để người không rành thiết kế vẫn chỉnh được. */
 const SLOT_HIEN_THI: { slot: SlotHoaTiet; nhan: string }[] = [
@@ -55,6 +56,19 @@ export function BangSua({
       tuyChinhGiaoDien: {
         ...t.tuyChinhGiaoDien,
         doDam: { ...t.tuyChinhGiaoDien?.doDam, [slot]: v },
+      },
+    }))
+  }
+
+  function suaHoaTietTheme(
+    slot: 'watermark' | 'corner',
+    v: NonNullable<NonNullable<Invitation['tuyChinhGiaoDien']>['hoaTiet']>['watermark'],
+  ) {
+    setThiep((t) => ({
+      ...t,
+      tuyChinhGiaoDien: {
+        ...t.tuyChinhGiaoDien,
+        hoaTiet: { ...t.tuyChinhGiaoDien?.hoaTiet, [slot]: v },
       },
     }))
   }
@@ -189,6 +203,8 @@ export function BangSua({
             <OMungCuoi
               giaTri={thiep.mungCuoi}
               slug={thiep.slug}
+              themeQr={theme.qr}
+              kieuKhungThiep={thiep.kieuKhungQr}
               onDoi={(v) => sua('mungCuoi', v)}
             />
           </div>
@@ -267,9 +283,38 @@ export function BangSua({
         </section>
 
         <section>
+          <h3 className="font-semibold">Họa tiết mặc định trên bìa</h3>
+          <p className="mb-3 text-sm text-neutral-500">
+            Chỉnh chữ Hỷ và họa tiết góc; thiệp cũ vẫn dùng vị trí mặc định nếu chưa thay đổi.
+          </p>
+          <div className="space-y-3">
+            <TuyChinhHoaTietTheme
+              slot="watermark"
+              nhan="Họa tiết nền"
+              theme={theme}
+              giaTri={thiep.tuyChinhGiaoDien?.hoaTiet?.watermark}
+              doDamMacDinh={
+                thiep.tuyChinhGiaoDien?.doDam?.watermark ?? theme.doDam.watermark
+              }
+              onDoi={(v) => suaHoaTietTheme('watermark', v)}
+            />
+            <TuyChinhHoaTietTheme
+              slot="corner"
+              nhan="Góc trang trí"
+              theme={theme}
+              giaTri={thiep.tuyChinhGiaoDien?.hoaTiet?.corner}
+              doDamMacDinh={thiep.tuyChinhGiaoDien?.doDam?.corner ?? theme.doDam.corner}
+              onDoi={(v) => suaHoaTietTheme('corner', v)}
+            />
+          </div>
+        </section>
+
+        <section>
           <h3 className="font-semibold">Độ đậm nhạt họa tiết của giao diện</h3>
           <div className="mt-2 space-y-3">
-            {SLOT_HIEN_THI.map(({ slot, nhan }) => (
+            {SLOT_HIEN_THI.filter(
+              ({ slot }) => slot !== 'watermark' && slot !== 'corner',
+            ).map(({ slot, nhan }) => (
               <ThanhDoDam
                 key={slot}
                 nhan={nhan}

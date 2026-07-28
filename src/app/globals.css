@@ -58,6 +58,27 @@ textarea:focus {
   outline: none;
 }
 
+.scroll-loi-chuc {
+  scrollbar-color: var(--mau-phu) color-mix(in srgb, var(--mau-phu) 12%, transparent);
+  scrollbar-width: thin;
+}
+
+.scroll-loi-chuc::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-loi-chuc::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--mau-phu) 12%, transparent);
+}
+
+.scroll-loi-chuc::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--mau-phu);
+  background-clip: padding-box;
+}
+
 /* Chặn cuộn trang cho tới khi khách bấm "Mở thiệp". */
 body.khoa-cuon {
   overflow: hidden;

@@ -56,6 +56,13 @@ describe('Lịch trình đám cưới', () => {
     expect(screen.getByText(/THỨ BẢY/)).toBeInTheDocument()
   })
 
+  it('hiện lịch trình dạng mục lục một trục có node', () => {
+    const { container } = ve(thiepMau.suKien)
+    expect(screen.getAllByTestId('timeline-truc')).toHaveLength(2)
+    expect(screen.getAllByTestId('timeline-node')).toHaveLength(thiepMau.suKien.length)
+    expect(container.querySelector('svg')).toBeNull()
+  })
+
   it('có nút thêm từng mốc vào lịch', () => {
     ve(thiepMau.suKien)
     const nut = screen.getAllByRole('link', { name: 'Thêm vào lịch của tôi' })

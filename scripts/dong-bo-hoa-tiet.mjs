@@ -27,6 +27,7 @@ const NHOM = [
   { duongDan: 'primary-decor/florals', ten: 'Hoa' },
   { duongDan: 'primary-decor/architecture', ten: 'Kiến trúc' },
   { duongDan: 'primary-decor/attire-accessories', ten: 'Trang phục và phụ kiện' },
+  { duongDan: 'primary-decor/wedding-ritual', ten: 'Nghi lễ cưới' },
   { duongDan: 'primary-decor/nature', ten: 'Thiên nhiên' },
   { duongDan: 'primary-decor/symbols', ten: 'Biểu tượng' },
   { duongDan: 'people/bride-groom/primary-decor', ten: 'Cô dâu chú rể' },

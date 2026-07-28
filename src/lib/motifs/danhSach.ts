@@ -308,6 +308,132 @@ export const DANH_SACH_HOA_TIET: MucHoaTiet[] = [
     "nhan": "quat giay nghieng 01"
   },
   {
+    "id": "primary-decor/wedding-ritual/banh-phu-the-cap-chong-01",
+    "tep": "primary-decor/wedding-ritual/banh-phu-the-cap-chong-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "banh phu the cap chong 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/banh-phu-the-cap-chong-02",
+    "tep": "primary-decor/wedding-ritual/banh-phu-the-cap-chong-02.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "banh phu the cap chong 02"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/banh-phu-the-cap-chong-03",
+    "tep": "primary-decor/wedding-ritual/banh-phu-the-cap-chong-03.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "banh phu the cap chong 03"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/banh-phu-the-cap-chong-04",
+    "tep": "primary-decor/wedding-ritual/banh-phu-the-cap-chong-04.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "banh phu the cap chong 04"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/banh-phu-the-dinh-bang-05",
+    "tep": "primary-decor/wedding-ritual/banh-phu-the-dinh-bang-05.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "banh phu the dinh bang 05"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/bo-am-tra-cuoi-01",
+    "tep": "primary-decor/wedding-ritual/bo-am-tra-cuoi-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "bo am tra cuoi 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/bo-am-tra-cuoi-02",
+    "tep": "primary-decor/wedding-ritual/bo-am-tra-cuoi-02.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "bo am tra cuoi 02"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-quat-giay-day-do-01",
+    "tep": "primary-decor/wedding-ritual/cap-quat-giay-day-do-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap quat giay day do 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/hai-chen-tra-chu-hy-01",
+    "tep": "primary-decor/wedding-ritual/hai-chen-tra-chu-hy-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "hai chen tra chu hy 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/khay-banh-phu-the-tron-01",
+    "tep": "primary-decor/wedding-ritual/khay-banh-phu-the-tron-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "khay banh phu the tron 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/khay-banh-phu-the-tron-day-02",
+    "tep": "primary-decor/wedding-ritual/khay-banh-phu-the-tron-day-02.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "khay banh phu the tron day 02"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/mam-qua-phu-khan-01",
+    "tep": "primary-decor/wedding-ritual/mam-qua-phu-khan-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "mam qua phu khan 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/mam-qua-phu-khan-02",
+    "tep": "primary-decor/wedding-ritual/mam-qua-phu-khan-02.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "mam qua phu khan 02"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/nen-long-phung-01",
+    "tep": "primary-decor/wedding-ritual/nen-long-phung-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "nen long phung 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/non-quai-thao-chu-hy-01",
+    "tep": "primary-decor/wedding-ritual/non-quai-thao-chu-hy-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "non quai thao chu hy 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/non-quai-thao-day-do-01",
+    "tep": "primary-decor/wedding-ritual/non-quai-thao-day-do-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "non quai thao day do 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/non-quai-thao-trau-cau-01",
+    "tep": "primary-decor/wedding-ritual/non-quai-thao-trau-cau-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "non quai thao trau cau 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/quat-giay-chu-hy-01",
+    "tep": "primary-decor/wedding-ritual/quat-giay-chu-hy-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "quat giay chu hy 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/quat-giay-do-chu-hy-vang-01",
+    "tep": "primary-decor/wedding-ritual/quat-giay-do-chu-hy-vang-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "quat giay do chu hy vang 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/quat-giay-doi-chen-tra-01",
+    "tep": "primary-decor/wedding-ritual/quat-giay-doi-chen-tra-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "quat giay doi chen tra 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/trap-an-hoi-tron-01",
+    "tep": "primary-decor/wedding-ritual/trap-an-hoi-tron-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "trap an hoi tron 01"
+  },
+  {
     "id": "primary-decor/nature/song-nuoc-may-troi-01",
     "tep": "primary-decor/nature/song-nuoc-may-troi-01.png",
     "nhom": "Thiên nhiên",

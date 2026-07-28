@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LopTrangTri } from '../LopTrangTri'
 import { InvitationRenderer } from '../InvitationRenderer'
@@ -7,6 +7,8 @@ import { thiepMau } from '@/lib/invitation/mau'
 import { layTheme } from '@/lib/themes'
 import { DANH_SACH_HOA_TIET } from '@/lib/motifs/danhSach'
 import type { ChiTietTrangTri } from '@/lib/invitation/types'
+import { ChonChiTiet } from '@/components/admin/ChonChiTiet'
+import { TuyChinhHoaTietTheme } from '@/components/admin/TuyChinhHoaTietTheme'
 
 const theme = layTheme('mac-dinh')
 
@@ -27,12 +29,67 @@ const chiTiet = (ghiDe: Partial<ChiTietTrangTri> = {}): ChiTietTrangTri => ({
 })
 
 describe('LopTrangTri', () => {
+  it('cho phép chọn chi tiết nghi lễ cưới từ Image_collections', async () => {
+    render(<ChonChiTiet giaTri={[]} section="bia" onDoi={() => {}} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Thêm chi tiết' }))
+    await userEvent.selectOptions(screen.getByLabelText('Nhóm chi tiết'), 'Nghi lễ cưới')
+
+    expect(
+      screen.getByRole('button', { name: 'Thêm banh phu the cap chong 01' }),
+    ).toBeInTheDocument()
+  })
+
+  it('chi tiết mới mặc định nằm sau chữ', async () => {
+    const onDoi = vi.fn()
+    render(<ChonChiTiet giaTri={[]} section="bia" onDoi={onDoi} />)
+
+    await userEvent.click(screen.getByRole('button', { name: 'Thêm chi tiết' }))
+    const cacNutThem = screen.getAllByRole('button', { name: /^Thêm / })
+    await userEvent.click(cacNutThem[0])
+
+    expect(onDoi).toHaveBeenCalledWith([
+      expect.objectContaining({ section: 'bia', raSauChu: true }),
+    ])
+  })
+
+  it('cho xoay chi tiết tự do mà không làm mất cấu hình khác', () => {
+    const onDoi = vi.fn()
+    const banDau = chiTiet({ gocXoay: 10 })
+    render(<ChonChiTiet giaTri={[banDau]} section="bia" onDoi={onDoi} />)
+
+    fireEvent.change(screen.getByLabelText(`Góc xoay của ${MUC.nhan}`), {
+      target: { value: '35' },
+    })
+
+    expect(onDoi).toHaveBeenCalledWith([{ ...banDau, gocXoay: 35 }])
+  })
+
+  it('editor theme cập nhật góc xoay và giữ các override còn lại', () => {
+    const onDoi = vi.fn()
+    render(
+      <TuyChinhHoaTietTheme
+        slot="watermark"
+        nhan="Họa tiết nền"
+        theme={theme}
+        giaTri={{ x: 45, mau: '#123456', gocXoay: 10 }}
+        onDoi={onDoi}
+      />,
+    )
+
+    fireEvent.change(screen.getByLabelText('Góc xoay của Họa tiết nền'), {
+      target: { value: '35' },
+    })
+
+    expect(onDoi).toHaveBeenCalledWith({ x: 45, mau: '#123456', gocXoay: 35 })
+  })
+
   it('vẽ chi tiết với đúng màu, độ đậm và kích thước đã chọn', () => {
-    const { container } = render(<LopTrangTri chiTiet={[chiTiet()]} />)
+    const { container } = render(<LopTrangTri chiTiet={[chiTiet({ gocXoay: 45 })]} />)
     const el = container.firstElementChild as HTMLElement
     expect(el.style.backgroundColor).toBe('rgb(139, 47, 32)')
     expect(el.style.opacity).toBe('0.8')
     expect(el.style.width).toBe('25%')
+    expect(el.style.transform).toBe('translate(-50%, -50%) rotate(45deg)')
     expect(el.style.maskImage).toContain(MUC.tep)
   })
 

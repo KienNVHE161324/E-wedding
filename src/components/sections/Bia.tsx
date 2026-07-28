@@ -1,5 +1,5 @@
 import type { SectionProps } from './types'
-import { HoaTietTheme } from '@/components/HoaTiet'
+import { HoaTietThemeTuyChinh, MAC_DINH_HOA_TIET_BIA } from '@/components/HoaTiet'
 
 // Khung tối thiểu để nền tảng chạy được.
 // Session thiết kế thay toàn bộ phần bên trong <section>, giữ nguyên
@@ -10,30 +10,42 @@ export function Bia({ thiep, theme, onMoThiep }: SectionProps) {
       data-section="bia"
       className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center"
     >
-      <HoaTietTheme theme={theme} slot="watermark" className="absolute inset-0 m-auto block h-2/3 w-2/3" />
+      <HoaTietThemeTuyChinh
+        theme={theme}
+        slot="watermark"
+        macDinh={MAC_DINH_HOA_TIET_BIA.watermark}
+        tuyChinh={thiep.tuyChinhGiaoDien?.hoaTiet?.watermark}
+      />
 
-      <p className="text-sm tracking-[0.3em]" style={{ color: 'var(--mau-phu)' }}>
-        THÂN MỜI
-      </p>
-      <h1
-        className="mt-6 text-4xl leading-tight md:text-6xl"
-        style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
-      >
-        {thiep.chuRe.ten}
-        <span className="my-3 block text-2xl md:text-3xl">&amp;</span>
-        {thiep.coDau.ten}
-      </h1>
+      <div className="relative z-10 flex flex-col items-center">
+        <p className="text-sm tracking-[0.3em]" style={{ color: 'var(--mau-phu)' }}>
+          THÂN MỜI
+        </p>
+        <h1
+          className="mt-6 text-4xl leading-tight md:text-6xl"
+          style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
+        >
+          {thiep.chuRe.ten}
+          <span className="my-3 block text-2xl md:text-3xl">&amp;</span>
+          {thiep.coDau.ten}
+        </h1>
 
-      <button
-        type="button"
-        onClick={onMoThiep}
-        className="mt-10 rounded-full px-8 py-3 text-white"
-        style={{ backgroundColor: 'var(--mau-chinh)' }}
-      >
-        Mở thiệp
-      </button>
+        <button
+          type="button"
+          onClick={onMoThiep}
+          className="mt-10 rounded-full px-8 py-3 text-white"
+          style={{ backgroundColor: 'var(--mau-chinh)' }}
+        >
+          Mở thiệp
+        </button>
+      </div>
 
-      <HoaTietTheme theme={theme} slot="corner" className="absolute bottom-4 block h-16 w-16" />
+      <HoaTietThemeTuyChinh
+        theme={theme}
+        slot="corner"
+        macDinh={MAC_DINH_HOA_TIET_BIA.corner}
+        tuyChinh={thiep.tuyChinhGiaoDien?.hoaTiet?.corner}
+      />
     </section>
   )
 }
