@@ -14,6 +14,8 @@ export function SuKien({ thiep }: SectionProps) {
   const moc = sapXepLichTrinh(thiep.suKien)
   if (moc.length === 0) return null
 
+  const theoNgay = Map.groupBy(moc, (suKien) => suKien.ngay)
+
   return (
     <section data-section="su-kien" className="px-6 py-16">
       <h2
@@ -23,38 +25,49 @@ export function SuKien({ thiep }: SectionProps) {
         Lịch trình đám cưới
       </h2>
 
-      {/*
-        Dòng thời gian dạng dây leo: mốc lẻ nghiêng về trái, mốc chẵn nghiêng về phải,
-        nối nhau bằng những đoạn cong đổi chiều — mắt đi theo như leo một sợi dây.
-      */}
-      <ol className="mt-10">
-        {moc.map((sk, i) => {
-          const sangNgayMoi = i === 0 || moc[i - 1].ngay !== sk.ngay
-          const cuoiCung = i === moc.length - 1
-          const beTrai = i % 2 === 0
+      <div className="mx-auto mt-10 max-w-lg space-y-10">
+        {Array.from(theoNgay, ([ngay, suKienTrongNgay]) => (
+          <div key={ngay}>
+            <p
+              className="mb-6 text-sm tracking-widest"
+              style={{ color: 'var(--mau-phu)' }}
+            >
+              {nhanNgay(ngay).toUpperCase()}
+            </p>
 
-          return (
-            <li key={`${sk.ngay}-${sk.gio}-${i}`}>
-              {sangNgayMoi && (
-                <p
-                  className="mb-4 text-center text-sm tracking-widest"
-                  style={{ color: 'var(--mau-phu)' }}
+            <ol
+              data-testid="timeline-truc"
+              className="relative ml-2 border-l"
+              style={{ borderColor: 'color-mix(in srgb, var(--mau-phu) 45%, transparent)' }}
+            >
+              {suKienTrongNgay.map((sk, i) => (
+                <li
+                  key={`${sk.ngay}-${sk.gio}-${i}`}
+                  className="relative pb-9 pl-8 last:pb-0"
                 >
-                  {nhanNgay(sk.ngay).toUpperCase()}
-                </p>
-              )}
+                  <span
+                    data-testid="timeline-node"
+                    aria-hidden="true"
+                    className="absolute -left-2 top-1 h-4 w-4 rounded-full border-4"
+                    style={{
+                      backgroundColor: 'var(--mau-chinh)',
+                      borderColor: 'var(--mau-nen)',
+                      boxShadow: '0 0 0 1px var(--mau-chinh)',
+                    }}
+                  />
 
-              <div className={beTrai ? 'text-left' : 'text-right'}>
-                <div
-                  className={`inline-block max-w-[85%] ${beTrai ? 'pr-2' : 'pl-2'}`}
-                >
-                  <p className="text-lg" style={{ color: 'var(--mau-chinh)' }}>
-                    <span className="tabular-nums">{sk.gio}</span>
-                    <span className="mx-2" aria-hidden="true">
-                      ·
-                    </span>
-                    {sk.ten}
+                  <p
+                    className="text-sm font-medium tracking-wider tabular-nums"
+                    style={{ color: 'var(--mau-phu)' }}
+                  >
+                    {sk.gio}
                   </p>
+                  <h3
+                    className="mt-1 text-xl"
+                    style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
+                  >
+                    {sk.ten}
+                  </h3>
 
                   {sk.diaDiem && <p className="mt-1 font-medium">{sk.diaDiem}</p>}
 
@@ -75,35 +88,15 @@ export function SuKien({ thiep }: SectionProps) {
                       width={800}
                       height={500}
                       sizes="(max-width: 768px) 80vw, 480px"
-                      className="mt-3 w-full rounded-lg"
+                      className="mt-4 w-full rounded-xl"
                     />
                   )}
-
-                </div>
-              </div>
-
-              {/* Đoạn dây uốn sang phía đối diện, dẫn mắt tới mốc kế tiếp. */}
-              {!cuoiCung && (
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 100 40"
-                  preserveAspectRatio="none"
-                  className="my-2 h-10 w-full"
-                >
-                  <path
-                    d={beTrai ? 'M 14 0 C 14 28, 86 12, 86 40' : 'M 86 0 C 86 28, 14 12, 14 40'}
-                    fill="none"
-                    stroke="var(--mau-phu)"
-                    strokeWidth="1"
-                    strokeLinecap="round"
-                    opacity="0.5"
-                  />
-                </svg>
-              )}
-            </li>
-          )
-        })}
-      </ol>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
     </section>
   )
 }
