@@ -51,7 +51,7 @@ def main() -> None:
     parser.add_argument("output_root", type=Path)
     parser.add_argument(
         "--batch",
-        choices=("F01-F12", "F13-F24", "SB01-SB12", "WF01-WF12"),
+        choices=("F01-F12", "F13-F24", "SB01-SB12", "WF01-WF12", "HD01-HD12"),
         default="F01-F12",
     )
     args = parser.parse_args()
@@ -102,7 +102,7 @@ def main() -> None:
             ("small-bouquets/SB11-camellia-carnation.png", 2, 2),
             ("small-bouquets/SB12-lotus-areca.png", 3, 2),
         ]
-    else:
+    elif args.batch == "WF01-WF12":
         assets = [
             ("single-flowers/WF01-lotus-front.png", 0, 0),
             ("single-flowers/WF02-lotus-side.png", 1, 0),
@@ -116,6 +116,21 @@ def main() -> None:
             ("single-flowers/WF10-magnolia.png", 1, 2),
             ("single-flowers/WF11-vertical-flower-stem.png", 2, 2),
             ("single-flowers/WF12-leaf-bud-filler.png", 3, 2),
+        ]
+    else:
+        assets = [
+            ("horizontal-dividers/HD01-lotus-divider.png", 0, 0),
+            ("horizontal-dividers/HD02-peony-divider.png", 1, 0),
+            ("horizontal-dividers/HD03-orchid-divider.png", 2, 0),
+            ("horizontal-dividers/HD04-chrysanthemum-divider.png", 3, 0),
+            ("horizontal-dividers/HD05-rose-divider.png", 0, 1),
+            ("horizontal-dividers/HD06-hydrangea-divider.png", 1, 1),
+            ("horizontal-dividers/HD07-calla-divider.png", 2, 1),
+            ("horizontal-dividers/HD08-freesia-divider.png", 3, 1),
+            ("horizontal-dividers/HD09-magnolia-divider.png", 0, 2),
+            ("horizontal-dividers/HD10-plum-blossom-divider.png", 1, 2),
+            ("horizontal-dividers/HD11-camellia-divider.png", 2, 2),
+            ("horizontal-dividers/HD12-babys-breath-divider.png", 3, 2),
         ]
 
     for filename, column, row in assets:
