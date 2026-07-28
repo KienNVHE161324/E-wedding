@@ -1,5 +1,5 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { InvitationRenderer } from '../InvitationRenderer'
 import { thiepMau } from '@/lib/invitation/mau'
@@ -49,5 +49,27 @@ describe('InvitationRenderer — mở thiệp', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Mở thiệp' }))
     expect(play).toHaveBeenCalledOnce()
     expect(screen.getByRole('button', { name: 'Tắt nhạc' })).toBeInTheDocument()
+  })
+
+  it('bắt đầu và lặp lại đúng đoạn nhạc đã chọn', async () => {
+    const thiep = {
+      ...thiepMau,
+      nhac: { ...thiepMau.nhac!, batDau: 80, thoiLuong: 30 as const },
+    }
+    const { container } = render(<InvitationRenderer thiep={thiep} theme={theme} />)
+    const audio = container.querySelector('audio')!
+    Object.defineProperty(audio, 'duration', { configurable: true, value: 200 })
+
+    await userEvent.click(screen.getByRole('button', { name: 'Mở thiệp' }))
+    expect(audio.currentTime).toBe(80)
+
+    audio.currentTime = 110
+    fireEvent.timeUpdate(audio)
+    expect(audio.currentTime).toBe(80)
+  })
+
+  it('giữ cơ chế loop gốc khi phát cả bài', () => {
+    const { container } = render(<InvitationRenderer thiep={thiepMau} theme={theme} />)
+    expect(container.querySelector('audio')).toHaveAttribute('loop')
   })
 })
