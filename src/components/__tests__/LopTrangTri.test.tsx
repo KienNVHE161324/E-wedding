@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LopTrangTri } from '../LopTrangTri'
 import { InvitationRenderer } from '../InvitationRenderer'
@@ -8,6 +8,7 @@ import { layTheme } from '@/lib/themes'
 import { DANH_SACH_HOA_TIET } from '@/lib/motifs/danhSach'
 import type { ChiTietTrangTri } from '@/lib/invitation/types'
 import { ChonChiTiet } from '@/components/admin/ChonChiTiet'
+import { TuyChinhHoaTietTheme } from '@/components/admin/TuyChinhHoaTietTheme'
 
 const theme = layTheme('mac-dinh')
 
@@ -49,6 +50,37 @@ describe('LopTrangTri', () => {
     expect(onDoi).toHaveBeenCalledWith([
       expect.objectContaining({ section: 'bia', raSauChu: true }),
     ])
+  })
+
+  it('cho xoay chi tiết tự do mà không làm mất cấu hình khác', () => {
+    const onDoi = vi.fn()
+    const banDau = chiTiet({ gocXoay: 10 })
+    render(<ChonChiTiet giaTri={[banDau]} section="bia" onDoi={onDoi} />)
+
+    fireEvent.change(screen.getByLabelText(`Góc xoay của ${MUC.nhan}`), {
+      target: { value: '35' },
+    })
+
+    expect(onDoi).toHaveBeenCalledWith([{ ...banDau, gocXoay: 35 }])
+  })
+
+  it('editor theme cập nhật góc xoay và giữ các override còn lại', () => {
+    const onDoi = vi.fn()
+    render(
+      <TuyChinhHoaTietTheme
+        slot="watermark"
+        nhan="Họa tiết nền"
+        theme={theme}
+        giaTri={{ x: 45, mau: '#123456', gocXoay: 10 }}
+        onDoi={onDoi}
+      />,
+    )
+
+    fireEvent.change(screen.getByLabelText('Góc xoay của Họa tiết nền'), {
+      target: { value: '35' },
+    })
+
+    expect(onDoi).toHaveBeenCalledWith({ x: 45, mau: '#123456', gocXoay: 35 })
   })
 
   it('vẽ chi tiết với đúng màu, độ đậm và kích thước đã chọn', () => {

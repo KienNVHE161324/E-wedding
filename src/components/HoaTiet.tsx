@@ -90,6 +90,11 @@ export interface ViTriHoaTietTheme {
   raSauChu: boolean
 }
 
+export const MAC_DINH_HOA_TIET_BIA: Record<'watermark' | 'corner', ViTriHoaTietTheme> = {
+  watermark: { x: 50, y: 50, kichThuoc: 66, gocXoay: 0, raSauChu: true },
+  corner: { x: 50, y: 94, kichThuoc: 14, gocXoay: 0, raSauChu: true },
+}
+
 /** Họa tiết mặc định của theme nhưng có thể ghi đè đầy đủ cho từng thiệp. */
 export function HoaTietThemeTuyChinh({
   theme,

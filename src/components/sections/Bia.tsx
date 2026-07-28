@@ -1,10 +1,5 @@
 import type { SectionProps } from './types'
-import { HoaTietThemeTuyChinh, type ViTriHoaTietTheme } from '@/components/HoaTiet'
-
-const VI_TRI_HOA_TIET: Record<'watermark' | 'corner', ViTriHoaTietTheme> = {
-  watermark: { x: 50, y: 50, kichThuoc: 66, gocXoay: 0, raSauChu: true },
-  corner: { x: 50, y: 94, kichThuoc: 14, gocXoay: 0, raSauChu: true },
-}
+import { HoaTietThemeTuyChinh, MAC_DINH_HOA_TIET_BIA } from '@/components/HoaTiet'
 
 // Khung tối thiểu để nền tảng chạy được.
 // Session thiết kế thay toàn bộ phần bên trong <section>, giữ nguyên
@@ -18,7 +13,7 @@ export function Bia({ thiep, theme, onMoThiep }: SectionProps) {
       <HoaTietThemeTuyChinh
         theme={theme}
         slot="watermark"
-        macDinh={VI_TRI_HOA_TIET.watermark}
+        macDinh={MAC_DINH_HOA_TIET_BIA.watermark}
         tuyChinh={thiep.tuyChinhGiaoDien?.hoaTiet?.watermark}
       />
 
@@ -48,7 +43,7 @@ export function Bia({ thiep, theme, onMoThiep }: SectionProps) {
       <HoaTietThemeTuyChinh
         theme={theme}
         slot="corner"
-        macDinh={VI_TRI_HOA_TIET.corner}
+        macDinh={MAC_DINH_HOA_TIET_BIA.corner}
         tuyChinh={thiep.tuyChinhGiaoDien?.hoaTiet?.corner}
       />
     </section>
