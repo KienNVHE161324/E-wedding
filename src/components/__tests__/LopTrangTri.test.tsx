@@ -28,6 +28,16 @@ const chiTiet = (ghiDe: Partial<ChiTietTrangTri> = {}): ChiTietTrangTri => ({
 })
 
 describe('LopTrangTri', () => {
+  it('cho phép chọn chi tiết nghi lễ cưới từ Image_collections', async () => {
+    render(<ChonChiTiet giaTri={[]} section="bia" onDoi={() => {}} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Thêm chi tiết' }))
+    await userEvent.selectOptions(screen.getByLabelText('Nhóm chi tiết'), 'Nghi lễ cưới')
+
+    expect(
+      screen.getByRole('button', { name: 'Thêm banh phu the cap chong 01' }),
+    ).toBeInTheDocument()
+  })
+
   it('chi tiết mới mặc định nằm sau chữ', async () => {
     const onDoi = vi.fn()
     render(<ChonChiTiet giaTri={[]} section="bia" onDoi={onDoi} />)
