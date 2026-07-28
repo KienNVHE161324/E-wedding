@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { MungCuoi } from '../MungCuoi'
 import { thiepMau } from '@/lib/invitation/mau'
 import { layTheme } from '@/lib/themes'
+import styles from '../MungCuoi.module.css'
 
 const theme = layTheme('mac-dinh')
 
@@ -80,6 +81,16 @@ describe('Mừng cưới — kiểu hộp quà', () => {
 
     expect(writeText).toHaveBeenCalledWith('9876543210')
     expect(screen.getByRole('button', { name: 'Đã sao chép' })).toBeInTheDocument()
+  })
+
+  it('căn riêng ngân hàng và số tài khoản vào giữa, không thêm nhãn', async () => {
+    ve(true)
+    await userEvent.click(screen.getByRole('button', { name: 'Mở phong bao Nhà trai' }))
+
+    expect(screen.getByText('Vietcombank')).toHaveClass(styles.dongNganHang)
+    expect(screen.getByText('0123456789')).toHaveClass(styles.giaTriSoTaiKhoan)
+    expect(screen.queryByText(/^Ngân hàng:/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/^STK:/)).not.toBeInTheDocument()
   })
 
   it('đóng popup bằng nút đóng', async () => {

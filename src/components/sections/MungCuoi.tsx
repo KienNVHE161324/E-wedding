@@ -70,12 +70,14 @@ function ThongTin({ o, kieuGon = false }: { o: OMungCuoi; kieuGon?: boolean }) {
         </div>
       )}
       <p className="mt-3 text-sm font-medium">{o.chuTaiKhoan}</p>
-      <p className="text-sm" style={{ color: 'var(--mau-phu)' }}>
+      <p className={`${styles.dongNganHang} text-sm`} style={{ color: 'var(--mau-phu)' }}>
         {o.nganHang}
       </p>
       {kieuGon ? (
         <div className={styles.hangSoTaiKhoan}>
-          <span className="text-sm tracking-wider">{o.soTaiKhoan}</span>
+          <span className={`${styles.giaTriSoTaiKhoan} text-sm tracking-wider`}>
+            {o.soTaiKhoan}
+          </span>
           <button
             type="button"
             onClick={saoChep}

@@ -152,15 +152,28 @@
 }
 
 .hangSoTaiKhoan {
-  display: flex;
+  position: relative;
+  display: block;
+  width: fit-content;
   min-height: 2.25rem;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
   margin-top: 0.2rem;
+  margin-inline: auto;
+  padding-block: 0.45rem;
+}
+
+.dongNganHang,
+.giaTriSoTaiKhoan {
+  text-align: center;
+}
+
+.giaTriSoTaiKhoan {
+  display: block;
 }
 
 .nutIcon {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 0.25rem);
   display: grid;
   width: 2rem;
   aspect-ratio: 1;
@@ -168,6 +181,7 @@
   border-radius: 999px;
   color: var(--mau-phu);
   cursor: pointer;
+  transform: translateY(-50%);
   transition:
     color 180ms ease,
     transform 180ms ease,
@@ -180,7 +194,7 @@
 .nutIcon:focus-visible {
   background: color-mix(in srgb, var(--mau-chinh) 12%, var(--mau-nen));
   color: var(--mau-chinh);
-  transform: translateY(-1px) scale(1.06);
+  transform: translateY(-50%) scale(1.06);
 }
 
 .nutDong {
