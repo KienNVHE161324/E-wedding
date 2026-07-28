@@ -1,4 +1,5 @@
 import type { SlotHoaTiet } from '@/lib/themes/types'
+import type { KieuKhungQr, TuyChinhQr } from '@/lib/qr/types'
 
 export type SectionId =
   | 'bia'
@@ -79,6 +80,7 @@ export interface OMungCuoi {
   soTaiKhoan: string
   nganHang: string
   qrAnh?: Anh
+  tuyChinhQr?: TuyChinhQr
 }
 
 /**
@@ -134,6 +136,7 @@ export interface TuyChinhGiaoDien {
 export interface Invitation {
   slug: string
   themeId: string
+  kieuKhungQr?: KieuKhungQr
   /** Ghi đè thứ tự phần của theme. Rỗng nghĩa là dùng thứ tự mặc định của theme. */
   sections: SectionRef[]
   chuRe: NguoiCuoi

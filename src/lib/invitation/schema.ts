@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import type { Invitation } from './types'
+import { KIEU_KHUNG_QR } from '@/lib/qr/types'
 
 const anhSchema = z.object({
   url: z.string().min(1),
@@ -7,6 +8,12 @@ const anhSchema = z.object({
 })
 
 const maMauSchema = z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Màu phải ở dạng #RRGGBB')
+const kieuKhungQrSchema = z.enum(KIEU_KHUNG_QR)
+const tuyChinhQrSchema = z.object({
+  kieuKhung: kieuKhungQrSchema.optional(),
+  mauQr: maMauSchema.optional(),
+  mauNen: maMauSchema.optional(),
+})
 
 const dressCodeSchema = z.object({
   moTa: z.string(),
@@ -116,6 +123,7 @@ export const cauHinhRsvpSchema = z.object({
 export const invitationSchema: z.ZodType<Invitation> = z.object({
   slug: z.string().min(1),
   themeId: z.string().min(1),
+  kieuKhungQr: kieuKhungQrSchema.optional(),
   sections: z.array(sectionRefSchema),
   chuRe: nguoiCuoiSchema,
   coDau: nguoiCuoiSchema,
@@ -147,6 +155,7 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
       soTaiKhoan: z.string(),
       nganHang: z.string(),
       qrAnh: anhSchema.optional(),
+      tuyChinhQr: tuyChinhQrSchema.optional(),
     }),
   ),
   tuyChinhGiaoDien: tuyChinhGiaoDienSchema.optional(),
