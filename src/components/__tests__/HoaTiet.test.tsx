@@ -11,6 +11,7 @@ const theme: Theme = {
   font: { tieuDe: 'serif', noiDung: 'sans-serif' },
   hoaTiet: { watermark: 'primary-decor/symbols/chu-hy-trien-01.png' },
   doDam: { watermark: 0.1 },
+  qr: { kieuKhung: 'hoa-mem', mauQr: '#800000', mauNen: '#ffffff' },
   thuTuSection: [{ id: 'bia' }],
 }
 
