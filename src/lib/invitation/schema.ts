@@ -132,7 +132,14 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'Ngày đầu phải theo dạng YYYY-MM-DD')
     .optional(),
-  nhac: z.object({ url: z.string().min(1), ten: z.string() }).optional(),
+  nhac: z
+    .object({
+      url: z.string().min(1),
+      ten: z.string(),
+      batDau: z.number().finite().nonnegative().optional(),
+      thoiLuong: z.union([z.literal(30), z.literal(60)]).optional(),
+    })
+    .optional(),
   chuyenChungMinh: z.array(
     z.object({ anh: anhSchema, tieuDe: z.string(), noiDung: z.string() }),
   ),

@@ -133,6 +133,15 @@ export interface TuyChinhGiaoDien {
   hoaTiet?: Partial<Record<'watermark' | 'corner', TuyChinhHoaTietTheme>>
 }
 
+export type ThoiLuongDoanNhac = 30 | 60
+
+export type Nhac = {
+  url: string
+  ten: string
+  batDau?: number
+  thoiLuong?: ThoiLuongDoanNhac
+}
+
 export interface Invitation {
   slug: string
   themeId: string
@@ -145,7 +154,7 @@ export interface Invitation {
   ngayCuoi: string
   /** YYYY-MM-DD — ngày đầu của đám cưới hai ngày. */
   ngayPhu?: string
-  nhac?: { url: string; ten: string }
+  nhac?: Nhac
   chuyenChungMinh: ChangChuyen[]
   album: Anh[]
   suKien: SuKien[]

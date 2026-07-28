@@ -139,4 +139,22 @@ describe('invitationSchema', () => {
       }),
     ).toThrow()
   })
+
+  it('chấp nhận cấu hình đoạn nhạc và vẫn nhận dữ liệu nhạc cũ', () => {
+    expect(() => invitationSchema.parse(thiepMau)).not.toThrow()
+    const ketQua = invitationSchema.parse({
+      ...thiepMau,
+      nhac: { ...thiepMau.nhac!, batDau: 80, thoiLuong: 30 },
+    })
+    expect(ketQua.nhac).toMatchObject({ batDau: 80, thoiLuong: 30 })
+  })
+
+  it('từ chối thời lượng đoạn và điểm bắt đầu không hợp lệ', () => {
+    expect(() =>
+      invitationSchema.parse({
+        ...thiepMau,
+        nhac: { ...thiepMau.nhac!, batDau: -1, thoiLuong: 45 },
+      }),
+    ).toThrow()
+  })
 })
