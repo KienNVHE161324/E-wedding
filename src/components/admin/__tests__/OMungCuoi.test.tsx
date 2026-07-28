@@ -29,6 +29,23 @@ function Harness({ onDoi = vi.fn() }: { onDoi?: (v: OMungCuoiData[]) => void }) 
 }
 
 describe('OMungCuoi custom QR', () => {
+  it('chỉ hiện tùy chỉnh cho bên đã có ảnh QR', () => {
+    render(
+      <OMungCuoi
+        giaTri={[
+          thiepMau.mungCuoi[0],
+          { ...thiepMau.mungCuoi[1], qrAnh: undefined },
+        ]}
+        slug="nam-linh"
+        themeQr={themeQr}
+        kieuKhungThiep="hoa-mem"
+        onDoi={vi.fn()}
+      />,
+    )
+    expect(screen.getByLabelText('Kiểu QR Nhà trai')).toBeInTheDocument()
+    expect(screen.queryByLabelText('Kiểu QR Nhà gái')).not.toBeInTheDocument()
+  })
+
   it('đổi preset riêng nhà trai mà không đổi nhà gái', async () => {
     const onDoi = vi.fn()
     render(<Harness onDoi={onDoi} />)
@@ -53,6 +70,8 @@ describe('OMungCuoi custom QR', () => {
     fireEvent.change(mauNen, { target: { value: '#FFFFFF' } })
 
     expect(screen.getByRole('alert')).toHaveTextContent('Độ tương phản')
+    const preview = screen.getAllByTestId('mau-qr-editor')[0]
+    expect(preview).toHaveStyle({ color: '#000000', backgroundColor: '#FFFFFF' })
     await userEvent.click(
       screen.getByRole('button', { name: 'Khôi phục QR Nhà trai theo giao diện' }),
     )

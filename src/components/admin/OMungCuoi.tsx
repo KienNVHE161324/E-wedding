@@ -79,9 +79,10 @@ export function OMungCuoi({
             />
           </div>
 
-          {(() => {
+          {box.qrAnh && (() => {
             const hieuLuc = resolveCauHinhQr(themeQr, kieuKhungThiep, box.tuyChinhQr)
-            const canhBao = mauQrAnToan(hieuLuc).coCanhBao
+            const anToan = mauQrAnToan(hieuLuc)
+            const canhBao = anToan.coCanhBao
             return (
               <div className="mt-3 rounded-lg bg-neutral-50 p-3">
                 <div className="grid grid-cols-[1fr_auto] items-center gap-3">
@@ -141,9 +142,10 @@ export function OMungCuoi({
                     </div>
                   </div>
                   <MauQr
-                    kieu={hieuLuc.kieuKhung}
-                    mauQr={hieuLuc.mauQr}
-                    mauNen={hieuLuc.mauNen}
+                    kieu={anToan.kieuKhung}
+                    mauQr={anToan.mauQr}
+                    mauNen={anToan.mauNen}
+                    testId="mau-qr-editor"
                   />
                 </div>
                 {canhBao && (
