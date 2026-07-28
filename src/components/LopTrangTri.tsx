@@ -29,7 +29,7 @@ export function LopTrangTri({ chiTiet }: { chiTiet: ChiTietTrangTri[] }) {
               position: 'absolute',
               left: `${ct.x}%`,
               top: `${ct.y}%`,
-              transform: 'translate(-50%, -50%)',
+              transform: `translate(-50%, -50%) rotate(${ct.gocXoay ?? 0}deg)`,
               width: `${ct.kichThuoc}%`,
               aspectRatio: '1 / 1',
               // Nội dung của phần nằm ở lớp 10 (xem InvitationRenderer):

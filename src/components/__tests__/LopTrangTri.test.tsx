@@ -52,11 +52,12 @@ describe('LopTrangTri', () => {
   })
 
   it('vẽ chi tiết với đúng màu, độ đậm và kích thước đã chọn', () => {
-    const { container } = render(<LopTrangTri chiTiet={[chiTiet()]} />)
+    const { container } = render(<LopTrangTri chiTiet={[chiTiet({ gocXoay: 45 })]} />)
     const el = container.firstElementChild as HTMLElement
     expect(el.style.backgroundColor).toBe('rgb(139, 47, 32)')
     expect(el.style.opacity).toBe('0.8')
     expect(el.style.width).toBe('25%')
+    expect(el.style.transform).toBe('translate(-50%, -50%) rotate(45deg)')
     expect(el.style.maskImage).toContain(MUC.tep)
   })
 

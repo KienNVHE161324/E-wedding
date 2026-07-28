@@ -1,5 +1,7 @@
 import type { CSSProperties } from 'react'
 import type { SlotHoaTiet, Theme } from '@/lib/themes/types'
+import type { TuyChinhHoaTietTheme } from '@/lib/invitation/types'
+import { layHoaTiet } from '@/lib/motifs/danhSach'
 
 /**
  * Vẽ một họa tiết và tô màu cho nó.
@@ -76,6 +78,60 @@ export function HoaTietTheme({
       mau={mau}
       className={className}
       style={{ opacity: `var(--do-dam-${slot}, 1)` as unknown as number }}
+    />
+  )
+}
+
+export interface ViTriHoaTietTheme {
+  x: number
+  y: number
+  kichThuoc: number
+  gocXoay: number
+  raSauChu: boolean
+}
+
+/** Họa tiết mặc định của theme nhưng có thể ghi đè đầy đủ cho từng thiệp. */
+export function HoaTietThemeTuyChinh({
+  theme,
+  slot,
+  macDinh,
+  tuyChinh,
+}: {
+  theme: Theme
+  slot: 'watermark' | 'corner'
+  macDinh: ViTriHoaTietTheme
+  tuyChinh?: TuyChinhHoaTietTheme
+}) {
+  if (tuyChinh?.an) return null
+
+  const tepTuyChinh = tuyChinh?.id ? layHoaTiet(tuyChinh.id)?.tep : undefined
+  const tep = tepTuyChinh ?? theme.hoaTiet[slot]
+  if (!tep) return null
+
+  const x = tuyChinh?.x ?? macDinh.x
+  const y = tuyChinh?.y ?? macDinh.y
+  const kichThuoc = tuyChinh?.kichThuoc ?? macDinh.kichThuoc
+  const gocXoay = tuyChinh?.gocXoay ?? macDinh.gocXoay
+  const raSauChu = tuyChinh?.raSauChu ?? macDinh.raSauChu
+
+  return (
+    <HoaTiet
+      tep={tep}
+      mau={tuyChinh?.mau}
+      doDam={tuyChinh?.doDam}
+      className="block"
+      style={{
+        position: 'absolute',
+        left: `${x}%`,
+        top: `${y}%`,
+        width: `${kichThuoc}%`,
+        aspectRatio: '1 / 1',
+        transform: `translate(-50%, -50%) rotate(${gocXoay}deg)`,
+        zIndex: raSauChu ? 0 : 20,
+        opacity:
+          tuyChinh?.doDam ??
+          (`var(--do-dam-${slot}, 1)` as unknown as number),
+      }}
     />
   )
 }
