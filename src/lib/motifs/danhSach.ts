@@ -350,6 +350,12 @@ export const DANH_SACH_HOA_TIET: MucHoaTiet[] = [
     "nhan": "bo am tra cuoi 02"
   },
   {
+    "id": "primary-decor/wedding-ritual/cap-quat-giay-day-do-01",
+    "tep": "primary-decor/wedding-ritual/cap-quat-giay-day-do-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap quat giay day do 01"
+  },
+  {
     "id": "primary-decor/wedding-ritual/hai-chen-tra-chu-hy-01",
     "tep": "primary-decor/wedding-ritual/hai-chen-tra-chu-hy-01.png",
     "nhom": "Nghi lễ cưới",
@@ -402,6 +408,24 @@ export const DANH_SACH_HOA_TIET: MucHoaTiet[] = [
     "tep": "primary-decor/wedding-ritual/non-quai-thao-trau-cau-01.png",
     "nhom": "Nghi lễ cưới",
     "nhan": "non quai thao trau cau 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/quat-giay-chu-hy-01",
+    "tep": "primary-decor/wedding-ritual/quat-giay-chu-hy-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "quat giay chu hy 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/quat-giay-do-chu-hy-vang-01",
+    "tep": "primary-decor/wedding-ritual/quat-giay-do-chu-hy-vang-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "quat giay do chu hy vang 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/quat-giay-doi-chen-tra-01",
+    "tep": "primary-decor/wedding-ritual/quat-giay-doi-chen-tra-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "quat giay doi chen tra 01"
   },
   {
     "id": "primary-decor/wedding-ritual/trap-an-hoi-tron-01",
