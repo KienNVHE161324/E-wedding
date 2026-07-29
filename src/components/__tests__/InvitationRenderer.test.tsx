@@ -19,6 +19,15 @@ function thuTuHienThi(container: HTMLElement): string[] {
 }
 
 describe('InvitationRenderer', () => {
+  it('cấp hệ quy chiếu responsive cho mọi vùng chữ trong khung thiệp', () => {
+    const { container } = render(<InvitationRenderer thiep={thiepMau} theme={theme} />)
+    const root = container.querySelector('[data-invitation-root]') as HTMLElement
+    const main = container.querySelector('main')
+
+    expect(root.style.getPropertyValue('--khung-thiep-rong')).toBe('min(100vw, 520px)')
+    expect(main).toHaveStyle({ containerType: 'inline-size' })
+  })
+
   it('giữ chiều rộng khung điện thoại trên mọi kích thước màn hình', () => {
     const { container } = render(<InvitationRenderer thiep={thiepMau} theme={theme} />)
     const main = container.querySelector('main')
