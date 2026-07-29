@@ -95,7 +95,7 @@ export function InvitationRenderer({
 
   return (
     <div data-invitation-root style={style}>
-      <main className="mx-auto w-full max-w-[520px] md:max-w-[720px]">
+      <main className="mx-auto w-full max-w-[520px]">
         {/*
           Trước khi khách bấm "Mở thiệp" chỉ có bìa tồn tại. Các phần sau không
           render, nên không tải ảnh và cũng không lộ nội dung nếu khách kéo lướt.
