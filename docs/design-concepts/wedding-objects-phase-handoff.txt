@@ -1,0 +1,223 @@
+BÀN GIAO PHASE SAU — THƯ VIỆN CHI TIẾT ĐÁM CƯỚI
+Cập nhật: 27/07/2026
+
+============================================================
+1. MỤC TIÊU
+============================================================
+
+Tạo thư viện chi tiết đám cưới tái sử dụng cho thiệp online.
+Mỗi loại tạo 3 phương án có mã rõ ràng, cho người dùng duyệt.
+Chỉ phương án được duyệt mới được xử lý nền trong suốt và lưu vào
+Image_collections.
+
+Người dùng đã yêu cầu dừng generate ở cuối A5 vì gần hết hạn mức.
+Phase hiện tại đã duyệt A6 và A8, đã tạo bản duyệt A9.
+KHÔNG tạo lại A1–A8 hoặc nhóm A7 đã bị loại.
+
+============================================================
+2. TRẠNG THÁI HIỆN TẠI
+============================================================
+
+ĐÃ DUYỆT VÀ LƯU:
+
+- A4.2 — mâm quả phủ khăn đỏ, bản màu.
+  Image_collections/primary-decor/wedding-ritual/mam-qua-phu-khan-01.png
+- A4.3 — mâm quả phủ khăn, bản nét đơn sắc.
+  Image_collections/primary-decor/wedding-ritual/mam-qua-phu-khan-02.png
+- A5.1 — tráp ăn hỏi tròn đóng nắp.
+  Image_collections/primary-decor/wedding-ritual/trap-an-hoi-tron-01.png
+
+ĐÃ LOẠI / KHÔNG LÀM LẠI:
+
+- Toàn bộ A1 — trầu têm cánh phượng.
+- Toàn bộ A2 — quả cau và lá trầu.
+- Toàn bộ A3 — cơi trầu.
+- A4.1.
+- A5.2 và A5.3.
+
+Không đưa các phương án bị loại vào Image_collections.
+
+============================================================
+3. DANH SÁCH CHƯA LÀM — THEO ĐÚNG THỨ TỰ
+============================================================
+
+NHÓM A — NGHI LỄ CƯỚI VIỆT
+
+[x] A6. Cặp nến long phụng — đã duyệt và lưu A6.1-R1.
+[x] A7. Lư hương và chân nến — người dùng bỏ toàn bộ nhóm này.
+[x] A8. Bộ ấm trà cưới — đã duyệt và lưu A8.1 cùng A8.2-R1.
+[x] A9. Hai chén trà — đã duyệt và lưu A9.1-R3 với dáng trước–sau,
+    chữ Hỷ đỏ viền vàng, mây xanh nhỏ và sứ kem ngà nâu.
+
+NHÓM B — CHI TIẾT KINH BẮC
+
+[x] B1. Bánh phu thê Đình Bảng — đã tạo lại theo yêu cầu mới: đúng hai gói
+    bánh nhỏ và mỏng, chồng lên nhau, dùng một sợi lạt buộc chung thành cặp.
+    Đã duyệt và lưu B1.1–B1.4, đồng thời lưu thêm mẫu màu B1.1 của bảng
+    nghiên cứu trước thành mẫu thứ 5. Các file nằm trong wedding-ritual.
+[x] B2. Cặp bánh phu thê buộc lạt đỏ — đã được bao phủ bởi bộ B1 vừa duyệt.
+[x] B3. Khay bánh phu thê dùng trong lễ cưới — đã duyệt và lưu B3.1 gốc
+    cùng B3.1-R2 có mâm nhỏ hơn, sáu cặp bánh xếp ba tầng bềnh khỏi thành mâm.
+[x] B4. Nón quai thao kết hợp vật phẩm cưới — đã duyệt và lưu đủ ba mẫu:
+    B4.1-R5 nón với lá trầu bè, xanh sẫm gần màu cau; quả cau nhẵn;
+    lá và cau đều có cuống rõ; bổ sung cơi trầu sơn son nhỏ cạnh khay;
+    B4.2 nón với dây đỏ/chữ Hỷ;
+    B4.3-R1 nón nghiêng dây đỏ, đã bỏ hoàn toàn cặp bánh phu thê.
+    B4.1-R6 thử sửa cuống theo cấu trúc thực vật đã bị loại; giữ R5.
+[x] B5. Quạt giấy kết hợp vật phẩm cưới — đã duyệt và lưu B5.1–B5.3.
+    Đã tạo và lưu thêm B5.4: quạt đỏ son, chữ Hỷ và viền tròn vàng đồng.
+
+NHÓM C — NHẪN, TAY VÀ BIỂU TƯỢNG GẮN KẾT
+
+[x] C1. Cặp nhẫn cưới — đã duyệt và lưu C1.3 cùng toàn bộ C1.4–C1.11:
+    hai mẫu vàng, hai mẫu bạc, hai mẫu kim cương và hai mẫu đánh bóng.
+    C1.1–C1.2 bị loại. Đã duyệt và lưu thêm C1.12–C1.14 gồm kim cương
+    giọt lệ, halo tròn và ba viên. C1.15 gốc được thay bằng C1.15-R1:
+    đai eternity chồng lên nhẫn trơn, cùng góc nhìn và ánh sáng.
+[x] C2. Hai bàn tay trao nhẫn — chỉ duyệt và lưu C2.1-R1 đơn sắc góc ngang,
+    có phần cẳng tay và tay áo dài. Tất cả mẫu C2 còn lại bị loại.
+[x] C3. Hai bàn tay nắm nhau — đã duyệt và lưu C3.1-R1–C3.3-R1 đơn sắc,
+    tay nam to, dày, khớp và gân rõ hơn.
+[x] C4. Nhẫn cưới kết hợp dải lụa — đã duyệt và lưu C4.1-R1, C4.2-R1
+    với bảng màu trầm cùng C4.3.
+[x] C5. Hộp nhẫn mở — đã duyệt và lưu C5.1-R1–C5.3-R1 theo phong cách
+    họa tiết vẽ nét và mảng màu phẳng.
+
+NHÓM D — THIỆP VÀ QUÀ CƯỚI
+
+[~] D1. Thiệp cưới và phong bì — đã tạo D1.1–D1.3; chờ duyệt.
+[ ] D2. Phong bì hé mở có thiệp — tạo 3 mẫu.
+[ ] D3. Hộp quà cưới buộc dải lụa — tạo 3 mẫu.
+[ ] D4. Thẻ tên hoặc tag quà cưới — tạo 3 mẫu.
+[ ] D5. Bộ thiệp, phong bì và dấu niêm — tạo 3 mẫu.
+
+Nếu nội dung B1–D5 khác với danh sách đã thống nhất trong lịch sử task,
+ưu tiên xác nhận lại với người dùng trước khi generate. Không tự mở rộng
+thêm loại mới trong phase này.
+
+============================================================
+4. QUY TRÌNH BẮT BUỘC CHO SESSION SAU
+============================================================
+
+1. Duyệt B3.1–B3.3; sau đó chuyển sang B4.
+2. Chỉ làm một loại tại một thời điểm.
+3. Mỗi loại tạo đúng 3 ảnh độc lập bằng 3 lượt ImageGen riêng.
+   Không yêu cầu AI tạo contact sheet 3 mẫu trong một ảnh.
+4. Ghép 3 ảnh đã tạo thành review board và gắn mã:
+   A6.1, A6.2, A6.3; sau đó A7.1...
+5. Dừng để người dùng duyệt. Không tự chuyển sang loại kế tiếp.
+6. Khi được duyệt:
+   - lấy đúng file ảnh gốc của phương án;
+   - chuyển nền trắng thành trong suốt;
+   - crop theo bounding box thật và thêm padding đều;
+   - lưu vào Image_collections/primary-decor/wedding-ritual/;
+   - dùng tên kebab-case và số thứ tự.
+7. Không crop asset production từ review board.
+8. Không lưu phương án chưa duyệt hoặc bị loại vào Image_collections.
+
+Script đang dùng:
+
+- Ghép và đánh mã bảng duyệt:
+  scripts/create-review-board.py
+- Chuẩn bị file production từ ảnh gốc:
+  scripts/prepare-approved-image-asset.py
+
+Review board đặt tại:
+
+design-drafts/review-boards/
+
+============================================================
+5. NGÔN NGỮ THIẾT KẾ ĐÃ CHỐT
+============================================================
+
+Tinh thần:
+
+- Thiệp cưới Việt Nam/Kinh Bắc trang trọng, ấm và có tính tượng hình cao.
+- Chi tiết phải giống vật thật trước khi cách điệu.
+- Hình phải đọc được ở kích thước nhỏ trên thiệp online.
+- Ưu tiên silhouette rõ và khoảng âm thoáng.
+
+Nét:
+
+- Contour chính rõ, sạch, có độ đậm vừa phải.
+- Chỉ giữ các nét bên trong thật sự cần để nhận diện cấu tạo.
+- Không hatch dày, không khắc quá nhiều nét, không giả cổ rối mắt.
+- Không biến vật phẩm thật thành biểu tượng trừu tượng khó nhận biết.
+- Với bản đơn sắc, thiết kế phải phù hợp để đổi màu bằng CSS mask.
+
+Màu:
+
+- Đỏ son/đỏ vermilion, nâu gỗ, vàng đồng trầm, nền giấy dó ngà.
+- Tránh hồng pastel, vàng chói, gradient kẹo và màu phương Tây.
+- Một số vật phẩm nghi lễ có thể dùng bản màu đỏ-vàng như A4.2/A5.1.
+- Nếu tạo bản đơn sắc, dùng một màu mực và không tô nền.
+
+Bố cục:
+
+- Một asset hoặc một bố cục đôi rõ ràng trên mỗi file.
+- Đặt giữa, có padding rộng, nền trắng sạch ở bản duyệt.
+- Không thêm hoa, ruy băng, tua rua, chữ hoặc vật phụ nếu prompt không yêu cầu.
+- Không để AI tự thêm chữ. Riêng chữ Hỷ là họa tiết hình học, phải đúng hình.
+- Không dùng bóng đổ, mặt sàn, khung hoặc watermark.
+
+============================================================
+6. LỖI ĐÃ GẶP — PHẢI TRÁNH
+============================================================
+
+- A1–A3 thất bại vì hình dáng không sát vật thật, chi tiết hư cấu và quá nhiều nét.
+- Quả cau từng bị vẽ giống cam, quả mọng hoặc lát citrus.
+- Trầu têm cánh phượng từng bị biến thành cánh chim/lông vũ.
+- Cơi trầu từng giống hộp trang sức hoặc hộp bánh.
+- Không dùng một prompt tạo 9 vật thể trong cùng ảnh: các vật bị lai hình.
+- Không đánh giá asset chỉ vì “đẹp”; phải kiểm tra nó có đúng đồ vật văn hóa không.
+- Không cắt thô từng ô của review board để làm asset production.
+- Không tạo chữ tiếng Việt bằng AI trong ảnh.
+
+Với vật phẩm văn hóa chưa chắc hình dáng, phải tìm ảnh tư liệu thật trước,
+chọn cấu tạo chuẩn rồi mới viết prompt.
+
+============================================================
+7. PROMPT KHUNG CHO CHI TIẾT ĐẬM
+============================================================
+
+Use case: stylized-concept
+Asset type: review candidate <MÃ> for a reusable Vietnamese wedding
+invitation decor library
+Primary request: Draw ONE culturally accurate <TÊN VẬT PHẨM>.
+Subject construction: <MÔ TẢ HÌNH DÁNG VÀ CẤU TẠO VẬT THẬT>.
+Composition: isolated centered object, clear three-quarter or front view,
+generous padding, recognizable at small invitation size.
+Style: refined simplified Vietnamese editorial line illustration; strong clean
+outer contour; only necessary interior lines; clear negative space.
+Color palette: monochrome ink suitable for recoloring, or restrained
+vermilion red with muted antique-gold accents when culturally appropriate.
+Constraints: pure white background; no text; no border; no watermark;
+no cast shadow; no unrelated objects; no dense hatching; no gradient;
+no invented ornament.
+Avoid: <CÁC VẬT DỄ BỊ AI NHẦM VỚI VẬT PHẨM NÀY>.
+
+Mỗi biến thể chỉ thay đổi góc nhìn, trạng thái đóng/mở hoặc cách sắp đặt.
+Không thay đổi cấu tạo văn hóa cốt lõi của vật phẩm.
+
+============================================================
+8. TÀI LIỆU VÀ ASSET THAM CHIẾU
+============================================================
+
+Tài liệu concept tổng:
+
+docs/design-concepts/quan-ho-bac-ninh.md
+
+Quy tắc thư viện:
+
+Image_collections/README.md
+
+Ảnh tham chiếu phong cách:
+
+Image_collections/references/wedding-line-art/
+
+Các asset A4–A5 đã duyệt là tham chiếu gần nhất về mức độ đơn giản:
+
+Image_collections/primary-decor/wedding-ritual/
+
+Không chỉnh sửa hoặc ghi đè các file đã duyệt. Nếu cần biến thể mới, tạo
+file có số thứ tự mới và chỉ lưu sau khi người dùng duyệt.
