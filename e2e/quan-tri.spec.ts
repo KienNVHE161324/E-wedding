@@ -1,15 +1,5 @@
-import { test, expect, type Page } from '@playwright/test'
-
-const EMAIL = process.env.E2E_EMAIL!
-const MAT_KHAU = process.env.E2E_MAT_KHAU!
-
-async function dangNhap(page: Page) {
-  await page.goto('/dang-nhap')
-  await page.getByLabel('Email').fill(EMAIL)
-  await page.getByLabel('Mật khẩu').fill(MAT_KHAU)
-  await page.getByRole('button', { name: 'Đăng nhập' }).click()
-  await expect(page.getByRole('heading', { name: 'Các đám cưới' })).toBeVisible()
-}
+import { test, expect } from '@playwright/test'
+import { dangNhap } from './ho-tro'
 
 test('chưa đăng nhập thì bị chuyển về trang đăng nhập', async ({ page }) => {
   await page.goto('/admin')
