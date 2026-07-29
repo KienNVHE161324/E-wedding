@@ -16,6 +16,57 @@ async function dienForm() {
 }
 
 describe('Form xác nhận tham dự', () => {
+  it('chỉ đăng ký tiêu đề popup, không đăng ký nhãn, option hay nút form', () => {
+    const { container } = render(
+      <FormRsvp
+        thiep={{
+          ...thiepMau,
+          cauHinhRsvp: {
+            truongChuan: [
+              'hoTen',
+              'ben',
+              'quanHe',
+              'phuongTien',
+              'ngayAn',
+              'loiChuc',
+            ],
+            truongTuyChinh: [
+              {
+                id: 'bua-an',
+                nhan: 'Lựa chọn bữa ăn',
+                kieu: 'select',
+                luaChon: ['Món chay', 'Món mặn'],
+              },
+            ],
+          },
+        }}
+      />,
+    )
+
+    expect(
+      container.querySelector('[data-text-region="popup-rsvp.tieu-de"]'),
+    ).toBeInTheDocument()
+    for (const nhan of [
+      'Họ và tên',
+      'Bạn là khách của',
+      'Quan hệ với cô dâu/chú rể',
+      'Phương tiện di chuyển',
+      'Đến tham dự ngày',
+      'Lời chúc (không bắt buộc)',
+      'Lựa chọn bữa ăn',
+    ]) {
+      expect(screen.getByText(nhan).closest('[data-text-region]')).toBeNull()
+    }
+    for (const option of screen.getAllByRole('option')) {
+      expect(option).not.toHaveAttribute('data-text-region')
+    }
+    expect(
+      screen.getByRole('button', { name: 'Gửi xác nhận' }).querySelector(
+        '[data-text-region]',
+      ),
+    ).not.toBeInTheDocument()
+  })
+
   it('chỉ hiện các trường cần thiết', () => {
     render(<FormRsvp thiep={thiepMau} />)
     for (const nhan of [
@@ -78,6 +129,8 @@ describe('Form xác nhận tham dự', () => {
     render(<FormRsvp thiep={thiepMau} />)
     await dienForm()
     await userEvent.click(screen.getByRole('button', { name: 'Gửi xác nhận' }))
-    expect(await screen.findByRole('alert')).toHaveTextContent('Thiệp này đã đóng')
+    const alert = await screen.findByRole('alert')
+    expect(alert).toHaveTextContent('Thiệp này đã đóng')
+    expect(alert).not.toHaveAttribute('data-text-region')
   })
 })

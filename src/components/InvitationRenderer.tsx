@@ -164,7 +164,9 @@ export function InvitationRenderer({
           {dangPhatNhac ? '♫' : '♪'}
         </button>
       )}
-      {daMo && danhSach.includes('rsvp') && <NutRsvpNoi onMo={() => setMoRsvp(true)} />}
+      {daMo && danhSach.includes('rsvp') && (
+        <NutRsvpNoi thiep={thiep} onMo={() => setMoRsvp(true)} />
+      )}
       {moRsvp && <PopupRsvp thiep={thiep} onDong={() => setMoRsvp(false)} />}
     </div>
   )

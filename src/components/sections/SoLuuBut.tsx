@@ -5,6 +5,7 @@ import type { SectionProps } from './types'
 import type { LoiChucDayDu } from '@/lib/db/loiChuc'
 import { HoaTietTheme } from '@/components/HoaTiet'
 import { PopupLoiChuc } from '@/components/PopupLoiChuc'
+import { VungChu } from '@/components/text/VungChu'
 
 export function SoLuuBut({ thiep, theme, loiChuc = [] }: SectionProps) {
   const [danhSach, setDanhSach] = useState<LoiChucDayDu[]>(loiChuc)
@@ -22,12 +23,16 @@ export function SoLuuBut({ thiep, theme, loiChuc = [] }: SectionProps) {
         className="text-center text-2xl"
         style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
       >
-        Sổ lưu bút
+        <VungChu id="so-luu-but.tieu-de" thiep={thiep} noiDung="Sổ lưu bút" />
       </h2>
 
       {danhSach.length === 0 ? (
         <p className="mt-8 text-center text-sm" style={{ color: 'var(--mau-phu)' }}>
-          Chưa có lời chúc nào. Hãy là người đầu tiên gửi lời chúc tới cô dâu chú rể.
+          <VungChu
+            id="so-luu-but.trang-thai-rong"
+            thiep={thiep}
+            noiDung="Chưa có lời chúc nào. Hãy là người đầu tiên gửi lời chúc tới cô dâu chú rể."
+          />
         </p>
       ) : (
         <div
@@ -60,12 +65,16 @@ export function SoLuuBut({ thiep, theme, loiChuc = [] }: SectionProps) {
         className="mx-auto mt-6 block rounded-full px-7 py-3 font-medium text-white shadow-md hover:-translate-y-0.5"
         style={{ backgroundColor: 'var(--mau-chinh)' }}
       >
-        Gửi lời chúc
+        <VungChu id="so-luu-but.nut-gui" thiep={thiep} noiDung="Gửi lời chúc" />
       </button>
 
       {daGui && (
         <p className="mt-3 text-center text-sm" style={{ color: 'var(--mau-phu)' }}>
-          Cảm ơn lời chúc của bạn!
+          <VungChu
+            id="so-luu-but.cam-on"
+            thiep={thiep}
+            noiDung="Cảm ơn lời chúc của bạn!"
+          />
         </p>
       )}
 

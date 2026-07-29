@@ -5,13 +5,14 @@ import { MungCuoi } from '../MungCuoi'
 import { thiepMau } from '@/lib/invitation/mau'
 import { layTheme } from '@/lib/themes'
 import styles from '../MungCuoi.module.css'
+import type { Invitation } from '@/lib/invitation/types'
 
 const theme = layTheme('mac-dinh')
 
-function ve(kieuHopQua: boolean) {
+function ve(kieuHopQua: boolean, thiep: Invitation = thiepMau) {
   return render(
     <div data-invitation-root>
-      <MungCuoi thiep={{ ...thiepMau, mungCuoiKieuHopQua: kieuHopQua }} theme={theme} />
+      <MungCuoi thiep={{ ...thiep, mungCuoiKieuHopQua: kieuHopQua }} theme={theme} />
     </div>,
   )
 }
@@ -27,6 +28,73 @@ describe('Mừng cưới — kiểu hiện thẳng', () => {
   it('không hiện hộp quà', () => {
     ve(false)
     expect(screen.queryByRole('button', { name: /Mở hộp quà/ })).not.toBeInTheDocument()
+  })
+
+  it('gắn các trường ngân hàng theo tên bên dù dữ liệu đổi thứ tự', () => {
+    const { container } = ve(false, {
+      ...thiepMau,
+      mungCuoi: [...thiepMau.mungCuoi].reverse(),
+      tuyChinhChu: {
+        'mung-cuoi.nha-trai.chu-tai-khoan': { mauChu: '#123456' },
+        'mung-cuoi.nha-gai.chu-tai-khoan': { mauChu: '#654321' },
+      },
+    })
+
+    expect(
+      container.querySelector('[data-text-region="mung-cuoi.tieu-de"]'),
+    ).toBeInTheDocument()
+    for (const ben of ['nha-trai', 'nha-gai']) {
+      for (const truong of [
+        'ten-ben',
+        'chu-tai-khoan',
+        'so-tai-khoan',
+        'ngan-hang',
+        'nut-sao-chep',
+      ]) {
+        expect(
+          container.querySelectorAll(`[data-text-region="mung-cuoi.${ben}.${truong}"]`),
+        ).toHaveLength(1)
+      }
+    }
+
+    const nhaTrai = container.querySelector(
+      '[data-text-region="mung-cuoi.nha-trai.chu-tai-khoan"]',
+    ) as HTMLElement
+    const nhaGai = container.querySelector(
+      '[data-text-region="mung-cuoi.nha-gai.chu-tai-khoan"]',
+    ) as HTMLElement
+    expect(nhaTrai).toHaveTextContent(thiepMau.mungCuoi[0].chuTaiKhoan)
+    expect(nhaTrai.style.color).toBe('rgb(18, 52, 86)')
+    expect(nhaGai).toHaveTextContent(thiepMau.mungCuoi[1].chuTaiKhoan)
+    expect(nhaGai.style.color).toBe('rgb(101, 67, 33)')
+    expect(
+      container.querySelector('[data-text-region^="mung-cuoi.0."]'),
+    ).not.toBeInTheDocument()
+  })
+
+  it('giữ dữ liệu có bên trùng là chữ thường thay vì tạo ID semantic trùng', () => {
+    const nhaTrai = thiepMau.mungCuoi[0]
+    const { container } = ve(false, {
+      ...thiepMau,
+      mungCuoi: [
+        nhaTrai,
+        {
+          ...nhaTrai,
+          chuTaiKhoan: 'Chủ tài khoản trùng',
+          soTaiKhoan: '111122223333',
+        },
+      ],
+    })
+
+    expect(
+      container.querySelectorAll('[data-text-region^="mung-cuoi.nha-trai."]'),
+    ).toHaveLength(0)
+    expect(screen.getByText(nhaTrai.chuTaiKhoan)).not.toHaveAttribute(
+      'data-text-region',
+    )
+    expect(screen.getByText('Chủ tài khoản trùng')).not.toHaveAttribute(
+      'data-text-region',
+    )
   })
 })
 
@@ -52,6 +120,45 @@ describe('Mừng cưới — kiểu hộp quà', () => {
     expect(within(dialog).getByAltText('QR nhà trai')).toBeInTheDocument()
     expect(within(dialog).getByText('0123456789')).toBeInTheDocument()
     expect(within(dialog).queryByText('9876543210')).not.toBeInTheDocument()
+    expect(
+      dialog.querySelector('[data-text-region="popup-mung-cuoi.tieu-de"]'),
+    ).toBeInTheDocument()
+    expect(
+      dialog.querySelector('[data-text-region="mung-cuoi.nha-trai.chu-tai-khoan"]'),
+    ).toHaveTextContent(thiepMau.mungCuoi[0].chuTaiKhoan)
+    expect(
+      screen.getByText('Chạm để mở', { selector: '[data-text-region="mung-cuoi.nha-gai.goi-y-mo"]' }),
+    ).toBeInTheDocument()
+
+    const nutDong = within(dialog).getByRole('button', { name: 'Đóng' })
+    expect(nutDong).not.toHaveAttribute('data-text-region')
+    expect(nutDong.querySelector('[data-text-region]')).not.toBeInTheDocument()
+  })
+
+  it('không tạo trường semantic trong popup khi dữ liệu có bên trùng', async () => {
+    const nhaTrai = thiepMau.mungCuoi[0]
+    ve(true, {
+      ...thiepMau,
+      mungCuoi: [
+        nhaTrai,
+        {
+          ...nhaTrai,
+          chuTaiKhoan: 'Chủ tài khoản trùng',
+          soTaiKhoan: '111122223333',
+        },
+      ],
+    })
+
+    await userEvent.click(
+      screen.getAllByRole('button', { name: 'Mở phong bao Nhà trai' })[0],
+    )
+    const dialog = screen.getByRole('dialog', { name: 'Mừng cưới Nhà trai' })
+    expect(
+      dialog.querySelectorAll('[data-text-region^="mung-cuoi.nha-trai."]'),
+    ).toHaveLength(0)
+    expect(
+      dialog.querySelector('[data-text-region="popup-mung-cuoi.tieu-de"]'),
+    ).toBeInTheDocument()
   })
 
   it('cho tải ảnh QR của đúng bên', async () => {
@@ -80,7 +187,9 @@ describe('Mừng cưới — kiểu hộp quà', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Sao chép số tài khoản' }))
 
     expect(writeText).toHaveBeenCalledWith('9876543210')
-    expect(screen.getByRole('button', { name: 'Đã sao chép' })).toBeInTheDocument()
+    const nutSaoChep = screen.getByRole('button', { name: 'Đã sao chép' })
+    expect(nutSaoChep).toBeInTheDocument()
+    expect(nutSaoChep.querySelector('[data-text-region]')).not.toBeInTheDocument()
   })
 
   it('căn riêng ngân hàng và số tài khoản vào giữa, không thêm nhãn', async () => {

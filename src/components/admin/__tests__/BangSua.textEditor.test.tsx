@@ -135,4 +135,57 @@ describe('BangSua text editor', () => {
       screen.getByLabelText('Giao diện').closest('[data-invitation-root]'),
     ).toBeNull()
   })
+
+  it('xóa mốc qua BangSua dọn override theo ID và giữ override mốc còn lại', async () => {
+    const fetchMock = vi.fn(
+      async (url: string, init?: RequestInit) => {
+        void url
+        void init
+        return {
+          ok: true,
+          json: async () => ({}),
+        }
+      },
+    )
+    vi.stubGlobal('fetch', fetchMock)
+    const eventA = {
+      ...thiepMau.suKien[0],
+      id: 'event-a',
+      ten: 'Sự kiện A',
+    }
+    const eventB = {
+      ...thiepMau.suKien[1],
+      id: 'event-b',
+      ten: 'Sự kiện B',
+    }
+    renderBangSua({
+      ...thiepMau,
+      suKien: [eventA, eventB],
+      tuyChinhChu: {
+        'su-kien.event-a.ten': { mauChu: '#123456' },
+        'su-kien.event-a.gio': { x: 3 },
+        'su-kien.event-b.ten': { mauChu: '#654321' },
+        'bia.loi-mo-dau': { y: 2 },
+      },
+    })
+
+    await userEvent.click(screen.getByRole('button', { name: 'Bỏ mốc 1' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Lưu' }))
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith('/api/admin/luu', expect.any(Object))
+    })
+    const loiGoiLuu = fetchMock.mock.calls.find(
+      ([url]) => url === '/api/admin/luu',
+    )
+    const payload = JSON.parse(String(loiGoiLuu?.[1]?.body)) as {
+      thiep: Invitation
+    }
+
+    expect(payload.thiep.suKien.map((item) => item.id)).toEqual(['event-b'])
+    expect(payload.thiep.tuyChinhChu).toEqual({
+      'su-kien.event-b.ten': { mauChu: '#654321' },
+      'bia.loi-mo-dau': { y: 2 },
+    })
+  })
 })

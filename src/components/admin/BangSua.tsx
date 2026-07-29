@@ -5,6 +5,7 @@ import Link from 'next/link'
 import type { Invitation, SectionId } from '@/lib/invitation/types'
 import type { TextRegionId } from '@/lib/invitation/textTypes'
 import { damBaoIdVungChu } from '@/lib/invitation/normalizeTextIds'
+import { xoaOverrideTheoPrefix } from '@/lib/invitation/textOverrides'
 import type { SlotHoaTiet } from '@/lib/themes/types'
 import type { VongDoi } from '@/lib/vongDoi/types'
 import { THEMES, layTheme } from '@/lib/themes'
@@ -60,6 +61,33 @@ export function BangSua({
 
   function sua<K extends keyof Invitation>(khoa: K, giaTri: Invitation[K]) {
     setThiep((t) => ({ ...t, [khoa]: giaTri }))
+  }
+
+  function suaDanhSachCoId<
+    K extends 'suKien' | 'chuyenChungMinh',
+  >(
+    khoa: K,
+    giaTri: Invitation[K],
+  ) {
+    setThiep((t) => {
+      const prefix =
+        khoa === 'suKien' ? 'su-kien' : 'chuyen-chung-minh'
+      const idConLai = new Set(
+        giaTri.map((item) => item.id).filter((id): id is string => Boolean(id)),
+      )
+      const idDaXoa = t[khoa]
+        .map((item) => item.id)
+        .filter(
+          (id): id is string => Boolean(id) && !idConLai.has(id as string),
+        )
+      const tuyChinhChu = idDaXoa.reduce(
+        (hienTai, id) =>
+          xoaOverrideTheoPrefix(hienTai, `${prefix}.${id}.`),
+        t.tuyChinhChu,
+      )
+
+      return { ...t, [khoa]: giaTri, tuyChinhChu }
+    })
   }
 
   function suaDoDam(slot: SlotHoaTiet, v: number) {
@@ -221,7 +249,7 @@ export function BangSua({
               giaTri={thiep.suKien}
               ngayCuoi={thiep.ngayCuoi}
               slug={thiep.slug}
-              onDoi={(v) => sua('suKien', v)}
+              onDoi={(v) => suaDanhSachCoId('suKien', v)}
             />
           </div>
         </section>

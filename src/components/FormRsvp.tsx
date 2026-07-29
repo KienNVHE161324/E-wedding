@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import type { Invitation } from '@/lib/invitation/types'
 import { cacNgayCoSuKien } from '@/lib/invitation/lich'
+import { VungChu } from './text/VungChu'
 
 const PHUONG_TIEN = ['Xe máy', 'Ô tô riêng', 'Xe khách', 'Xe của gia đình', 'Khác']
 const TRUONG_MAC_DINH = ['hoTen', 'ben', 'quanHe', 'ngayAn'] as const
@@ -55,7 +56,11 @@ export function FormRsvp({ thiep }: { thiep: Invitation }) {
     return (
       <div className="py-6 text-center">
         <h2 className="text-xl" style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}>
-          Xác nhận tham dự
+          <VungChu
+            id="popup-rsvp.tieu-de"
+            thiep={thiep}
+            noiDung="Xác nhận tham dự"
+          />
         </h2>
         <p className="mt-3">Cảm ơn bạn đã xác nhận. Hẹn gặp bạn trong ngày vui!</p>
       </div>
@@ -68,7 +73,11 @@ export function FormRsvp({ thiep }: { thiep: Invitation }) {
         className="mb-2 text-center text-2xl"
         style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
       >
-        Xác nhận tham dự
+        <VungChu
+          id="popup-rsvp.tieu-de"
+          thiep={thiep}
+          noiDung="Xác nhận tham dự"
+        />
       </h2>
       <p className="mx-auto mb-7 max-w-sm text-center text-sm opacity-70">
         Vui lòng để lại thông tin để gia đình chuẩn bị đón tiếp bạn chu đáo hơn.

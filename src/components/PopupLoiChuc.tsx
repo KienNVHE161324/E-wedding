@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Invitation } from '@/lib/invitation/types'
 import type { LoiChucDayDu } from '@/lib/db/loiChuc'
+import { VungChu } from './text/VungChu'
 
 export function PopupLoiChuc({
   thiep,
@@ -91,7 +92,11 @@ export function PopupLoiChuc({
             className="mb-6 text-center text-2xl"
             style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
           >
-            Gửi lời chúc
+            <VungChu
+              id="popup-loi-chuc.tieu-de"
+              thiep={thiep}
+              noiDung="Gửi lời chúc"
+            />
           </h2>
 
           <form onSubmit={gui} className="space-y-4">

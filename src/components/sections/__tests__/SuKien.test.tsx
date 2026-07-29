@@ -8,7 +8,8 @@ import type { SuKien as MocLichTrinh } from '@/lib/invitation/types'
 
 const theme = layTheme('mac-dinh')
 
-const moc = (ngay: string, gio: string, ten: string): MocLichTrinh => ({
+const moc = (ngay: string, gio: string, ten: string, id?: string): MocLichTrinh => ({
+  ...(id ? { id } : {}),
   ngay,
   gio,
   ten,
@@ -38,6 +39,114 @@ describe('Lịch trình đám cưới', () => {
     expect(thuTu[0]).toContain('Đón dâu')
     expect(thuTu[1]).toContain('Lễ')
     expect(thuTu[2]).toContain('Tiệc')
+  })
+
+  it('giữ style theo ID đã lưu sau khi sắp xếp lại lịch trình', () => {
+    const eventA = {
+      ...moc('2026-11-14', '11:00', 'Tiệc bên A', 'event-a'),
+      diaDiem: 'Sảnh A',
+    }
+    const eventB = {
+      ...moc('2026-11-14', '06:30', 'Lễ bên B', 'event-b'),
+      diaDiem: 'Sảnh B',
+    }
+    const { container } = render(
+      <SuKien
+        thiep={{
+          ...thiepMau,
+          suKien: [eventA, eventB],
+          tuyChinhChu: {
+            'su-kien.event-a.ten': { mauChu: '#123456', x: 3 },
+            'su-kien.event-b.ten': { mauChu: '#654321', x: -2 },
+          },
+        }}
+        theme={theme}
+      />,
+    )
+
+    const tenTheoThuTu = Array.from(
+      container.querySelectorAll('[data-text-region$=".ten"]'),
+    ).map((vung) => vung.getAttribute('data-text-region'))
+    expect(tenTheoThuTu).toEqual([
+      'su-kien.event-b.ten',
+      'su-kien.event-a.ten',
+    ])
+
+    const tenA = container.querySelector(
+      '[data-text-region="su-kien.event-a.ten"]',
+    ) as HTMLElement
+    const tenB = container.querySelector(
+      '[data-text-region="su-kien.event-b.ten"]',
+    ) as HTMLElement
+    expect(tenA).toHaveTextContent('Tiệc bên A')
+    expect(tenA.style.color).toBe('rgb(18, 52, 86)')
+    expect(tenA.style.transform).toBe('translate(3cqw, 0cqw)')
+    expect(tenB).toHaveTextContent('Lễ bên B')
+    expect(tenB.style.color).toBe('rgb(101, 67, 33)')
+    expect(tenB.style.transform).toBe('translate(-2cqw, 0cqw)')
+
+    expect(
+      container.querySelector('[data-text-region="su-kien.tieu-de"]'),
+    ).toBeInTheDocument()
+    expect(
+      container.querySelector('[data-text-region="su-kien.ngay.2026-11-14"]'),
+    ).toBeInTheDocument()
+    for (const id of ['event-a', 'event-b']) {
+      for (const truong of ['gio', 'ten', 'dia-diem', 'nut-them-lich']) {
+        expect(
+          container.querySelector(`[data-text-region="su-kien.${id}.${truong}"]`),
+        ).toBeInTheDocument()
+      }
+    }
+  })
+
+  it('không tạo ID theo chỉ số cho sự kiện dữ liệu cũ thiếu ID', () => {
+    const { container } = ve([
+      {
+        ...moc('2026-11-14', '09:00', 'Mốc dữ liệu cũ'),
+        diaDiem: 'Địa điểm cũ',
+      },
+    ])
+
+    expect(screen.getByText('Mốc dữ liệu cũ')).not.toHaveAttribute(
+      'data-text-region',
+    )
+    expect(screen.getByText('Địa điểm cũ')).not.toHaveAttribute(
+      'data-text-region',
+    )
+    expect(
+      container.querySelector('[data-text-region^="su-kien.undefined."]'),
+    ).not.toBeInTheDocument()
+    expect(
+      container.querySelector('[data-text-region^="su-kien.0."]'),
+    ).not.toBeInTheDocument()
+  })
+
+  it('giữ các sự kiện có ID trùng là chữ thường thay vì tạo vùng mơ hồ', () => {
+    const { container } = ve([
+      {
+        ...moc('2026-11-14', '07:00', 'Mốc trùng đầu', 'event-duplicate'),
+        diaDiem: 'Địa điểm đầu',
+      },
+      {
+        ...moc('2026-11-14', '10:00', 'Mốc trùng sau', 'event-duplicate'),
+        diaDiem: 'Địa điểm sau',
+      },
+    ])
+
+    expect(
+      container.querySelectorAll(
+        '[data-text-region^="su-kien.event-duplicate."]',
+      ),
+    ).toHaveLength(0)
+    for (const noiDung of [
+      'Mốc trùng đầu',
+      'Địa điểm đầu',
+      'Mốc trùng sau',
+      'Địa điểm sau',
+    ]) {
+      expect(screen.getByText(noiDung)).not.toHaveAttribute('data-text-region')
+    }
   })
 
   it('ghi nhãn ngày một lần cho mỗi ngày, không lặp lại', () => {

@@ -40,16 +40,30 @@ async function vietLoiChuc() {
 
 describe('Sổ lưu bút', () => {
   it('mặc định chỉ hiện lịch sử và nút mở popup', () => {
-    ve([lc('1', 'Nguyễn A', 'Chúc mừng hạnh phúc')])
+    const { container } = ve([lc('1', 'Nguyễn A', 'Chúc mừng hạnh phúc')])
     expect(screen.queryByLabelText('Tên của bạn')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Gửi lời chúc' })).toBeInTheDocument()
     expect(screen.getByTestId('lich-su-loi-chuc')).toHaveClass('overflow-y-auto')
+    expect(
+      container.querySelector('[data-text-region="so-luu-but.tieu-de"]'),
+    ).toBeInTheDocument()
+    expect(
+      container.querySelector('[data-text-region="so-luu-but.nut-gui"]'),
+    ).toBeInTheDocument()
+    expect(screen.getByText('Chúc mừng hạnh phúc')).not.toHaveAttribute(
+      'data-text-region',
+    )
+    expect(screen.getByText('— Nguyễn A')).not.toHaveAttribute('data-text-region')
   })
 
   it('mở popup và đóng bằng phím Escape', async () => {
     ve()
     await userEvent.click(screen.getByRole('button', { name: 'Gửi lời chúc' }))
-    expect(screen.getByRole('dialog', { name: 'Gửi lời chúc' })).toBeInTheDocument()
+    const dialog = screen.getByRole('dialog', { name: 'Gửi lời chúc' })
+    expect(dialog).toBeInTheDocument()
+    expect(
+      dialog.querySelector('[data-text-region="popup-loi-chuc.tieu-de"]'),
+    ).toBeInTheDocument()
     expect(screen.getByLabelText('Tên của bạn')).toBeInTheDocument()
     await userEvent.keyboard('{Escape}')
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
@@ -69,8 +83,11 @@ describe('Sổ lưu bút', () => {
   })
 
   it('báo khi chưa có lời chúc nào', () => {
-    ve()
+    const { container } = ve()
     expect(screen.getByText(/Chưa có lời chúc nào/)).toBeInTheDocument()
+    expect(
+      container.querySelector('[data-text-region="so-luu-but.trang-thai-rong"]'),
+    ).toBeInTheDocument()
   })
 
   it('gửi đúng dữ liệu kèm mã thiệp', async () => {
@@ -94,9 +111,12 @@ describe('Sổ lưu bút', () => {
   })
 
   it('cảm ơn sau khi gửi thành công', async () => {
-    ve()
+    const { container } = ve()
     await vietLoiChuc()
     expect(await screen.findByText(/Cảm ơn lời chúc/)).toBeInTheDocument()
+    expect(
+      container.querySelector('[data-text-region="so-luu-but.cam-on"]'),
+    ).toBeInTheDocument()
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
@@ -107,6 +127,8 @@ describe('Sổ lưu bút', () => {
     )
     ve()
     await vietLoiChuc()
-    expect(await screen.findByRole('alert')).toHaveTextContent('Thiệp này đã đóng.')
+    const alert = await screen.findByRole('alert')
+    expect(alert).toHaveTextContent('Thiệp này đã đóng.')
+    expect(alert).not.toHaveAttribute('data-text-region')
   })
 })
