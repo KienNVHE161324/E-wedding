@@ -1,22 +1,23 @@
-export type TrangThaiThiep = 'nhap' | 'da-xuat-ban' | 'het-han'
+export type TrangThaiThiep = 'nhap' | 'da-len-lich' | 'da-xuat-ban' | 'het-han' | 'da-huy'
 
-/** Phần vòng đời lưu trong DB. Trạng thái 'het-han' được suy ra, không lưu. */
+/** Phần vòng đời lưu trong DB. Trạng thái theo lịch được suy ra tại thời điểm đọc. */
 export interface VongDoi {
-  trangThaiLuu: 'nhap' | 'da-xuat-ban'
+  trangThaiLuu: 'nhap' | 'da-xuat-ban' | 'da-huy'
   ngayXuatBan: string | null
-  ngayHetHan: string | null
+  ngayDong: string | null
 }
 
 /** Một dòng trong bảng điều khiển quản trị. */
 export interface ThiepTomTat {
+  id: string
   slug: string
   tenChuRe: string
   tenCoDau: string
   ngayCuoi: string
   themeId: string
   trangThai: TrangThaiThiep
-  ngayHetHan: string | null
-  soNgayConLai: number | null
+  ngayXuatBan: string | null
+  ngayDong: string | null
   soLuotXacNhan: number
   spreadsheetId: string | null
 }
