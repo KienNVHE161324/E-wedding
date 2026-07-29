@@ -6,40 +6,56 @@ import type { ThiepTomTat } from '@/lib/vongDoi/types'
 
 const danhSach: ThiepTomTat[] = [
   {
-    slug: 'nam-linh',
+    id: '4dc32a02-4321-4ef1-a23a-54fd115329a2',
+    publicSlug: 'nam-linh',
     tenChuRe: 'Nguyễn Hoài Nam',
     tenCoDau: 'Trần Thùy Linh',
     ngayCuoi: '2026-11-14',
     themeId: 'mac-dinh',
     trangThai: 'da-xuat-ban',
-    ngayHetHan: '2026-11-20T00:00:00Z',
-    soNgayConLai: 6,
+    ngayXuatBan: '2026-11-01T00:00:00Z',
+    ngayDong: '2026-11-20T00:00:00Z',
     soLuotXacNhan: 12,
     spreadsheetId: 'sheet-1',
   },
   {
-    slug: 'tuan-mai',
+    id: '9e405ce0-c2bb-4b6f-a46a-a3cf1780bb6f',
+    publicSlug: 'tuan-mai',
     tenChuRe: 'Đỗ Anh Tuấn',
     tenCoDau: 'Vũ Thị Mai',
     ngayCuoi: '2026-12-05',
     themeId: 'mac-dinh',
     trangThai: 'nhap',
-    ngayHetHan: null,
-    soNgayConLai: null,
+    ngayXuatBan: null,
+    ngayDong: null,
     soLuotXacNhan: 0,
     spreadsheetId: null,
   },
   {
-    slug: 'hung-hoa',
+    id: '5a75d83b-b8ee-4215-90d9-3049bd17fc65',
+    publicSlug: 'hung-hoa',
     tenChuRe: 'Lê Việt Hưng',
     tenCoDau: 'Phạm Thu Hoa',
     ngayCuoi: '2026-05-02',
     themeId: 'mac-dinh',
     trangThai: 'het-han',
-    ngayHetHan: '2026-05-16T00:00:00Z',
-    soNgayConLai: 0,
+    ngayXuatBan: '2026-05-01T00:00:00Z',
+    ngayDong: '2026-05-16T00:00:00Z',
     soLuotXacNhan: 87,
     spreadsheetId: 'sheet-3',
+  },
+  {
+    id: 'b11148cb-1c0e-4da3-9a85-dcbf8a2818ef',
+    publicSlug: null,
+    tenChuRe: 'Đã',
+    tenCoDau: 'Hủy',
+    ngayCuoi: '2026-09-01',
+    themeId: 'mac-dinh',
+    trangThai: 'da-huy',
+    ngayXuatBan: '2026-08-01T00:00:00Z',
+    ngayDong: '2026-09-02T00:00:00Z',
+    soLuotXacNhan: 3,
+    spreadsheetId: null,
   },
 ]
 
@@ -56,13 +72,23 @@ describe('BangDieuKhien', () => {
     const dong = screen.getAllByRole('listitem')
     expect(within(dong[0]).getByText('Đang mở')).toBeInTheDocument()
     expect(within(dong[1]).getByText('Nháp')).toBeInTheDocument()
-    expect(within(dong[2]).getByText('Hết hạn')).toBeInTheDocument()
+    expect(within(dong[2]).getByText('Đã đóng')).toBeInTheDocument()
   })
 
-  it('hiện số ngày còn lại và số lượt xác nhận', () => {
+  it('hiện số lượt xác nhận', () => {
     render(<BangDieuKhien danhSach={danhSach} />)
-    expect(screen.getByText('Còn 6 ngày')).toBeInTheDocument()
     expect(screen.getByText('12')).toBeInTheDocument()
+  })
+
+  it('thiệp đã hủy vẫn sửa được bằng id nhưng không còn link công khai', () => {
+    render(<BangDieuKhien danhSach={danhSach} />)
+    const dong = screen.getAllByRole('listitem')[3]
+    expect(within(dong).getByText('Đã hủy')).toBeInTheDocument()
+    expect(within(dong).queryByRole('link', { name: 'Xem thiệp' })).not.toBeInTheDocument()
+    expect(within(dong).getByRole('link', { name: 'Sửa thiệp' })).toHaveAttribute(
+      'href',
+      '/admin/thiep/b11148cb-1c0e-4da3-9a85-dcbf8a2818ef',
+    )
   })
 
   it('lọc theo tên khi gõ vào ô tìm kiếm', async () => {
@@ -95,7 +121,7 @@ describe('BangDieuKhien', () => {
     expect(screen.getAllByRole('link', { name: 'Xem lời chúc' })).toHaveLength(danhSach.length)
     expect(screen.getAllByRole('link', { name: 'Xem lời chúc' })[0]).toHaveAttribute(
       'href',
-      '/admin/nam-linh/loi-chuc',
+      '/admin/thiep/4dc32a02-4321-4ef1-a23a-54fd115329a2/loi-chuc',
     )
   })
 })
