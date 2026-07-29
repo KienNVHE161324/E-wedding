@@ -92,6 +92,15 @@ export const chiTietTrangTriSchema = z.object({
   kichThuoc: z.number().min(5).max(100),
   gocXoay: z.number().min(-180).max(180).optional(),
   raSauChu: z.boolean().optional(),
+  chu: z
+    .object({
+      noiDung: z.string().max(500),
+      font: z.enum(['serif-co-dien', 'sans-sach']),
+      coChu: z.number().int().min(12).max(72),
+      mauChu: maMauSchema,
+      canLe: z.enum(['left', 'center', 'right']),
+    })
+    .optional(),
 })
 
 const truongRsvpChuanSchema = z.enum([

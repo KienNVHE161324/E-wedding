@@ -29,6 +29,58 @@ describe('invitationSchema', () => {
     expect(() => invitationSchema.parse(thiep)).not.toThrow()
   })
 
+  it('giữ cấu hình chữ hợp lệ của chi tiết trang trí', () => {
+    const ketQua = invitationSchema.parse({
+      ...thiepMau,
+      chiTietTrangTri: [
+        {
+          id: 'primary-decor/wedding-ritual/thiep-phong-bi-giay-do-trien-doi-chim-01',
+          section: 'album',
+          x: 50,
+          y: 50,
+          mau: '#8B2F20',
+          doDam: 1,
+          kichThuoc: 60,
+          chu: {
+            noiDung: 'Trân trọng kính mời',
+            font: 'serif-co-dien',
+            coChu: 24,
+            mauChu: '#6B2F24',
+            canLe: 'center',
+          },
+        },
+      ],
+    })
+
+    expect(ketQua.chiTietTrangTri?.[0].chu?.noiDung).toBe('Trân trọng kính mời')
+  })
+
+  it('từ chối cấu hình chữ chi tiết không hợp lệ', () => {
+    expect(() =>
+      invitationSchema.parse({
+        ...thiepMau,
+        chiTietTrangTri: [
+          {
+            id: 'x',
+            section: 'bia',
+            x: 50,
+            y: 50,
+            mau: '#8B2F20',
+            doDam: 1,
+            kichThuoc: 25,
+            chu: {
+              noiDung: '',
+              font: 'sai',
+              coChu: 100,
+              mauChu: 'red',
+              canLe: 'sai',
+            },
+          },
+        ],
+      }),
+    ).toThrow()
+  })
+
   it('từ chối độ đậm ngoài khoảng 0 đến 1', () => {
     const thiep = { ...thiepMau, tuyChinhGiaoDien: { doDam: { watermark: 1.5 } } }
     expect(() => invitationSchema.parse(thiep)).toThrow()

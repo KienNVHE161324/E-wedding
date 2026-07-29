@@ -11,6 +11,15 @@ import { ChonChiTiet } from '@/components/admin/ChonChiTiet'
 import { TuyChinhHoaTietTheme } from '@/components/admin/TuyChinhHoaTietTheme'
 
 const theme = layTheme('mac-dinh')
+const ID_D1_2 =
+  'primary-decor/wedding-ritual/thiep-phong-bi-giay-do-trien-doi-chim-01'
+const CHU_D1 = {
+  noiDung: 'Trân trọng kính mời',
+  font: 'serif-co-dien' as const,
+  coChu: 27,
+  mauChu: '#6B2F24',
+  canLe: 'center' as const,
+}
 
 // Chọn asset mà theme mặc định KHÔNG dùng, để phân biệt được
 // họa tiết của theme với chi tiết nhân viên tự thêm.
@@ -91,6 +100,42 @@ describe('LopTrangTri', () => {
     expect(el.style.width).toBe('25%')
     expect(el.style.transform).toBe('translate(-50%, -50%) rotate(45deg)')
     expect(el.style.maskImage).toContain(MUC.tep)
+  })
+
+  it('dựng D1 bằng ảnh màu gốc và chữ trong cùng wrapper', () => {
+    const d1 = chiTiet({
+      id: ID_D1_2,
+      kichThuoc: 60,
+      gocXoay: 15,
+      chu: CHU_D1,
+    })
+    const { container } = render(<LopTrangTri chiTiet={[d1]} />)
+
+    const wrapper = container.querySelector('[data-chi-tiet-co-chu]')
+    expect(wrapper).toHaveStyle({
+      width: '60%',
+      transform: 'translate(-50%, -50%) rotate(15deg)',
+    })
+    expect(container.querySelector('img')).toHaveAttribute(
+      'src',
+      expect.stringContaining('thiep-phong-bi'),
+    )
+    expect(screen.getByText('Trân trọng kính mời')).toBeInTheDocument()
+  })
+
+  it('không dựng lớp chữ khi nội dung D1 rỗng', () => {
+    render(
+      <LopTrangTri
+        chiTiet={[
+          chiTiet({
+            id: ID_D1_2,
+            chu: { ...CHU_D1, noiDung: '' },
+          }),
+        ]}
+      />,
+    )
+
+    expect(screen.queryByTestId('chu-chi-tiet')).not.toBeInTheDocument()
   })
 
   it('mỗi chi tiết giữ màu riêng của nó', () => {
