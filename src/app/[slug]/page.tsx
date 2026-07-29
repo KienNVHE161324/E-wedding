@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { layThiepTheoSlug } from '@/lib/db/invitations'
+import { layThiepTheoPublicSlug } from '@/lib/db/invitations'
 import { layLoiChuc } from '@/lib/db/loiChuc'
 import { layTheme } from '@/lib/themes'
 import { tinhTrangThai } from '@/lib/vongDoi/tinhTrangThai'
@@ -15,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const ban = await layThiepTheoSlug(slug)
+  const ban = await layThiepTheoPublicSlug(slug)
   if (!ban) return { title: 'Không tìm thấy thiệp' }
 
   // Thiệp chưa mở hoặc đã đóng thì không rò rỉ tên và ảnh ra link xem trước.
@@ -42,13 +42,14 @@ export async function generateMetadata({
 
 export default async function TrangThiep({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const ban = await layThiepTheoSlug(slug)
+  const ban = await layThiepTheoPublicSlug(slug)
   if (!ban) notFound()
 
   const trangThai = tinhTrangThai(ban.vongDoi, new Date())
+  if (trangThai === 'da-huy') notFound()
   if (trangThai !== 'da-xuat-ban') return <ThongBaoTrangThai trangThai={trangThai} />
 
-  const loiChuc = await layLoiChuc(slug)
+  const loiChuc = await layLoiChuc(ban.id)
   return (
     <InvitationRenderer thiep={ban.thiep} theme={layTheme(ban.thiep.themeId)} loiChuc={loiChuc} />
   )

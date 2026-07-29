@@ -8,9 +8,14 @@ describe('ThongBaoTrangThai', () => {
     expect(screen.getByText('Thiệp chưa được mở')).toBeInTheDocument()
   })
 
+  it('thiệp đã lên lịch nhưng chưa đến giờ cũng báo chưa mở', () => {
+    render(<ThongBaoTrangThai trangThai="da-len-lich" />)
+    expect(screen.getByRole('heading', { name: 'Thiệp chưa được mở' })).toBeInTheDocument()
+  })
+
   it('thiệp hết hạn báo đã đóng và mời liên hệ gia đình', () => {
     render(<ThongBaoTrangThai trangThai="het-han" />)
-    expect(screen.getByText('Thiệp đã hết hạn')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Thiệp đã đóng' })).toBeInTheDocument()
     expect(screen.getByText(/liên hệ gia đình/)).toBeInTheDocument()
   })
 
