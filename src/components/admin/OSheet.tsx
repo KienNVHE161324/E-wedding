@@ -9,11 +9,11 @@ import { useState } from 'react'
  * nên nhân viên tự tạo file rồi chia sẻ, app chỉ dựng tab và ghi thêm dòng.
  */
 export function OSheet({
-  slug,
+  invitationId,
   banDau,
   emailServiceAccount,
 }: {
-  slug: string
+  invitationId: string
   banDau: string | null
   emailServiceAccount: string
 }) {
@@ -28,7 +28,7 @@ export function OSheet({
     const res = await fetch('/api/admin/sheet', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, idHoacUrl }),
+      body: JSON.stringify({ invitationId, idHoacUrl }),
     })
     setDangGui(false)
 

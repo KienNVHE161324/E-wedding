@@ -13,7 +13,8 @@ import { OAlbum } from './OAlbum'
 import { ONguoiCuoi } from './ONguoiCuoi'
 import { OMungCuoi } from './OMungCuoi'
 import { ONhac } from './ONhac'
-import { NutXuatBan } from './NutXuatBan'
+import { QuanLyXuatBan } from './QuanLyXuatBan'
+import { HuyUrl } from './HuyUrl'
 import { OSheet } from './OSheet'
 import { ChonChiTiet } from './ChonChiTiet'
 import { ODressCode } from './ODressCode'
@@ -33,11 +34,15 @@ const SLOT_HIEN_THI: { slot: SlotHoaTiet; nhan: string }[] = [
 
 export function BangSua({
   banDau,
+  invitationId,
+  publicSlug,
   vongDoi,
   spreadsheetId,
   emailServiceAccount,
 }: {
   banDau: Invitation
+  invitationId: string
+  publicSlug: string | null
   vongDoi: VongDoi
   spreadsheetId: string | null
   emailServiceAccount: string
@@ -78,7 +83,7 @@ export function BangSua({
     const res = await fetch('/api/admin/luu', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(thiep),
+      body: JSON.stringify({ invitationId, thiep }),
     })
     const data = await res.json().catch(() => ({}))
     setTrangThai(res.ok ? 'Đã lưu' : `Lỗi: ${data.loi ?? 'không rõ'}`)
@@ -100,13 +105,15 @@ export function BangSua({
           <span className="text-sm">{trangThai}</span>
         </div>
 
-        <NutXuatBan slug={thiep.slug} vongDoi={vongDoi} />
+        <QuanLyXuatBan invitationId={invitationId} vongDoi={vongDoi} />
 
         <OSheet
-          slug={thiep.slug}
+          invitationId={invitationId}
           banDau={spreadsheetId}
           emailServiceAccount={emailServiceAccount}
         />
+
+        <HuyUrl invitationId={invitationId} publicSlug={publicSlug} />
 
         <section>
           <h3 className="font-semibold">Cấu hình đám cưới</h3>
