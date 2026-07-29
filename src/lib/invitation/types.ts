@@ -83,6 +83,17 @@ export interface OMungCuoi {
   tuyChinhQr?: TuyChinhQr
 }
 
+export type FontChuChiTiet = 'serif-co-dien' | 'sans-sach'
+export type CanLeChuChiTiet = 'left' | 'center' | 'right'
+
+export interface ChuChiTietTrangTri {
+  noiDung: string
+  font: FontChuChiTiet
+  coChu: number
+  mauChu: string
+  canLe: CanLeChuChiTiet
+}
+
 /**
  * Một chi tiết trang trí do nhân viên tự thêm vào thiệp.
  * Khác với họa tiết của theme ở chỗ: chọn được tệp, màu, độ đậm, kích thước
@@ -107,6 +118,8 @@ export interface ChiTietTrangTri {
   gocXoay?: number
   /** Đưa chi tiết ra sau chữ, dùng khi nó che mất nội dung. */
   raSauChu?: boolean
+  /** Chữ tùy chọn gắn với các chi tiết có vùng chữ, ví dụ nhóm thiệp D1. */
+  chu?: ChuChiTietTrangTri
 }
 
 export interface TuyChinhHoaTietTheme {

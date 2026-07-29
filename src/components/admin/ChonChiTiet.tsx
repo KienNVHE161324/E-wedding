@@ -5,6 +5,7 @@ import type { ChiTietTrangTri, SectionId } from '@/lib/invitation/types'
 import { DANH_SACH_HOA_TIET, layHoaTiet } from '@/lib/motifs/danhSach'
 import { HoaTiet } from '@/components/HoaTiet'
 import { TEN_SECTION } from './SapXepSection'
+import { layCauHinhChiTietCoChu } from '@/lib/invitation/chiTietCoChu'
 
 /** Vài vị trí hay dùng, bấm một cái là nhảy tới, sau đó vẫn kéo tinh chỉnh được. */
 const VI_TRI_NHANH: { nhan: string; x: number; y: number }[] = [
@@ -47,7 +48,9 @@ export function ChonChiTiet({
     .filter(({ ct }) => ct.section === section)
 
   function them(id: string) {
-    onDoi([...giaTri, { ...MOI, id, section }])
+    const cauHinhChu = layCauHinhChiTietCoChu(id)
+    const chu = cauHinhChu ? { noiDung: '', ...cauHinhChu.macDinh } : undefined
+    onDoi([...giaTri, { ...MOI, id, section, ...(chu ? { chu } : {}) }])
     setDangMoChon(false)
   }
 
@@ -67,6 +70,10 @@ export function ChonChiTiet({
           {cuaPhanNay.map(({ ct, viTriTrongMang: i }) => {
             const muc = layHoaTiet(ct.id)
             const ten = muc?.nhan ?? ct.id
+            const cauHinhChu = layCauHinhChiTietCoChu(ct.id)
+            const chu = ct.chu ?? (
+              cauHinhChu ? { noiDung: '', ...cauHinhChu.macDinh } : undefined
+            )
 
             return (
               <li key={i} className="rounded border p-3">
@@ -184,6 +191,97 @@ export function ChonChiTiet({
                     </label>
                   </div>
                 </div>
+
+                {chu && (
+                  <fieldset className="mt-3 space-y-2 rounded border bg-neutral-50 p-3">
+                    <legend className="px-1 text-sm font-medium">Chữ trên chi tiết</legend>
+
+                    <label className="block text-sm">
+                      Chữ trên thiệp
+                      <textarea
+                        aria-label="Chữ trên thiệp"
+                        className="mt-1 min-h-20 w-full rounded border px-2 py-1.5"
+                        value={chu.noiDung}
+                        onChange={(e) =>
+                          sua(i, { chu: { ...chu, noiDung: e.target.value } })
+                        }
+                      />
+                    </label>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <label className="text-sm">
+                        Phông chữ
+                        <select
+                          aria-label="Phông chữ trên thiệp"
+                          className="mt-1 w-full rounded border px-2 py-1.5"
+                          value={chu.font}
+                          onChange={(e) =>
+                            sua(i, {
+                              chu: {
+                                ...chu,
+                                font: e.target.value as typeof chu.font,
+                              },
+                            })
+                          }
+                        >
+                          <option value="serif-co-dien">Có chân cổ điển</option>
+                          <option value="sans-sach">Không chân dễ đọc</option>
+                        </select>
+                      </label>
+
+                      <label className="text-sm">
+                        Cỡ chữ
+                        <input
+                          aria-label="Cỡ chữ trên thiệp"
+                          type="number"
+                          min={12}
+                          max={72}
+                          className="mt-1 w-full rounded border px-2 py-1.5"
+                          value={chu.coChu}
+                          onChange={(e) =>
+                            sua(i, {
+                              chu: { ...chu, coChu: Number(e.target.value) },
+                            })
+                          }
+                        />
+                      </label>
+
+                      <label className="text-sm">
+                        Màu chữ
+                        <input
+                          aria-label="Màu chữ trên thiệp"
+                          type="color"
+                          className="mt-1 h-9 w-full rounded border"
+                          value={chu.mauChu}
+                          onChange={(e) =>
+                            sua(i, { chu: { ...chu, mauChu: e.target.value } })
+                          }
+                        />
+                      </label>
+
+                      <label className="text-sm">
+                        Căn chữ
+                        <select
+                          aria-label="Căn chữ trên thiệp"
+                          className="mt-1 w-full rounded border px-2 py-1.5"
+                          value={chu.canLe}
+                          onChange={(e) =>
+                            sua(i, {
+                              chu: {
+                                ...chu,
+                                canLe: e.target.value as typeof chu.canLe,
+                              },
+                            })
+                          }
+                        >
+                          <option value="left">Trái</option>
+                          <option value="center">Giữa</option>
+                          <option value="right">Phải</option>
+                        </select>
+                      </label>
+                    </div>
+                  </fieldset>
+                )}
 
                 <div className="mt-2 flex flex-wrap items-center gap-1">
                   {VI_TRI_NHANH.map((v) => (

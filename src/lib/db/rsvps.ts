@@ -3,7 +3,7 @@ import type { Rsvp, RsvpDauVao } from '@/lib/rsvp/types'
 
 interface DongDb {
   id: string
-  slug: string
+  invitation_id: string
   ho_ten: string
   ben: 'nha-trai' | 'nha-gai'
   quan_he: string
@@ -18,7 +18,7 @@ interface DongDb {
 function sangRsvp(d: DongDb): Rsvp {
   return {
     id: d.id,
-    slug: d.slug,
+    invitationId: d.invitation_id,
     hoTen: d.ho_ten,
     ben: d.ben,
     quanHe: d.quan_he,
@@ -31,11 +31,11 @@ function sangRsvp(d: DongDb): Rsvp {
   }
 }
 
-export async function taoRsvp(dauVao: RsvpDauVao & { slug: string }): Promise<Rsvp> {
+export async function taoRsvp(dauVao: RsvpDauVao & { invitationId: string }): Promise<Rsvp> {
   const { data, error } = await taoSupabase()
     .from('rsvps')
     .insert({
-      slug: dauVao.slug,
+      invitation_id: dauVao.invitationId,
       ho_ten: dauVao.hoTen,
       ben: dauVao.ben,
       quan_he: dauVao.quanHe,

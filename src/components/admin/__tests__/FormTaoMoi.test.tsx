@@ -17,10 +17,17 @@ describe('FormTaoMoi', () => {
 
   it('gửi kiểu QR đã chọn khi tạo thiệp', async () => {
     const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
-      new Response(JSON.stringify({ ok: true, slug: 'nam-linh' }), {
+      new Response(
+        JSON.stringify({
+          ok: true,
+          invitationId: '4dc32a02-4321-4ef1-a23a-54fd115329a2',
+          publicSlug: 'nam-linh',
+        }),
+        {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
-      }),
+        },
+      ),
     )
     render(<FormTaoMoi />)
 
@@ -37,5 +44,8 @@ describe('FormTaoMoi', () => {
     await waitFor(() => expect(fetchMock).toHaveBeenCalled())
     const init = fetchMock.mock.calls[0][1] as RequestInit
     expect(JSON.parse(String(init.body))).toMatchObject({ kieuKhungQr: 'toi-gian' })
+    expect(push).toHaveBeenCalledWith(
+      '/admin/thiep/4dc32a02-4321-4ef1-a23a-54fd115329a2',
+    )
   })
 })

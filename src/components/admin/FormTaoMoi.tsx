@@ -41,7 +41,7 @@ export function FormTaoMoi() {
     setDangGui(false)
     const data = await res.json().catch(() => ({}))
     if (res.ok) {
-      router.push(`/admin/${data.slug}`)
+      router.push(`/admin/thiep/${data.invitationId}`)
     } else {
       setLoi(data.loi ?? 'Không tạo được thiệp')
       if (data.goiY) setGoiY(data.goiY)
