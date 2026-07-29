@@ -350,6 +350,84 @@ export const DANH_SACH_HOA_TIET: MucHoaTiet[] = [
     "nhan": "bo am tra cuoi 02"
   },
   {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-bac-01",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-bac-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi bac 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-bac-02",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-bac-02.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi bac 02"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-bong-trang-01",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-bong-trang-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi bong trang 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-bong-vang-hong-01",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-bong-vang-hong-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi bong vang hong 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-01",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi kim cuong 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-02",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-02.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi kim cuong 02"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-03-giot-le",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-03-giot-le.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi kim cuong 03 giot le"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-04-halo",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-04-halo.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi kim cuong 04 halo"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-05-ba-vien",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-05-ba-vien.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi kim cuong 05 ba vien"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-06-eternity",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-kim-cuong-06-eternity.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi kim cuong 06 eternity"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-vang-02",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-vang-02.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi vang 02"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-vang-03",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-vang-03.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi vang 03"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/cap-nhan-cuoi-vang-long-nhau-01",
+    "tep": "primary-decor/wedding-ritual/cap-nhan-cuoi-vang-long-nhau-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "cap nhan cuoi vang long nhau 01"
+  },
+  {
     "id": "primary-decor/wedding-ritual/cap-quat-giay-day-do-01",
     "tep": "primary-decor/wedding-ritual/cap-quat-giay-day-do-01.png",
     "nhom": "Nghi lễ cưới",
@@ -360,6 +438,60 @@ export const DANH_SACH_HOA_TIET: MucHoaTiet[] = [
     "tep": "primary-decor/wedding-ritual/hai-chen-tra-chu-hy-01.png",
     "nhom": "Nghi lễ cưới",
     "nhan": "hai chen tra chu hy 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/hai-tay-nam-nu-dan-vao-01",
+    "tep": "primary-decor/wedding-ritual/hai-tay-nam-nu-dan-vao-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "hai tay nam nu dan vao 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/hai-tay-nam-nu-nam-ngang-01",
+    "tep": "primary-decor/wedding-ritual/hai-tay-nam-nu-nam-ngang-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "hai tay nam nu nam ngang 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/hai-tay-nam-nu-nang-niu-01",
+    "tep": "primary-decor/wedding-ritual/hai-tay-nam-nu-nang-niu-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "hai tay nam nu nang niu 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/hai-tay-trao-nhan-don-sac-01",
+    "tep": "primary-decor/wedding-ritual/hai-tay-trao-nhan-don-sac-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "hai tay trao nhan don sac 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/hop-nhan-go-tron-ve-01",
+    "tep": "primary-decor/wedding-ritual/hop-nhan-go-tron-ve-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "hop nhan go tron ve 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/hop-nhan-go-tron-ve-02",
+    "tep": "primary-decor/wedding-ritual/hop-nhan-go-tron-ve-02.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "hop nhan go tron ve 02"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/hop-nhan-son-son-ve-01",
+    "tep": "primary-decor/wedding-ritual/hop-nhan-son-son-ve-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "hop nhan son son ve 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/hop-nhan-son-son-ve-02",
+    "tep": "primary-decor/wedding-ritual/hop-nhan-son-son-ve-02.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "hop nhan son son ve 02"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/hop-nhan-vo-so-ve-01",
+    "tep": "primary-decor/wedding-ritual/hop-nhan-vo-so-ve-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "hop nhan vo so ve 01"
   },
   {
     "id": "primary-decor/wedding-ritual/khay-banh-phu-the-tron-01",
@@ -390,6 +522,24 @@ export const DANH_SACH_HOA_TIET: MucHoaTiet[] = [
     "tep": "primary-decor/wedding-ritual/nen-long-phung-01.png",
     "nhom": "Nghi lễ cưới",
     "nhan": "nen long phung 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/nhan-cuoi-lua-do-tram-01",
+    "tep": "primary-decor/wedding-ritual/nhan-cuoi-lua-do-tram-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "nhan cuoi lua do tram 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/nhan-cuoi-lua-nga-01",
+    "tep": "primary-decor/wedding-ritual/nhan-cuoi-lua-nga-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "nhan cuoi lua nga 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/nhan-cuoi-lua-xanh-xam-01",
+    "tep": "primary-decor/wedding-ritual/nhan-cuoi-lua-xanh-xam-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "nhan cuoi lua xanh xam 01"
   },
   {
     "id": "primary-decor/wedding-ritual/non-quai-thao-chu-hy-01",
@@ -426,6 +576,24 @@ export const DANH_SACH_HOA_TIET: MucHoaTiet[] = [
     "tep": "primary-decor/wedding-ritual/quat-giay-doi-chen-tra-01.png",
     "nhom": "Nghi lễ cưới",
     "nhan": "quat giay doi chen tra 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/thiep-phong-bi-do-son-mai-dinh-01",
+    "tep": "primary-decor/wedding-ritual/thiep-phong-bi-do-son-mai-dinh-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "thiep phong bi do son mai dinh 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/thiep-phong-bi-giay-do-trien-doi-chim-01",
+    "tep": "primary-decor/wedding-ritual/thiep-phong-bi-giay-do-trien-doi-chim-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "thiep phong bi giay do trien doi chim 01"
+  },
+  {
+    "id": "primary-decor/wedding-ritual/thiep-phong-bi-xanh-ngang-doi-chim-01",
+    "tep": "primary-decor/wedding-ritual/thiep-phong-bi-xanh-ngang-doi-chim-01.png",
+    "nhom": "Nghi lễ cưới",
+    "nhan": "thiep phong bi xanh ngang doi chim 01"
   },
   {
     "id": "primary-decor/wedding-ritual/trap-an-hoi-tron-01",

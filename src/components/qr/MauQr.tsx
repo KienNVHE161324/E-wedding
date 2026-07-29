@@ -10,16 +10,19 @@ export function MauQr({
   kieu,
   mauQr = '#8B2F20',
   mauNen = '#FFF8EF',
+  testId,
 }: {
   kieu: KieuKhungQr
   mauQr?: string
   mauNen?: string
+  testId?: string
 }) {
   return (
     <div
       aria-hidden="true"
+      data-testid={testId}
       data-mau-qr={kieu}
-      className={`relative mx-auto grid aspect-[4/5] w-24 place-items-center overflow-hidden border p-3 ${
+      className={`pointer-events-none relative mx-auto grid aspect-[4/5] w-24 place-items-center overflow-hidden border p-3 ${
         kieu === 'toi-gian' ? 'rounded-sm'
         : kieu === 'hoa-mem' ? 'rounded-2xl'
         : 'rounded-lg border-4'
@@ -27,6 +30,7 @@ export function MauQr({
       style={{
         background: kieu === 'phong-bao' ? mauQr : mauNen,
         borderColor: mauQr,
+        color: mauQr,
       }}
     >
       {kieu === 'hoa-mem' && (

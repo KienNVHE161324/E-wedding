@@ -19,6 +19,14 @@ function thuTuHienThi(container: HTMLElement): string[] {
 }
 
 describe('InvitationRenderer', () => {
+  it('giữ chiều rộng khung điện thoại trên mọi kích thước màn hình', () => {
+    const { container } = render(<InvitationRenderer thiep={thiepMau} theme={theme} />)
+    const main = container.querySelector('main')
+
+    expect(main).toHaveClass('w-full', 'max-w-[520px]')
+    expect(main).not.toHaveClass('md:max-w-[720px]')
+  })
+
   it('trước khi mở chỉ có bìa, không lộ phần nào khác', () => {
     const { container } = render(<InvitationRenderer thiep={thiepMau} theme={theme} />)
     expect(thuTuHienThi(container)).toEqual(['bia'])

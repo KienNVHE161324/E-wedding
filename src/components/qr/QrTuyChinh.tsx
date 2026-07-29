@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useEffect, useMemo, useState, type CSSProperties, type MouseEvent } from 'react'
 import type { Anh, Ben } from '@/lib/invitation/types'
 import { mauQrAnToan, resolveCauHinhQr } from '@/lib/qr/cauHinh'
-import { taoPngQr } from '@/lib/qr/xuLyAnh'
+import { taoAnhQrDaToMau, taoPngQr } from '@/lib/qr/xuLyAnh'
 import type { CauHinhQrTheme, KieuKhungQr, TuyChinhQr } from '@/lib/qr/types'
 import styles from './QrTuyChinh.module.css'
 
@@ -41,16 +41,22 @@ export function QrTuyChinh({
     () => mauQrAnToan(resolveCauHinhQr(themeQr, kieuKhungThiep, tuyChinh)),
     [themeQr, kieuKhungThiep, tuyChinh],
   )
-  const [anhPreview, setAnhPreview] = useState<string>()
+  const [anhPreview, setAnhPreview] = useState<{
+    cauHinh: typeof cauHinh
+    urlAnh: string
+    url: string
+  }>()
+  const urlPreview =
+    anhPreview?.cauHinh === cauHinh && anhPreview.urlAnh === anh.url ? anhPreview.url : undefined
 
   useEffect(() => {
     if (!kichHoat) return
     let url: string | undefined
     let daHuy = false
-    void taoPngQr(anh.url, cauHinh).then((blob) => {
+    void taoAnhQrDaToMau(anh.url, cauHinh).then((blob) => {
       if (!blob || daHuy) return
       url = URL.createObjectURL(blob)
-      setAnhPreview(url)
+      setAnhPreview({ cauHinh, urlAnh: anh.url, url })
     })
     return () => {
       daHuy = true
@@ -79,11 +85,11 @@ export function QrTuyChinh({
 
   const noiDung = (
     <Image
-      src={anhPreview ?? anh.url}
+      src={urlPreview ?? anh.url}
       alt={anh.moTa}
       width={220}
       height={220}
-      unoptimized={Boolean(anhPreview)}
+      unoptimized={Boolean(urlPreview)}
       className={kichHoat ? styles.anh : 'mx-auto h-28 w-28 object-contain md:h-36 md:w-36'}
     />
   )

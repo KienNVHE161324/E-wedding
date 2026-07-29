@@ -23,6 +23,19 @@ describe('toMauDuLieuAnh', () => {
     expect(ketQua.width).toBe(3)
     expect(ketQua.height).toBe(1)
   })
+
+  it('coi pixel trong suốt là nền sáng, không biến thành module QR', () => {
+    const duLieu = {
+      data: new Uint8ClampedArray([0, 0, 0, 0]),
+      width: 1,
+      height: 1,
+      colorSpace: 'srgb',
+    } as ImageData
+
+    expect(Array.from(toMauDuLieuAnh(duLieu, '#112233', '#F0E0D0').data)).toEqual([
+      240, 224, 208, 255,
+    ])
+  })
 })
 
 describe('taoPngQr', () => {

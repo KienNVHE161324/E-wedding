@@ -2,6 +2,21 @@
 
 Chạy trên **iPhone Safari** và **Android Chrome** thật, không dùng giả lập.
 
+## Tùy chỉnh QR mừng cưới
+
+- [ ] Trong **Tạo đám cưới mới**, bấm **Chọn kiểu QR** và kiểm tra đủ ba lựa chọn:
+  **Tối giản**, **Hoa mềm**, **Phong bao**.
+- [ ] Chọn một kiểu, tạo thiệp và xác nhận phần Mừng cưới kế thừa đúng kiểu đó.
+- [ ] Tải ảnh QR thật cho hai bên; hoa, viền và phong bao không chạm vào vùng trắng
+  quanh mã QR trên điện thoại và desktop.
+- [ ] Đổi riêng kiểu/màu nhà trai; nhà gái không bị thay đổi. Bấm
+  **Khôi phục theo giao diện** thì cấu hình riêng được xóa.
+- [ ] Chọn hai màu gần nhau; editor cảnh báo độ tương phản và QR dùng màu đen trên
+  nền trắng.
+- [ ] Tải PNG đã tùy chỉnh. Với ảnh không cho phép canvas đọc chéo miền, hệ thống
+  vẫn hiển thị và tải được ảnh gốc.
+- [ ] Quét từng QR thật bằng ít nhất hai ứng dụng camera/ngân hàng trước khi xuất bản.
+
 ## Hiển thị
 - [ ] Mọi chữ tiếng Việt hiện đủ dấu, không ô vuông, không mất mũ.
 - [ ] Không cuộn ngang được ở bất kỳ phần nào.

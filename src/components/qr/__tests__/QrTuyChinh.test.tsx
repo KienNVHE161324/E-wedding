@@ -2,9 +2,12 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { QrTuyChinh } from '../QrTuyChinh'
-import { taoPngQr } from '@/lib/qr/xuLyAnh'
+import { taoAnhQrDaToMau, taoPngQr } from '@/lib/qr/xuLyAnh'
 
-vi.mock('@/lib/qr/xuLyAnh', () => ({ taoPngQr: vi.fn() }))
+vi.mock('@/lib/qr/xuLyAnh', () => ({
+  taoPngQr: vi.fn(),
+  taoAnhQrDaToMau: vi.fn(),
+}))
 
 const anh = { url: '/qr.png', moTa: 'QR nhà trai' }
 const themeQr = {
@@ -16,6 +19,7 @@ const themeQr = {
 describe('QrTuyChinh', () => {
   beforeEach(() => {
     vi.mocked(taoPngQr).mockResolvedValue(null)
+    vi.mocked(taoAnhQrDaToMau).mockResolvedValue(null)
   })
 
   it('giữ ảnh đơn giản cho thiệp cũ chưa có cấu hình', () => {
@@ -74,5 +78,47 @@ describe('QrTuyChinh', () => {
       'href',
       '/qr.png',
     )
+  })
+  it('khong dung lai preview da thu hoi khi doi A sang B roi quay lai A', async () => {
+    vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:preview-a')
+    vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => undefined)
+    vi.mocked(taoAnhQrDaToMau)
+      .mockResolvedValueOnce(new Blob())
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce(null)
+
+    const { rerender } = render(
+      <QrTuyChinh
+        anh={anh}
+        themeQr={themeQr}
+        kieuKhungThiep="hoa-mem"
+        tuyChinh={{ mauQr: '#111111' }}
+        ben="nha-trai"
+      />,
+    )
+    await waitFor(() =>
+      expect(screen.getByRole('img')).toHaveAttribute('src', 'blob:preview-a'),
+    )
+
+    rerender(
+      <QrTuyChinh
+        anh={anh}
+        themeQr={themeQr}
+        kieuKhungThiep="hoa-mem"
+        tuyChinh={{ mauQr: '#222222' }}
+        ben="nha-trai"
+      />,
+    )
+    rerender(
+      <QrTuyChinh
+        anh={anh}
+        themeQr={themeQr}
+        kieuKhungThiep="hoa-mem"
+        tuyChinh={{ mauQr: '#111111' }}
+        ben="nha-trai"
+      />,
+    )
+
+    expect(screen.getByRole('img')).not.toHaveAttribute('src', 'blob:preview-a')
   })
 })

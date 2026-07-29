@@ -65,7 +65,7 @@ export function PopupChonKieuQr({
                   setDangChon(kieu.id)
                   onChon(kieu.id)
                 }}
-                className="sr-only"
+                className="mb-2 h-4 w-4 accent-black"
                 aria-label={kieu.ten}
               />
               <MauQr kieu={kieu.id} />
