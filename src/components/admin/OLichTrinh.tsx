@@ -39,7 +39,7 @@ export function OLichTrinh({
   }
 
   function them() {
-    onDoi([...giaTri, { ngay: ngayCuoi, gio: '09:00', ten: '' }])
+    onDoi([...giaTri, { id: crypto.randomUUID(), ngay: ngayCuoi, gio: '09:00', ten: '' }])
   }
 
   const o = 'w-full rounded border px-2 py-1.5 text-sm'
