@@ -3,10 +3,14 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import type { Invitation, SectionId } from '@/lib/invitation/types'
+import type { TextRegionId } from '@/lib/invitation/textTypes'
+import { damBaoIdVungChu } from '@/lib/invitation/normalizeTextIds'
 import type { SlotHoaTiet } from '@/lib/themes/types'
 import type { VongDoi } from '@/lib/vongDoi/types'
 import { THEMES, layTheme } from '@/lib/themes'
 import { InvitationRenderer } from '@/components/InvitationRenderer'
+import { TextEditorProvider } from './text/TextEditorProvider'
+import { BangChinhChu } from './text/BangChinhChu'
 import { SapXepSection } from './SapXepSection'
 import { ThanhDoDam } from './ThanhDoDam'
 import { OAlbum } from './OAlbum'
@@ -47,7 +51,10 @@ export function BangSua({
   spreadsheetId: string | null
   emailServiceAccount: string
 }) {
-  const [thiep, setThiep] = useState(banDau)
+  const [thiep, setThiep] = useState(() => damBaoIdVungChu(banDau))
+  const [dangChinhChu, setDangChinhChu] = useState(false)
+  const [vungChuDangChon, setVungChuDangChon] =
+    useState<TextRegionId | null>(null)
   const [trangThai, setTrangThai] = useState('')
   const [phanDangTrangTri, setPhanDangTrangTri] = useState<SectionId>('bia')
 
@@ -136,6 +143,28 @@ export function BangSua({
               </option>
             ))}
           </select>
+          <label className="mt-3 flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              aria-label="Chỉnh chữ"
+              checked={dangChinhChu}
+              onChange={(event) => {
+                setDangChinhChu(event.target.checked)
+                if (!event.target.checked) setVungChuDangChon(null)
+              }}
+            />
+            Chỉnh chữ trực tiếp trên thiệp
+          </label>
+          {dangChinhChu && (
+            <div className="mt-3">
+              <BangChinhChu
+                thiep={thiep}
+                dangChon={vungChuDangChon}
+                onChon={setVungChuDangChon}
+                onDoi={setThiep}
+              />
+            </div>
+          )}
         </section>
 
         <section>
@@ -334,7 +363,15 @@ export function BangSua({
       </div>
 
       <div className="flex-1 overflow-y-auto bg-neutral-100">
-        <InvitationRenderer thiep={thiep} theme={theme} />
+        <TextEditorProvider
+          enabled={dangChinhChu}
+          thiep={thiep}
+          onDoi={setThiep}
+          dangChon={vungChuDangChon}
+          onChon={setVungChuDangChon}
+        >
+          <InvitationRenderer thiep={thiep} theme={theme} />
+        </TextEditorProvider>
       </div>
     </div>
   )
