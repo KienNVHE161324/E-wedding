@@ -1,5 +1,6 @@
 import type { SlotHoaTiet } from '@/lib/themes/types'
 import type { KieuKhungQr, TuyChinhQr } from '@/lib/qr/types'
+import type { FontChu, TuyChinhChu } from './textTypes'
 
 export type SectionId =
   | 'bia'
@@ -33,6 +34,7 @@ export interface NguoiCuoi {
 }
 
 export interface ChangChuyen {
+  id?: string
   anh: Anh
   tieuDe: string
   noiDung: string
@@ -40,6 +42,7 @@ export interface ChangChuyen {
 
 /** Một mốc trong dòng thời gian của đám cưới. */
 export interface SuKien {
+  id?: string
   /** YYYY-MM-DD — cho phép lịch trình trải qua nhiều ngày. */
   ngay: string
   /** HH:mm — dùng để xếp thứ tự trên dòng thời gian. */
@@ -83,12 +86,12 @@ export interface OMungCuoi {
   tuyChinhQr?: TuyChinhQr
 }
 
-export type FontChuChiTiet = 'serif-co-dien' | 'sans-sach'
+export type FontChuChiTiet = FontChu
 export type CanLeChuChiTiet = 'left' | 'center' | 'right'
 
 export interface ChuChiTietTrangTri {
   noiDung: string
-  font: FontChuChiTiet
+  font: FontChu
   coChu: number
   mauChu: string
   canLe: CanLeChuChiTiet
@@ -176,6 +179,7 @@ export interface Invitation {
   /** Bật thì phần Mừng cưới hiện hộp quà đóng, khách chạm vào mới hiện QR. */
   mungCuoiKieuHopQua?: boolean
   tuyChinhGiaoDien?: TuyChinhGiaoDien
+  tuyChinhChu?: TuyChinhChu
   /** Chi tiết trang trí nhân viên tự thêm. Rỗng nghĩa là chỉ dùng họa tiết của theme. */
   chiTietTrangTri?: ChiTietTrangTri[]
   /** Thiếu cấu hình thì dùng form RSVP gọn mặc định để tương thích thiệp cũ. */

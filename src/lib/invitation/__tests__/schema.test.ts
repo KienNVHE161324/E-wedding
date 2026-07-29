@@ -209,4 +209,48 @@ describe('invitationSchema', () => {
       }),
     ).toThrow()
   })
+  it('keeps valid per-region text overrides', () => {
+    const tuyChinhChuHopLe = {
+      'bia.chu-re.ten': {
+        font: 'viet-tay',
+        coChu: 42,
+        mauChu: '#8B2F20',
+        x: 12.5,
+        y: -3,
+      },
+    }
+
+    expect(
+      invitationSchema.parse({ ...thiepMau, tuyChinhChu: tuyChinhChuHopLe }).tuyChinhChu,
+    ).toEqual(tuyChinhChuHopLe)
+  })
+
+  it('rejects invalid per-region text overrides', () => {
+    for (const sai of [
+      { font: 'comic-sans' },
+      { coChu: 121 },
+      { coChu: 7 },
+      { mauChu: 'red' },
+      { x: -101 },
+      { y: 101 },
+      { noiDung: 'x'.repeat(501) },
+    ]) {
+      expect(() =>
+        invitationSchema.parse({ ...thiepMau, tuyChinhChu: { 'bia.loi-mo-dau': sai } }),
+      ).toThrow()
+    }
+
+    expect(() =>
+      invitationSchema.parse({
+        ...thiepMau,
+        tuyChinhChu: Object.fromEntries(
+          Array.from({ length: 251 }, (_, i) => [`vung-${i}`, { x: 0 }]),
+        ),
+      }),
+    ).toThrow()
+  })
+
+  it('accepts old invitations without IDs or text overrides', () => {
+    expect(() => invitationSchema.parse(thiepMau)).not.toThrow()
+  })
 })
