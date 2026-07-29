@@ -48,3 +48,4 @@ du-lieu/
 test-results/
 playwright-report/
 .worktrees/
+.superpowers/
