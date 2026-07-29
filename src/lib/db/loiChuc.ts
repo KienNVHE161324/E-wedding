@@ -28,12 +28,12 @@ const sangLoiChuc = (d: DongDb): LoiChucDayDu => ({
 })
 
 export async function taoLoiChuc(
-  slug: string,
+  invitationId: string,
   dauVao: LoiChucDauVao,
 ): Promise<LoiChucDayDu> {
   const { data, error } = await taoSupabase()
     .from('loi_chuc')
-    .insert({ slug, ho_ten: dauVao.hoTen, noi_dung: dauVao.noiDung })
+    .insert({ invitation_id: invitationId, ho_ten: dauVao.hoTen, noi_dung: dauVao.noiDung })
     .select()
     .single()
 
@@ -42,11 +42,11 @@ export async function taoLoiChuc(
 }
 
 /** Mới nhất lên đầu. */
-export async function layLoiChuc(slug: string): Promise<LoiChucDayDu[]> {
+export async function layLoiChuc(invitationId: string): Promise<LoiChucDayDu[]> {
   const { data, error } = await taoSupabase()
     .from('loi_chuc')
     .select('id, ho_ten, noi_dung, ngay_gui')
-    .eq('slug', slug)
+    .eq('invitation_id', invitationId)
     .order('ngay_gui', { ascending: false })
     .limit(300)
 

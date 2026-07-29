@@ -1,8 +1,8 @@
 import type { Rsvp, RsvpDauVao } from './types'
 
 export interface PhuThuoc {
-  taoRsvp(dauVao: RsvpDauVao & { slug: string }): Promise<Rsvp>
-  laySpreadsheetId(slug: string): Promise<string | null>
+  taoRsvp(dauVao: RsvpDauVao & { invitationId: string }): Promise<Rsvp>
+  laySpreadsheetId(invitationId: string): Promise<string | null>
   danhDauDaDongBo(id: string): Promise<void>
   dongBoLenSheet(spreadsheetId: string, rsvp: Rsvp): Promise<void>
 }
@@ -13,7 +13,7 @@ export interface PhuThuoc {
  */
 export async function luuRsvp(
   deps: PhuThuoc,
-  dauVao: RsvpDauVao & { slug: string },
+  dauVao: RsvpDauVao & { invitationId: string },
 ): Promise<Rsvp> {
   return deps.taoRsvp(dauVao)
 }
@@ -27,9 +27,9 @@ export async function luuRsvp(
  */
 export async function dongBoMotRsvp(deps: PhuThuoc, rsvp: Rsvp): Promise<boolean> {
   try {
-    const spreadsheetId = await deps.laySpreadsheetId(rsvp.slug)
+    const spreadsheetId = await deps.laySpreadsheetId(rsvp.invitationId)
     if (!spreadsheetId) {
-      console.warn(`Thiệp ${rsvp.slug} chưa gắn ID bảng tính, RSVP sẽ được đẩy sau.`)
+      console.warn(`Thiệp ${rsvp.invitationId} chưa gắn ID bảng tính, RSVP sẽ được đẩy sau.`)
       return false
     }
 

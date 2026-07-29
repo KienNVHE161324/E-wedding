@@ -1,7 +1,12 @@
-export function ThongBaoTrangThai({ trangThai }: { trangThai: 'nhap' | 'het-han' }) {
-  const tieuDe = trangThai === 'nhap' ? 'Thiệp chưa được mở' : 'Thiệp đã hết hạn'
+export function ThongBaoTrangThai({
+  trangThai,
+}: {
+  trangThai: 'nhap' | 'da-len-lich' | 'het-han'
+}) {
+  const chuaMo = trangThai === 'nhap' || trangThai === 'da-len-lich'
+  const tieuDe = chuaMo ? 'Thiệp chưa được mở' : 'Thiệp đã đóng'
   const noiDung =
-    trangThai === 'nhap'
+    chuaMo
       ? 'Thiệp này đang được chuẩn bị. Bạn vui lòng quay lại sau nhé.'
       : 'Thiệp này đã đóng. Nếu bạn cần thông tin về lễ cưới, xin vui lòng liên hệ gia đình hai bên.'
 

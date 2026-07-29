@@ -5,9 +5,11 @@ import Link from 'next/link'
 import type { ThiepTomTat, TrangThaiThiep } from '@/lib/vongDoi/types'
 
 const NHAN_TRANG_THAI: Record<TrangThaiThiep, string> = {
-  'nhap': 'Nháp',
+  nhap: 'Nháp',
+  'da-len-lich': 'Đã lên lịch',
   'da-xuat-ban': 'Đang mở',
-  'het-han': 'Hết hạn',
+  'het-han': 'Đã đóng',
+  'da-huy': 'Đã hủy',
 }
 
 function ngayVn(iso: string) {
@@ -20,7 +22,7 @@ export function BangDieuKhien({ danhSach }: { danhSach: ThiepTomTat[] }) {
   const [loc, setLoc] = useState<'tat-ca' | TrangThaiThiep>('tat-ca')
 
   const hienThi = danhSach.filter((t) => {
-    const khop = `${t.tenChuRe} ${t.tenCoDau} ${t.slug}`
+    const khop = `${t.tenChuRe} ${t.tenCoDau} ${t.publicSlug ?? ''}`
       .toLowerCase()
       .includes(tuKhoa.trim().toLowerCase())
     return khop && (loc === 'tat-ca' || t.trangThai === loc)
@@ -46,7 +48,6 @@ export function BangDieuKhien({ danhSach }: { danhSach: ThiepTomTat[] }) {
             className="ml-2 rounded border px-3 py-1.5"
           />
         </label>
-
         <label className="text-sm">
           Trạng thái
           <select
@@ -57,8 +58,10 @@ export function BangDieuKhien({ danhSach }: { danhSach: ThiepTomTat[] }) {
           >
             <option value="tat-ca">Tất cả</option>
             <option value="nhap">Nháp</option>
+            <option value="da-len-lich">Đã lên lịch</option>
             <option value="da-xuat-ban">Đang mở</option>
-            <option value="het-han">Hết hạn</option>
+            <option value="het-han">Đã đóng</option>
+            <option value="da-huy">Đã hủy</option>
           </select>
         </label>
       </div>
@@ -68,12 +71,12 @@ export function BangDieuKhien({ danhSach }: { danhSach: ThiepTomTat[] }) {
       ) : (
         <ul className="mt-6 space-y-3">
           {hienThi.map((t) => (
-            <li key={t.slug} className="rounded border p-4">
+            <li key={t.id} className="rounded border p-4">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="font-medium">
-                  {t.tenChuRe} &amp; {t.tenCoDau}
+                <span className="font-medium">{t.tenChuRe} &amp; {t.tenCoDau}</span>
+                <span className="text-sm text-neutral-500">
+                  {t.publicSlug ? `/${t.publicSlug}` : 'Đã gỡ URL'}
                 </span>
-                <span className="text-sm text-neutral-500">/{t.slug}</span>
                 <span className="rounded-full border px-2 py-0.5 text-xs">
                   {NHAN_TRANG_THAI[t.trangThai]}
                 </span>
@@ -81,24 +84,19 @@ export function BangDieuKhien({ danhSach }: { danhSach: ThiepTomTat[] }) {
 
               <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-neutral-600">
                 <span>Cưới ngày {ngayVn(t.ngayCuoi)}</span>
-                {t.soNgayConLai !== null && (
-                  <span>{t.soNgayConLai === 0 ? 'Đã hết hạn' : `Còn ${t.soNgayConLai} ngày`}</span>
-                )}
-                <span>
-                  Xác nhận: <strong>{t.soLuotXacNhan}</strong>
-                </span>
+                <span>Xác nhận: <strong>{t.soLuotXacNhan}</strong></span>
               </div>
 
               <div className="mt-3 flex flex-wrap gap-3 text-sm">
-                <Link href={`/admin/${t.slug}`} className="underline">
-                  Sửa thiệp
-                </Link>
-                <Link href={`/admin/${t.slug}/loi-chuc`} className="underline">
+                <Link href={`/admin/thiep/${t.id}`} className="underline">Sửa thiệp</Link>
+                <Link href={`/admin/thiep/${t.id}/loi-chuc`} className="underline">
                   Xem lời chúc
                 </Link>
-                <a href={`/${t.slug}`} target="_blank" rel="noopener noreferrer" className="underline">
-                  Xem thiệp
-                </a>
+                {t.publicSlug && (
+                  <a href={`/${t.publicSlug}`} target="_blank" rel="noopener noreferrer" className="underline">
+                    Xem thiệp
+                  </a>
+                )}
                 {t.spreadsheetId && (
                   <a
                     href={`https://docs.google.com/spreadsheets/d/${t.spreadsheetId}`}

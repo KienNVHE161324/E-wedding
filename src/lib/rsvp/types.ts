@@ -17,7 +17,7 @@ export type RsvpDauVao = z.infer<typeof rsvpDauVaoSchema>
 
 export interface Rsvp extends RsvpDauVao {
   id: string
-  slug: string
+  invitationId: string
   ben: Ben
   ngayDangKy: string
   daDongBoSheet: boolean
