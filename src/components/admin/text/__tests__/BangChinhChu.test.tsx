@@ -10,6 +10,8 @@ import { parseSoNhap } from '../numberInput'
 
 const ID_CO_DAU = 'bia.co-dau.ten'
 const ID_LOI_MO_DAU = 'bia.loi-mo-dau'
+const ID_TIEU_DE_RSVP = 'rsvp.tieu-de'
+const ID_GIOI_THIEU_CO_DAU = 'co-dau-chu-re.co-dau.gioi-thieu'
 
 function KhungBangChinhChu({
   banDau = thiepMau,
@@ -166,6 +168,50 @@ describe('BangChinhChu', () => {
       'Trân trọng kính mời',
     )
     expect(thiep.coDau).toEqual(thiepMau.coDau)
+  })
+
+  it('giữ bản nhập nhưng không commit tiêu đề hệ thống chỉ có khoảng trắng', async () => {
+    const onDoi = vi.fn()
+    render(
+      <KhungBangChinhChu
+        chonBanDau={ID_TIEU_DE_RSVP}
+        onDoi={onDoi}
+      />,
+    )
+    const noiDung = screen.getByLabelText('Nội dung vùng chữ')
+
+    await userEvent.clear(noiDung)
+    await userEvent.type(noiDung, '   ')
+
+    expect(noiDung).toHaveValue('   ')
+    expect(noiDung).toHaveAttribute('aria-invalid', 'true')
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Nội dung tiêu đề hoặc nút không được để trống',
+    )
+    expect(onDoi).not.toHaveBeenCalled()
+    expect(docThiep().tuyChinhChu?.[ID_TIEU_DE_RSVP]).toBeUndefined()
+  })
+
+  it('vẫn cho phép xóa nội dung canonical vốn là tùy chọn', async () => {
+    const onDoi = vi.fn()
+    render(
+      <KhungBangChinhChu
+        banDau={{
+          ...thiepMau,
+          coDau: { ...thiepMau.coDau, gioiThieu: 'Giới thiệu cô dâu' },
+        }}
+        chonBanDau={ID_GIOI_THIEU_CO_DAU}
+        onDoi={onDoi}
+      />,
+    )
+
+    await userEvent.clear(screen.getByLabelText('Nội dung vùng chữ'))
+
+    expect(docThiep().coDau.gioiThieu).toBeUndefined()
+    expect(onDoi).toHaveBeenCalled()
+    expect(screen.getByLabelText('Nội dung vùng chữ')).not.toHaveAttribute(
+      'aria-invalid',
+    )
   })
 
   it('giữ raw input số dở dang và không làm hỏng invitation state', async () => {

@@ -9,6 +9,7 @@ import {
 import { FONT_CHU_OPTIONS } from '@/lib/invitation/fonts'
 import { capNhatVungChu } from '@/lib/invitation/textOverrides'
 import {
+  laNoiDungVungChuBatBuoc,
   lietKeVungChu,
   type MoTaVungChu,
 } from '@/lib/invitation/textRegions'
@@ -191,6 +192,12 @@ function DieuKhienVungChu({
   const noiDung = moTa.capNhatNoiDung
     ? moTa.noiDung
     : override?.noiDung ?? moTa.noiDung
+  const [noiDungRaw, setNoiDungRaw] = useBanNhap(noiDung)
+  const noiDungBatBuoc = laNoiDungVungChuBatBuoc(moTa)
+  const loiNoiDung =
+    noiDungBatBuoc && noiDungRaw.trim().length === 0
+      ? 'Nội dung tiêu đề hoặc nút không được để trống.'
+      : null
 
   function suaOverride(thayDoi: Partial<TuyChinhVungChu>) {
     onDoi({
@@ -205,6 +212,11 @@ function DieuKhienVungChu({
 
   function suaNoiDung(giaTri: string) {
     if (!moTa.choSuaNoiDung) return
+    if (noiDungBatBuoc && giaTri.trim().length === 0) {
+      setNoiDungRaw(giaTri)
+      return
+    }
+    setNoiDungRaw(giaTri, giaTri)
     if (moTa.capNhatNoiDung) {
       const daCapNhat = moTa.capNhatNoiDung(thiep, giaTri)
       onDoi({
@@ -229,12 +241,24 @@ function DieuKhienVungChu({
         Nội dung
         <textarea
           aria-label="Nội dung vùng chữ"
-          value={noiDung}
+          aria-invalid={loiNoiDung ? true : undefined}
+          aria-describedby={loiNoiDung ? `loi-noi-dung-${moTa.id}` : undefined}
+          value={noiDungRaw}
           disabled={!moTa.choSuaNoiDung}
           onChange={(event) => suaNoiDung(event.target.value)}
+          maxLength={500}
           className="mt-1 min-h-20 w-full rounded border px-2 py-1.5 disabled:bg-neutral-100"
         />
       </label>
+      {loiNoiDung && (
+        <p
+          id={`loi-noi-dung-${moTa.id}`}
+          role="alert"
+          className="mt-1 text-xs text-red-600"
+        >
+          {loiNoiDung}
+        </p>
+      )}
 
       <div className="mt-3 grid grid-cols-2 gap-2">
         <label className="block text-sm">

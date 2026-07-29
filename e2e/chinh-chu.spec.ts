@@ -123,8 +123,8 @@ test('chạm và kéo vùng chữ trên mobile sẽ cập nhật tọa độ', a
 
 test('đổi thứ tự sự kiện vẫn giữ vùng chữ theo ID ổn định', async ({ page }, testInfo) => {
   await taoThiepKiemThu(page, testInfo)
-  await page.getByLabel('Chỉnh chữ').check()
   await themHaiSuKien(page)
+  await page.getByLabel('Chỉnh chữ').check()
 
   const regionA = page.locator('[data-text-region$=".ten"]').filter({ hasText: 'Lễ rước dâu' })
   const idA = await regionA.getAttribute('data-text-region')

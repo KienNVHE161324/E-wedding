@@ -251,6 +251,21 @@ describe('invitationSchema', () => {
     ).toThrow()
   })
 
+  it.each([
+    ['rsvp.tieu-de', ''],
+    ['rsvp.nut-mo', '   '],
+  ])(
+    'rejects blank required system copy for %s',
+    (id, noiDung) => {
+      expect(() =>
+        invitationSchema.parse({
+          ...thiepMau,
+          tuyChinhChu: { [id]: { noiDung } },
+        }),
+      ).toThrow()
+    },
+  )
+
   it('accepts old invitations without IDs or text overrides', () => {
     expect(() => invitationSchema.parse(thiepMau)).not.toThrow()
   })

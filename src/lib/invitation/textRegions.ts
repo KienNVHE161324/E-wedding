@@ -22,6 +22,14 @@ export interface MoTaVungChu {
   capNhatNoiDung?: (thiep: Invitation, noiDung: string) => Invitation
 }
 
+export function laNoiDungVungChuBatBuoc(moTa: MoTaVungChu): boolean {
+  return (
+    moTa.choSuaNoiDung &&
+    !moTa.capNhatNoiDung &&
+    (moTa.nhom === 'title' || moTa.nhom === 'action')
+  )
+}
+
 type CapNhatNoiDung = NonNullable<MoTaVungChu['capNhatNoiDung']>
 
 function vungHeThong(

@@ -245,6 +245,58 @@ describe('TextEditorProvider', () => {
     },
   )
 
+  it('giữ một phần vùng chữ trong section thấp khi kéo quá xa', () => {
+    const onDoi = vi.fn()
+    render(<KhungProvider onDoi={onDoi} />)
+    const { vung } = chuanBiKeo()
+    const section = vung.closest('[data-section]') as HTMLElement
+    vi.mocked(section.getBoundingClientRect).mockReturnValue({
+      x: 0,
+      y: 100,
+      top: 100,
+      right: 520,
+      bottom: 140,
+      left: 0,
+      width: 520,
+      height: 40,
+      toJSON: () => ({}),
+    })
+    vi.spyOn(vung, 'getBoundingClientRect').mockReturnValue({
+      x: 200,
+      y: 110,
+      top: 110,
+      right: 320,
+      bottom: 130,
+      left: 200,
+      width: 120,
+      height: 20,
+      toJSON: () => ({}),
+    })
+
+    fireEvent.pointerDown(vung, {
+      pointerId: 11,
+      clientX: 260,
+      clientY: 120,
+    })
+    fireEvent.pointerMove(window, {
+      pointerId: 11,
+      clientX: 10_000,
+      clientY: 10_000,
+    })
+    fireEvent.pointerUp(window, { pointerId: 11 })
+
+    expect(onDoi).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        tuyChinhChu: expect.objectContaining({
+          [ID_CO_DAU]: expect.objectContaining({
+            x: 58.5,
+            y: 2.7,
+          }),
+        }),
+      }),
+    )
+  })
+
   it('giữ cập nhật invitation khác xảy ra giữa các pointermove', () => {
     const onDoi = vi.fn()
     render(<KhungCapNhatGiuaLucKeo onDoi={onDoi} />)

@@ -80,10 +80,18 @@ describe('Lịch trình đám cưới', () => {
     ) as HTMLElement
     expect(tenA).toHaveTextContent('Tiệc bên A')
     expect(tenA.style.color).toBe('rgb(18, 52, 86)')
-    expect(tenA.style.transform).toBe('translate(3cqw, 0cqw)')
+    expect(tenA.style.getPropertyValue('--dich-x-responsive')).toContain('3vw')
+    expect(tenA.style.getPropertyValue('--dich-x-responsive')).toContain(
+      '15.6',
+    )
     expect(tenB).toHaveTextContent('Lễ bên B')
     expect(tenB.style.color).toBe('rgb(101, 67, 33)')
-    expect(tenB.style.transform).toBe('translate(-2cqw, 0cqw)')
+    expect(tenB.style.getPropertyValue('--dich-x-responsive')).toContain(
+      '-2vw',
+    )
+    expect(tenB.style.getPropertyValue('--dich-x-responsive')).toContain(
+      '-10.4px',
+    )
 
     expect(
       container.querySelector('[data-text-region="su-kien.tieu-de"]'),

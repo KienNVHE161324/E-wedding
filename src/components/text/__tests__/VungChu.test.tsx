@@ -63,13 +63,13 @@ describe('VungChu', () => {
     expect(vung).toHaveClass('inline-block')
     expect(vung.style.color).toBe('rgb(18, 52, 86)')
     expect(vung.style.fontFamily).toContain('--font-viet-tay')
-    expect(vung.style.getPropertyValue('--co-chu-responsive')).toBe(
-      '7.692307692307692cqw',
-    )
-    expect(vung.style.fontSize).toBe(
-      'clamp(8px, var(--co-chu-responsive), 120px)',
-    )
-    expect(vung.style.transform).toBe('translate(10cqw, -5cqw)')
+    expect(vung.style.getPropertyValue('--co-chu-responsive')).toContain('vw')
+    expect(vung.style.getPropertyValue('--co-chu-responsive')).toContain('40px')
+    expect(vung.style.getPropertyValue('--dich-x-responsive')).toContain('10vw')
+    expect(vung.style.getPropertyValue('--dich-x-responsive')).toContain('52px')
+    expect(vung.style.getPropertyValue('--dich-y-responsive')).toContain('-5vw')
+    expect(vung.style.getPropertyValue('--dich-y-responsive')).toContain('-26px')
+    expect(vung.style.cssText).not.toContain('cqw')
   })
 
   it('giữ nội dung và hành vi của phần tử cha khi không có bridge', async () => {
@@ -143,5 +143,38 @@ describe('VungChu', () => {
     )
     expect(bridgeBat.chon).toHaveBeenCalledWith('bia.loi-mo-dau')
     expect(onClickPhanTuCha).toHaveBeenCalledOnce()
+  })
+
+  it('phơi bày aria-selected cho cả vùng được chọn và chưa được chọn', () => {
+    const { rerender } = renderTrongBridge(
+      taoBridge(),
+      <VungChu
+        id="bia.loi-mo-dau"
+        thiep={thiepMau}
+        noiDung="Thân mời"
+      />,
+    )
+
+    expect(screen.getByText('Thân mời')).toHaveAttribute(
+      'aria-selected',
+      'false',
+    )
+
+    rerender(
+      <TextEditorBridge.Provider
+        value={taoBridge({ dangChon: 'bia.loi-mo-dau' })}
+      >
+        <VungChu
+          id="bia.loi-mo-dau"
+          thiep={thiepMau}
+          noiDung="Thân mời"
+        />
+      </TextEditorBridge.Provider>,
+    )
+
+    expect(screen.getByText('Thân mời')).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
   })
 })

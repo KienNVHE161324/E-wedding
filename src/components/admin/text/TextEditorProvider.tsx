@@ -29,6 +29,10 @@ type DragState = {
   startY: number
   width: number
   initial: { x: number; y: number }
+  minDeltaX: number
+  maxDeltaX: number
+  minDeltaY: number
+  maxDeltaY: number
 }
 
 type TextEditorProviderProps = {
@@ -109,8 +113,15 @@ export function TextEditorProvider({
       event.preventDefault()
       event.stopPropagation()
       const section = event.currentTarget.closest<HTMLElement>('[data-section]')
-      const width = section?.getBoundingClientRect().width ?? 0
+      const sectionRect = section?.getBoundingClientRect()
+      const targetRect = event.currentTarget.getBoundingClientRect()
+      const width = sectionRect?.width ?? 0
       if (width <= 0) return
+      const coKichThuocVung =
+        targetRect.width > 0 && targetRect.height > 0
+      const phanConLaiCoTheChon = coKichThuocVung
+        ? Math.min(16, targetRect.width, targetRect.height)
+        : 0
 
       ketThucKeo()
       event.currentTarget.focus()
@@ -123,6 +134,18 @@ export function TextEditorProvider({
         startY: event.clientY,
         width,
         initial: { x: override?.x ?? 0, y: override?.y ?? 0 },
+        minDeltaX: coKichThuocVung
+          ? sectionRect!.left + phanConLaiCoTheChon - targetRect.right
+          : Number.NEGATIVE_INFINITY,
+        maxDeltaX: coKichThuocVung
+          ? sectionRect!.right - phanConLaiCoTheChon - targetRect.left
+          : Number.POSITIVE_INFINITY,
+        minDeltaY: coKichThuocVung
+          ? sectionRect!.top + phanConLaiCoTheChon - targetRect.bottom
+          : Number.NEGATIVE_INFINITY,
+        maxDeltaY: coKichThuocVung
+          ? sectionRect!.bottom - phanConLaiCoTheChon - targetRect.top
+          : Number.POSITIVE_INFINITY,
       }
       captureTarget.current = event.currentTarget
       event.currentTarget.setPointerCapture?.(pointerId)
@@ -132,11 +155,25 @@ export function TextEditorProvider({
         const hienTai = drag.current
         if (!hienTai || pointerEvent.pointerId !== hienTai.pointerId) return
         pointerEvent.preventDefault()
+        const deltaX = Math.max(
+          hienTai.minDeltaX,
+          Math.min(
+            hienTai.maxDeltaX,
+            pointerEvent.clientX - hienTai.startX,
+          ),
+        )
+        const deltaY = Math.max(
+          hienTai.minDeltaY,
+          Math.min(
+            hienTai.maxDeltaY,
+            pointerEvent.clientY - hienTai.startY,
+          ),
+        )
         capNhatToaDo(
           hienTai.id,
           deltaSangToaDo(
-            pointerEvent.clientX - hienTai.startX,
-            pointerEvent.clientY - hienTai.startY,
+            deltaX,
+            deltaY,
             hienTai.width,
             hienTai.initial,
           ),

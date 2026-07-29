@@ -1,6 +1,10 @@
 import { z } from 'zod'
 import type { Invitation } from './types'
 import { FONT_CHU } from './textTypes'
+import {
+  laNoiDungVungChuBatBuoc,
+  lietKeVungChu,
+} from './textRegions'
 import { KIEU_KHUNG_QR } from '@/lib/qr/types'
 
 const anhSchema = z.object({
@@ -193,4 +197,16 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
   tuyChinhChu: tuyChinhChuSchema.optional(),
   chiTietTrangTri: z.array(chiTietTrangTriSchema).optional(),
   cauHinhRsvp: cauHinhRsvpSchema.optional(),
+}).superRefine((thiep, ctx) => {
+  for (const moTa of lietKeVungChu(thiep)) {
+    if (!laNoiDungVungChuBatBuoc(moTa)) continue
+    const noiDung = thiep.tuyChinhChu?.[moTa.id]?.noiDung
+    if (noiDung === undefined || noiDung.trim().length > 0) continue
+
+    ctx.addIssue({
+      code: 'custom',
+      message: 'Nội dung tiêu đề hoặc nút không được để trống',
+      path: ['tuyChinhChu', moTa.id, 'noiDung'],
+    })
+  }
 })

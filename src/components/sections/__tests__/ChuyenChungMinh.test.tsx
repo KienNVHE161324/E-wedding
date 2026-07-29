@@ -45,7 +45,12 @@ describe('Chuyện chúng mình', () => {
     ) as HTMLElement
     expect(tieuDe).toHaveTextContent('Mốc đầu tiên')
     expect(tieuDe.style.color).toBe('rgb(101, 67, 33)')
-    expect(tieuDe.style.transform).toBe('translate(4cqw, 0cqw)')
+    expect(tieuDe.style.getPropertyValue('--dich-x-responsive')).toContain(
+      '4vw',
+    )
+    expect(tieuDe.style.getPropertyValue('--dich-x-responsive')).toContain(
+      '20.8px',
+    )
 
     expect(screen.queryByText('Nội dung chưa được renderer hiển thị')).not.toBeInTheDocument()
     expect(screen.queryByText('Mốc chưa render')).not.toBeInTheDocument()

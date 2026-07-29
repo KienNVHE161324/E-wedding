@@ -52,22 +52,39 @@ export function VungChu({
   const override = thiep.tuyChinhChu?.[id]
   const noiDungHienThi = override?.noiDung ?? noiDung
 
+  function doDaiResponsive(phanTram: number): string {
+    if (phanTram === 0) return '0px'
+    const theoViewport = `${phanTram}vw`
+    const taiKhung520 = `${phanTram * 5.2}px`
+    return phanTram > 0
+      ? `min(${theoViewport}, ${taiKhung520})`
+      : `max(${theoViewport}, ${taiKhung520})`
+  }
+
   const style = {
     color: override?.mauChu,
     fontFamily: layFontCss(override?.font),
     '--co-chu-responsive': override?.coChu
-      ? `${override.coChu / 5.2}cqw`
+      ? `min(${override.coChu / 5.2}vw, ${override.coChu}px)`
       : undefined,
+    '--dich-x-responsive': doDaiResponsive(override?.x ?? 0),
+    '--dich-y-responsive': doDaiResponsive(override?.y ?? 0),
     fontSize: override?.coChu
       ? 'clamp(8px, var(--co-chu-responsive), 120px)'
       : undefined,
-    transform: `translate(${override?.x ?? 0}cqw, ${override?.y ?? 0}cqw)`,
-  } as CSSProperties & { '--co-chu-responsive'?: string }
+    transform:
+      'translate(var(--dich-x-responsive), var(--dich-y-responsive))',
+  } as CSSProperties & {
+    '--co-chu-responsive'?: string
+    '--dich-x-responsive': string
+    '--dich-y-responsive': string
+  }
 
   const dangChinh = bridge?.dangChinh === true
   const editorProps = dangChinh
     ? {
         tabIndex: 0,
+        'aria-selected': bridge.dangChon === id,
         'data-text-selected': bridge.dangChon === id ? 'true' : undefined,
         onClick(event: MouseEvent<HTMLSpanElement>) {
           event.preventDefault()
