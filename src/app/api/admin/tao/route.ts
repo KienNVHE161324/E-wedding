@@ -33,14 +33,14 @@ export async function POST(req: Request) {
 
   try {
     const thiep = taoThiepMoi(kiemTra.data)
-    await taoThiepTrongDb(thiep, phien.userId)
-    return NextResponse.json({ ok: true, slug: thiep.slug })
+    const invitationId = await taoThiepTrongDb(thiep, phien.userId)
+    return NextResponse.json({ ok: true, invitationId, publicSlug: thiep.slug })
   } catch (loi) {
     const thongBao = loi instanceof Error ? loi.message : 'Không tạo được thiệp'
 
     // Trùng đường dẫn là chuyện thường khi hai đám cưới trùng tên cô dâu chú rể.
     // Gợi ý sẵn tên thay thế thay vì bắt nhân viên tự nghĩ.
-    if (thongBao.includes('đã có người dùng')) {
+    if (thongBao.includes('Đường dẫn đã tồn tại')) {
       const goiY = deXuatSlug(kiemTra.data.slug, await laySlugDaCo())
       return NextResponse.json({ loi: thongBao, goiY }, { status: 409 })
     }

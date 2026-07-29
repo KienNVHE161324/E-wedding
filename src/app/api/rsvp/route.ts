@@ -43,7 +43,7 @@ export async function POST(req: Request) {
 
   try {
     const deps = phuThuoc()
-    const rsvp = await luuRsvp(deps, { ...kiemTra.data, slug })
+    const rsvp = await luuRsvp(deps, { ...kiemTra.data, invitationId: ban.id })
 
     // Đẩy sang Google Sheet sau khi đã trả lời khách: một vòng gọi Google mất
     // vài giây, không được để khách ngồi chờ. Thất bại thì cron đẩy lại sau.

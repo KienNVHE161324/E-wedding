@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import { xuatBan, giaHan } from '@/lib/db/invitations'
-import { tinhNgayHetHan, SO_NGAY_MAC_DINH } from '@/lib/vongDoi/tinhTrangThai'
+import { datLich } from '@/lib/db/invitations'
+import { tuNgayGioVietNam } from '@/lib/vongDoi/thoiGian'
 
 const dauVaoSchema = z.object({
-  slug: z.string().min(1),
-  hanhDong: z.enum(['xuat-ban', 'gia-han']),
-  soNgay: z.number().int().min(1).max(365).optional(),
+  invitationId: z.string().uuid(),
+  ngayXuatBan: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/),
+  ngayDong: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/),
 })
 
 export async function POST(req: Request) {
@@ -15,16 +15,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ loi: 'Dữ liệu không hợp lệ' }, { status: 400 })
   }
 
-  const { slug, hanhDong, soNgay = SO_NGAY_MAC_DINH } = kiemTra.data
-  // Gia hạn tính lại từ hôm nay, không cộng dồn vào hạn cũ đã trôi qua.
-  const ngayHetHan = tinhNgayHetHan(new Date(), soNgay)
-
   try {
-    if (hanhDong === 'xuat-ban') await xuatBan(slug, ngayHetHan)
-    else await giaHan(slug, ngayHetHan)
-    return NextResponse.json({ ok: true, ngayHetHan })
+    const ngayXuatBan = tuNgayGioVietNam(kiemTra.data.ngayXuatBan)
+    const ngayDong = tuNgayGioVietNam(kiemTra.data.ngayDong)
+    if (Date.parse(ngayDong) <= Date.parse(ngayXuatBan)) {
+      return NextResponse.json(
+        { loi: 'Ngày giờ đóng phải sau ngày giờ xuất bản' },
+        { status: 400 },
+      )
+    }
+
+    await datLich(kiemTra.data.invitationId, ngayXuatBan, ngayDong)
+    return NextResponse.json({ ok: true, ngayXuatBan, ngayDong })
   } catch (loi) {
-    console.error('Lỗi đổi vòng đời thiệp:', loi)
-    return NextResponse.json({ loi: 'Không thực hiện được' }, { status: 500 })
+    console.error('Lỗi đặt lịch thiệp:', loi)
+    return NextResponse.json({ loi: 'Không lưu được lịch xuất bản' }, { status: 500 })
   }
 }
