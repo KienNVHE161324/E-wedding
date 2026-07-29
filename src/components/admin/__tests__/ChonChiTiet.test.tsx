@@ -78,6 +78,37 @@ describe('ChonChiTiet', () => {
     ])
   })
 
+  it('lưu font viet-tay cho chữ trên D1', async () => {
+    const d1 = DANH_SACH_HOA_TIET.find((muc) => muc.id === ID_D1_2)!
+    const banDau = {
+      id: d1.id,
+      section: 'album' as const,
+      x: 50,
+      y: 50,
+      mau: '#8B2F20',
+      doDam: 1,
+      kichThuoc: 60,
+      raSauChu: true,
+      chu: {
+        noiDung: '',
+        font: 'serif-co-dien' as const,
+        coChu: 27,
+        mauChu: '#6B2F24',
+        canLe: 'center' as const,
+      },
+    }
+    const onDoi = vi.fn()
+    render(<ChonChiTiet giaTri={[banDau]} section="album" onDoi={onDoi} />)
+
+    await userEvent.selectOptions(screen.getByLabelText('Phông chữ trên thiệp'), 'viet-tay')
+
+    expect(onDoi).toHaveBeenLastCalledWith([
+      expect.objectContaining({
+        chu: expect.objectContaining({ font: 'viet-tay' }),
+      }),
+    ])
+  })
+
   it('không hiện ô chữ cho họa tiết thường', () => {
     const thuong = DANH_SACH_HOA_TIET.find((muc) => muc.id !== ID_D1_2)!
     render(
