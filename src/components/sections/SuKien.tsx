@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import type { SectionProps } from './types'
-import { lienKetThemVaoLich, sapXepLichTrinh } from '@/lib/invitation/lich'
+import { lienKetThemVaoLich, sapXepLichTrinh, tenTepLich } from '@/lib/invitation/lich'
 
 const TEN_THU_DAY_DU = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy']
 
@@ -73,12 +73,21 @@ export function SuKien({ thiep }: SectionProps) {
 
                   <a
                     href={lienKetThemVaoLich(sk)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 inline-flex items-center rounded-full border px-4 py-2 text-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    download={tenTepLich(sk)}
+                    className="mt-2 inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition hover:-translate-y-0.5 hover:shadow-md"
                     style={{ borderColor: 'var(--mau-chinh)', color: 'var(--mau-chinh)' }}
                   >
-                    Thêm vào lịch của tôi
+                    <svg
+                      aria-hidden="true"
+                      className="h-3.5 w-3.5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M7 3v3m10-3v3M4.5 9h15M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" />
+                    </svg>
+                    Thêm vào lịch
                   </a>
 
                   {sk.banDoAnh && (

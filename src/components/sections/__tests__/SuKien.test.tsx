@@ -60,14 +60,20 @@ describe('Lịch trình đám cưới', () => {
     const { container } = ve(thiepMau.suKien)
     expect(screen.getAllByTestId('timeline-truc')).toHaveLength(2)
     expect(screen.getAllByTestId('timeline-node')).toHaveLength(thiepMau.suKien.length)
-    expect(container.querySelector('svg')).toBeNull()
+    expect(container.querySelectorAll('svg')).toHaveLength(thiepMau.suKien.length)
   })
 
   it('có nút thêm từng mốc vào lịch', () => {
     ve(thiepMau.suKien)
-    const nut = screen.getAllByRole('link', { name: 'Thêm vào lịch của tôi' })
+    const nut = screen.getAllByRole('link', { name: 'Thêm vào lịch' })
     expect(nut).toHaveLength(thiepMau.suKien.length)
-    expect(nut[0]).toHaveAttribute('href', expect.stringContaining('calendar.google.com'))
+    expect(nut[0]).toHaveAttribute('href', expect.stringMatching(/^data:text\/calendar/))
+    expect(nut[0]).toHaveAttribute('download', expect.stringMatching(/\.ics$/))
+    expect(nut[0]).not.toHaveAttribute('target')
+    expect(nut[0].className).toContain('px-3')
+    expect(nut[0].className).toContain('py-1.5')
+    expect(nut[0].querySelector('svg')).toBeInTheDocument()
+    expect(nut[0].getAttribute('href')).not.toContain('calendar.google.com')
   })
 
   it('không dùng iframe bản đồ', () => {
