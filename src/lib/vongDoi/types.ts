@@ -10,7 +10,7 @@ export interface VongDoi {
 /** Một dòng trong bảng điều khiển quản trị. */
 export interface ThiepTomTat {
   id: string
-  slug: string
+  publicSlug: string | null
   tenChuRe: string
   tenCoDau: string
   ngayCuoi: string

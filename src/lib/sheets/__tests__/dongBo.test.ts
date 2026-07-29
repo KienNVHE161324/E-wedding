@@ -26,7 +26,7 @@ function sheetsGia(tabCoSan: string[] = []) {
 
 const rsvpMau: Rsvp = {
   id: 'r1',
-  slug: 'nam-linh',
+  invitationId: '4dc32a02-4321-4ef1-a23a-54fd115329a2',
   hoTen: 'Lê Văn Toàn',
   ben: 'nha-trai',
   quanHe: 'Bạn học chú rể',
