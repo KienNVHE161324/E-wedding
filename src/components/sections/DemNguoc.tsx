@@ -1,5 +1,6 @@
 import type { SectionProps } from './types'
 import { luoiLichThang, ngayTrongThang, tenThang, TEN_THU } from '@/lib/invitation/lich'
+import { VungChu } from '@/components/text/VungChu'
 
 export function DemNguoc({ thiep }: SectionProps) {
   const tuan = luoiLichThang(thiep.ngayCuoi)
@@ -15,11 +16,15 @@ export function DemNguoc({ thiep }: SectionProps) {
         className="text-2xl"
         style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
       >
-        Save the date
+        <VungChu id="dem-nguoc.tieu-de" thiep={thiep} noiDung="Save the date" />
       </h2>
 
       <p className="mt-2 text-sm tracking-widest" style={{ color: 'var(--mau-phu)' }}>
-        {tenThang(thiep.ngayCuoi).toUpperCase()}
+        <VungChu
+          id="dem-nguoc.thang"
+          thiep={thiep}
+          noiDung={tenThang(thiep.ngayCuoi).toUpperCase()}
+        />
       </p>
 
       <table className="mx-auto mt-6 border-separate border-spacing-1">
@@ -32,7 +37,7 @@ export function DemNguoc({ thiep }: SectionProps) {
                 className="w-10 pb-1 text-xs font-normal"
                 style={{ color: 'var(--mau-phu)' }}
               >
-                {thu}
+                <VungChu id="dem-nguoc.thu" thiep={thiep} noiDung={thu} />
               </th>
             ))}
           </tr>
@@ -63,7 +68,7 @@ export function DemNguoc({ thiep }: SectionProps) {
                               : undefined
                         }
                       >
-                        {ngay}
+                        <VungChu id="dem-nguoc.ngay" thiep={thiep} noiDung={ngay} />
                       </span>
                     )}
                   </td>
