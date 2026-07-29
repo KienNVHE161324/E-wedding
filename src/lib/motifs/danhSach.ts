@@ -86,6 +86,78 @@ export const DANH_SACH_HOA_TIET: MucHoaTiet[] = [
     "nhan": "WF12 leaf bud filler"
   },
   {
+    "id": "primary-decor/florals/horizontal-dividers/HD01-lotus-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD01-lotus-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD01 lotus divider"
+  },
+  {
+    "id": "primary-decor/florals/horizontal-dividers/HD02-peony-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD02-peony-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD02 peony divider"
+  },
+  {
+    "id": "primary-decor/florals/horizontal-dividers/HD03-orchid-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD03-orchid-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD03 orchid divider"
+  },
+  {
+    "id": "primary-decor/florals/horizontal-dividers/HD04-chrysanthemum-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD04-chrysanthemum-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD04 chrysanthemum divider"
+  },
+  {
+    "id": "primary-decor/florals/horizontal-dividers/HD05-rose-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD05-rose-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD05 rose divider"
+  },
+  {
+    "id": "primary-decor/florals/horizontal-dividers/HD06-hydrangea-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD06-hydrangea-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD06 hydrangea divider"
+  },
+  {
+    "id": "primary-decor/florals/horizontal-dividers/HD07-calla-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD07-calla-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD07 calla divider"
+  },
+  {
+    "id": "primary-decor/florals/horizontal-dividers/HD08-freesia-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD08-freesia-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD08 freesia divider"
+  },
+  {
+    "id": "primary-decor/florals/horizontal-dividers/HD09-magnolia-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD09-magnolia-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD09 magnolia divider"
+  },
+  {
+    "id": "primary-decor/florals/horizontal-dividers/HD10-plum-blossom-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD10-plum-blossom-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD10 plum blossom divider"
+  },
+  {
+    "id": "primary-decor/florals/horizontal-dividers/HD11-camellia-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD11-camellia-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD11 camellia divider"
+  },
+  {
+    "id": "primary-decor/florals/horizontal-dividers/HD12-babys-breath-divider",
+    "tep": "primary-decor/florals/horizontal-dividers/HD12-babys-breath-divider.png",
+    "nhom": "Cụm hoa ngang",
+    "nhan": "HD12 babys breath divider"
+  },
+  {
     "id": "primary-decor/florals/small-bouquets/SB01-lotus-cluster",
     "tep": "primary-decor/florals/small-bouquets/SB01-lotus-cluster.png",
     "nhom": "Cụm hoa nhỏ",

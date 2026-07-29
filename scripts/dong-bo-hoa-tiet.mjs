@@ -23,6 +23,7 @@ const TEP_DANH_SACH = 'src/lib/motifs/danhSach.ts'
 /** Thư mục được coi là asset production, kèm tên nhóm hiển thị cho nhân viên. */
 const NHOM = [
   { duongDan: 'watermarks/florals/single-flowers', ten: 'Hoa nền' },
+  { duongDan: 'primary-decor/florals/horizontal-dividers', ten: 'Cụm hoa ngang' },
   { duongDan: 'primary-decor/florals/small-bouquets', ten: 'Cụm hoa nhỏ' },
   { duongDan: 'primary-decor/florals', ten: 'Hoa' },
   { duongDan: 'primary-decor/architecture', ten: 'Kiến trúc' },
