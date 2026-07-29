@@ -109,7 +109,7 @@ export const chiTietTrangTriSchema = z.object({
   chu: z
     .object({
       noiDung: z.string().max(500),
-      font: z.enum(['serif-co-dien', 'sans-sach']),
+      font: z.enum(FONT_CHU),
       coChu: z.number().int().min(12).max(72),
       mauChu: maMauSchema,
       canLe: z.enum(['left', 'center', 'right']),

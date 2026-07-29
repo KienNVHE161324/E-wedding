@@ -43,7 +43,7 @@ describe('invitationSchema', () => {
           kichThuoc: 60,
           chu: {
             noiDung: 'Trân trọng kính mời',
-            font: 'serif-co-dien',
+            font: 'viet-tay',
             coChu: 24,
             mauChu: '#6B2F24',
             canLe: 'center',
@@ -53,6 +53,7 @@ describe('invitationSchema', () => {
     })
 
     expect(ketQua.chiTietTrangTri?.[0].chu?.noiDung).toBe('Trân trọng kính mời')
+    expect(ketQua.chiTietTrangTri?.[0].chu?.font).toBe('viet-tay')
   })
 
   it('từ chối cấu hình chữ chi tiết không hợp lệ', () => {
