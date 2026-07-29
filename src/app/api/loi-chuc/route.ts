@@ -25,7 +25,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    return NextResponse.json({ ok: true, loiChuc: await taoLoiChuc(slug, kiemTra.data) })
+    return NextResponse.json({ ok: true, loiChuc: await taoLoiChuc(ban.id, kiemTra.data) })
   } catch (loi) {
     console.error('Lỗi lưu lời chúc:', loi)
     return NextResponse.json({ loi: 'Không gửi được. Vui lòng thử lại.' }, { status: 500 })

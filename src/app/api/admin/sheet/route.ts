@@ -6,7 +6,7 @@ import { chuanBiBangTinh } from '@/lib/sheets/dongBo'
 import { tachSpreadsheetId } from '@/lib/sheets/tachId'
 
 const dauVaoSchema = z.object({
-  slug: z.string().min(1),
+  invitationId: z.string().uuid(),
   /** Nhận cả ID trần lẫn URL đầy đủ của Google Sheet. */
   idHoacUrl: z.string().trim().min(1, 'Vui lòng dán ID hoặc đường dẫn Google Sheet'),
 })
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    await luuSpreadsheetId(kiemTra.data.slug, spreadsheetId)
+    await luuSpreadsheetId(kiemTra.data.invitationId, spreadsheetId)
     return NextResponse.json({ ok: true, spreadsheetId })
   } catch (loi) {
     console.error('Lỗi lưu spreadsheet id:', loi)

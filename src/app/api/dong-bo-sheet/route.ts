@@ -15,14 +15,14 @@ export async function GET() {
   let thanhCong = 0
   let thatBai = 0
   let chuaGanSheet = 0
-  const idTheoSlug = new Map<string, string | null>()
+  const idTheoThiep = new Map<string, string | null>()
 
   for (const rsvp of danhSach) {
     try {
-      if (!idTheoSlug.has(rsvp.slug)) {
-        idTheoSlug.set(rsvp.slug, await laySpreadsheetId(rsvp.slug))
+      if (!idTheoThiep.has(rsvp.invitationId)) {
+        idTheoThiep.set(rsvp.invitationId, await laySpreadsheetId(rsvp.invitationId))
       }
-      const spreadsheetId = idTheoSlug.get(rsvp.slug)
+      const spreadsheetId = idTheoThiep.get(rsvp.invitationId)
 
       if (!spreadsheetId) {
         chuaGanSheet++
