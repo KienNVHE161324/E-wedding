@@ -117,6 +117,26 @@ describe('lietKeVungChu', () => {
     expect(ids.filter((id) => id === 'su-kien.ngay.2026-11-14')).toHaveLength(1)
   })
 
+  it('chỉ đăng ký vùng mừng cưới cho bên thực sự được render', () => {
+    const thiep = {
+      ...thiepCoId(),
+      mungCuoi: [thiepMau.mungCuoi[0]],
+    }
+    const ids = lietKeVungChu(thiep).map((vung) => vung.id)
+
+    expect(ids).toEqual(
+      expect.arrayContaining([
+        'mung-cuoi.nha-trai.ten-ben',
+        'mung-cuoi.nha-trai.chu-tai-khoan',
+        'mung-cuoi.nha-trai.so-tai-khoan',
+        'mung-cuoi.nha-trai.ngan-hang',
+        'mung-cuoi.nha-trai.goi-y-mo',
+        'mung-cuoi.nha-trai.nut-sao-chep',
+      ]),
+    )
+    expect(ids.filter((id) => id.startsWith('mung-cuoi.nha-gai.'))).toEqual([])
+  })
+
   it('setter sự kiện chỉ thay đổi item có đúng ID', () => {
     const thiep = thiepCoId()
     const vungTen = timVungChu(thiep, 'su-kien.abc.ten')
@@ -189,23 +209,69 @@ describe('lietKeVungChu', () => {
   })
 
   it('không lộ nhãn form, accessibility copy, mô tả ảnh hay nội dung của khách', () => {
+    const nhanForm = 'Nhãn RSVP bí mật'
+    const luaChonForm = 'Lựa chọn RSVP bí mật'
+    const moTaAlbum = 'Mô tả album accessibility bí mật'
+    const moTaChuRe = 'Mô tả ảnh chú rể accessibility bí mật'
+    const moTaCoDau = 'Mô tả ảnh cô dâu accessibility bí mật'
+    const moTaChuyen = 'Mô tả ảnh câu chuyện accessibility bí mật'
+    const moTaBanDo = 'Mô tả bản đồ accessibility bí mật'
+    const moTaQr = 'Mô tả QR accessibility bí mật'
+    const loiChucKhach = 'Lời chúc do khách gửi'
     const noiDungCam = [
-      'Nhãn RSVP bí mật',
-      'Mô tả ảnh accessibility bí mật',
-      'Lời chúc do khách gửi',
+      nhanForm,
+      luaChonForm,
+      moTaAlbum,
+      moTaChuRe,
+      moTaCoDau,
+      moTaChuyen,
+      moTaBanDo,
+      moTaQr,
+      loiChucKhach,
     ]
+    const thiepGoc = thiepCoId()
     const thiep: Invitation = {
-      ...thiepCoId(),
-      album: [{ url: '/anh.jpg', moTa: noiDungCam[1] }],
+      ...thiepGoc,
+      chuRe: { ...thiepGoc.chuRe, anh: { url: '/chu-re.jpg', moTa: moTaChuRe } },
+      coDau: { ...thiepGoc.coDau, anh: { url: '/co-dau.jpg', moTa: moTaCoDau } },
+      chuyenChungMinh: thiepGoc.chuyenChungMinh.map((item, index) =>
+        index === 0 ? { ...item, anh: { url: '/chuyen.jpg', moTa: moTaChuyen } } : item,
+      ),
+      album: [{ url: '/album.jpg', moTa: moTaAlbum }],
+      suKien: thiepGoc.suKien.map((item, index) =>
+        index === 0 ? { ...item, banDoAnh: { url: '/ban-do.jpg', moTa: moTaBanDo } } : item,
+      ),
+      mungCuoi: thiepGoc.mungCuoi.map((item, index) =>
+        index === 0 ? { ...item, qrAnh: { url: '/qr.jpg', moTa: moTaQr } } : item,
+      ),
       cauHinhRsvp: {
         truongChuan: ['hoTen'],
-        truongTuyChinh: [{ id: 'bi-mat', nhan: noiDungCam[0], kieu: 'text' }],
+        truongTuyChinh: [
+          {
+            id: 'bi-mat',
+            nhan: nhanForm,
+            kieu: 'select',
+            luaChon: [luaChonForm, loiChucKhach],
+          },
+        ],
       },
     }
 
     const vung = lietKeVungChu(thiep)
+    const noiDungRegistry = vung.map((item) => item.noiDung)
+    const idSoLuuBut = vung
+      .filter((item) => item.section === 'so-luu-but')
+      .map((item) => item.id)
 
-    expect(vung.map((item) => item.noiDung)).not.toEqual(expect.arrayContaining(noiDungCam))
+    for (const noiDung of noiDungCam) {
+      expect(noiDungRegistry, noiDung).not.toContain(noiDung)
+    }
+    expect(idSoLuuBut).toEqual([
+      'so-luu-but.tieu-de',
+      'so-luu-but.trang-thai-rong',
+      'so-luu-but.nut-gui',
+      'so-luu-but.cam-on',
+    ])
     expect(vung.map((item) => item.id).some((id) => /form|label|placeholder|aria|guest|khach/.test(id))).toBe(
       false,
     )

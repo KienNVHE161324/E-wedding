@@ -343,8 +343,7 @@ function mungCuoiBenRegions(thiep: Invitation, ben: Ben): MoTaVungChu[] {
 function mungCuoiRegions(thiep: Invitation): MoTaVungChu[] {
   return [
     vungHeThong('mung-cuoi.tieu-de', 'mung-cuoi', 'Tiêu đề', 'title', 'Mừng cưới'),
-    ...mungCuoiBenRegions(thiep, 'nha-trai'),
-    ...mungCuoiBenRegions(thiep, 'nha-gai'),
+    ...thiep.mungCuoi.flatMap((item) => mungCuoiBenRegions(thiep, item.ben)),
   ]
 }
 
