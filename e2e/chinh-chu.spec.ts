@@ -39,9 +39,9 @@ test('chỉnh, kéo, lưu và tải lại từng vùng chữ', async ({ page }, 
   await page.getByLabel('Nội dung vùng chữ').fill('Thu Hà')
   await page.getByLabel('Phông chữ vùng chữ').selectOption('viet-tay')
   await page.getByLabel('Cỡ chữ vùng chữ').fill('42')
-  await page.getByLabel('Màu chữ vùng chữ').fill('#123456')
+  await page.getByLabel('Màu chữ vùng chữ', { exact: true }).fill('#123456')
   await page.getByLabel('Tọa độ X vùng chữ').fill('8.5')
-  await page.getByRole('button', { name: 'Lưu' }).click()
+  await page.getByRole('button', { name: 'Lưu', exact: true }).click()
   await expect(page.getByText('Đã lưu')).toBeVisible()
 
   await page.reload()
@@ -132,7 +132,7 @@ test('đổi thứ tự sự kiện vẫn giữ vùng chữ theo ID ổn định
   if (!idA) throw new Error('Không lấy được ID vùng chữ của sự kiện.')
 
   await regionA.click()
-  await page.getByLabel('Màu chữ vùng chữ').fill('#123456')
+  await page.getByLabel('Màu chữ vùng chữ', { exact: true }).fill('#123456')
   await page.getByLabel('Thời điểm mốc 1').fill('2026-12-20T12:00')
 
   await expect(page.locator(`[data-text-region="${idA}"]`)).toHaveCSS(
@@ -156,7 +156,7 @@ test('nhãn của biểu mẫu chỉnh chữ không phải vùng có thể chọ
     'Màu chữ vùng chữ',
     'Tọa độ X vùng chữ',
   ]) {
-    const control = page.getByLabel(nhan)
+    const control = page.getByLabel(nhan, { exact: true })
     await expect(control).not.toHaveAttribute('data-text-region')
     expect(await control.evaluate((element) => element.closest('[data-text-region]'))).toBeNull()
   }
