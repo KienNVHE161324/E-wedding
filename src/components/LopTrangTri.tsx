@@ -3,8 +3,8 @@ import { layHoaTiet } from '@/lib/motifs/danhSach'
 import { HoaTiet } from './HoaTiet'
 import Image from 'next/image'
 import {
-  FONT_CHU_CHI_TIET_CSS,
   layCauHinhChiTietCoChu,
+  layFontCss,
 } from '@/lib/invitation/chiTietCoChu'
 
 /**
@@ -66,7 +66,7 @@ export function LopTrangTri({ chiTiet }: { chiTiet: ChiTietTrangTri[] }) {
                       ? `rotate(${cauHinhChu.vungChu.xoay}deg)`
                       : undefined,
                     color: ct.chu.mauChu,
-                    fontFamily: FONT_CHU_CHI_TIET_CSS[ct.chu.font],
+                    fontFamily: layFontCss(ct.chu.font),
                     fontSize: `${(ct.chu.coChu / 7).toFixed(3)}cqw`,
                     textAlign: ct.chu.canLe,
                   }}

@@ -6,6 +6,7 @@ import { DANH_SACH_HOA_TIET, layHoaTiet } from '@/lib/motifs/danhSach'
 import { HoaTiet } from '@/components/HoaTiet'
 import { TEN_SECTION } from './SapXepSection'
 import { layCauHinhChiTietCoChu } from '@/lib/invitation/chiTietCoChu'
+import { FONT_CHU_OPTIONS } from '@/lib/invitation/fonts'
 
 /** Vài vị trí hay dùng, bấm một cái là nhảy tới, sau đó vẫn kéo tinh chỉnh được. */
 const VI_TRI_NHANH: { nhan: string; x: number; y: number }[] = [
@@ -224,8 +225,11 @@ export function ChonChiTiet({
                             })
                           }
                         >
-                          <option value="serif-co-dien">Có chân cổ điển</option>
-                          <option value="sans-sach">Không chân dễ đọc</option>
+                          {FONT_CHU_OPTIONS.map((luaChon) => (
+                            <option key={luaChon.id} value={luaChon.id}>
+                              {luaChon.nhan}
+                            </option>
+                          ))}
                         </select>
                       </label>
 

@@ -16,17 +16,20 @@ try {
   // Không có .env.local thì để spec tự báo thiếu biến.
 }
 
+const E2E_PORT = 3100
+const E2E_BASE_URL = `http://localhost:${E2E_PORT}`
+
 export default defineConfig({
   testDir: './e2e',
-  use: { baseURL: 'http://localhost:3000' },
+  use: { baseURL: E2E_BASE_URL },
   projects: [
-    { name: 'mobile', use: { ...devices['iPhone 13'] } },
+    { name: 'mobile', use: { ...devices['Pixel 7'] } },
     { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
   ],
   webServer: {
-    command: 'npm run build && npm run start',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
+    command: `npm run build && npm run start -- --port ${E2E_PORT}`,
+    url: E2E_BASE_URL,
+    reuseExistingServer: false,
     timeout: 180_000,
   },
 })

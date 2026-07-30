@@ -84,6 +84,7 @@ export function InvitationRenderer({
     '--mau-nhan': theme.mau.nhan,
     '--font-tieu-de': theme.font.tieuDe,
     '--font-noi-dung': theme.font.noiDung,
+    '--khung-thiep-rong': 'min(100vw, 520px)',
     // HoaTiet đọc các biến này để đặt độ đậm cho từng vị trí.
     ...Object.fromEntries(
       Object.entries(doDam).map(([slot, v]) => [`--do-dam-${slot}`, String(v)]),
@@ -95,7 +96,10 @@ export function InvitationRenderer({
 
   return (
     <div data-invitation-root style={style}>
-      <main className="mx-auto w-full max-w-[520px]">
+      <main
+        className="mx-auto w-full max-w-[520px]"
+        style={{ containerType: 'inline-size' }}
+      >
         {/*
           Trước khi khách bấm "Mở thiệp" chỉ có bìa tồn tại. Các phần sau không
           render, nên không tải ảnh và cũng không lộ nội dung nếu khách kéo lướt.
@@ -160,7 +164,9 @@ export function InvitationRenderer({
           {dangPhatNhac ? '♫' : '♪'}
         </button>
       )}
-      {daMo && danhSach.includes('rsvp') && <NutRsvpNoi onMo={() => setMoRsvp(true)} />}
+      {daMo && danhSach.includes('rsvp') && (
+        <NutRsvpNoi thiep={thiep} onMo={() => setMoRsvp(true)} />
+      )}
       {moRsvp && <PopupRsvp thiep={thiep} onDong={() => setMoRsvp(false)} />}
     </div>
   )

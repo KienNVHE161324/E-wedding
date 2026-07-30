@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 import type { Invitation } from '@/lib/invitation/types'
 import { taoGoiCauHinh, docGoiCauHinh, tenTepCauHinh } from '@/lib/invitation/cauHinh'
+import { damBaoIdVungChu } from '@/lib/invitation/normalizeTextIds'
 
 /**
  * Xuất và nhập cấu hình một đám cưới dưới dạng tệp JSON.
@@ -45,7 +46,7 @@ export function OCauHinh({
     setLoi('')
 
     try {
-      onNhap(docGoiCauHinh(JSON.parse(await tep.text()), thiep.slug))
+      onNhap(damBaoIdVungChu(docGoiCauHinh(JSON.parse(await tep.text()), thiep.slug)))
       setThongBao('Đã nạp cấu hình. Xem lại bên phải rồi bấm Lưu.')
     } catch (e) {
       setLoi(e instanceof Error ? e.message : 'Không đọc được tệp')

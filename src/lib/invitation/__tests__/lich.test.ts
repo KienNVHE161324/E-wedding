@@ -5,23 +5,41 @@ import {
   tenThang,
   sapXepLichTrinh,
   lienKetThemVaoLich,
+  noiDungIcs,
+  tenTepLich,
   cacNgayCoSuKien,
   TEN_THU,
 } from '../lich'
 
 describe('lienKetThemVaoLich', () => {
-  it('tạo link Google Calendar đúng giờ Việt Nam và địa điểm', () => {
-    const link = lienKetThemVaoLich({
+  it('tạo tệp iCalendar đúng giờ Việt Nam, địa điểm và escape nội dung', () => {
+    const suKien = {
+      ngay: '2026-11-14',
+      gio: '09:00',
+      ten: 'Lễ Vu Quy, nhà gái',
+      diaDiem: 'Tư gia; tầng 2',
+    }
+    const ics = noiDungIcs(suKien)
+
+    expect(ics).toContain('BEGIN:VCALENDAR\r\n')
+    expect(ics).toContain('DTSTART;TZID=Asia/Ho_Chi_Minh:20261114T090000')
+    expect(ics).toContain('DTEND;TZID=Asia/Ho_Chi_Minh:20261114T110000')
+    expect(ics).toContain('SUMMARY:Lễ Vu Quy\\, nhà gái')
+    expect(ics).toContain('LOCATION:Tư gia\\; tầng 2')
+    expect(ics).toContain('\r\nEND:VCALENDAR')
+    expect(lienKetThemVaoLich(suKien)).toMatch(/^data:text\/calendar;charset=utf-8,/)
+    expect(decodeURIComponent(lienKetThemVaoLich(suKien).split(',')[1])).toBe(ics)
+    expect(tenTepLich(suKien)).toBe('le-vu-quy-nha-gai-2026-11-14.ics')
+  })
+
+  it('bỏ dòng địa điểm khi sự kiện không có địa điểm', () => {
+    const ics = noiDungIcs({
       ngay: '2026-11-14',
       gio: '09:00',
       ten: 'Lễ Vu Quy',
-      diaDiem: 'Tư gia nhà gái',
     })
-    const url = new URL(link)
-    expect(url.hostname).toBe('calendar.google.com')
-    expect(url.searchParams.get('dates')).toBe('20261114T090000/20261114T110000')
-    expect(url.searchParams.get('ctz')).toBe('Asia/Ho_Chi_Minh')
-    expect(url.searchParams.get('location')).toBe('Tư gia nhà gái')
+
+    expect(ics).not.toContain('LOCATION:')
   })
 })
 import type { SuKien } from '../types'

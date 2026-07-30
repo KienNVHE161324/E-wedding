@@ -1,5 +1,10 @@
 import { z } from 'zod'
 import type { Invitation } from './types'
+import { FONT_CHU } from './textTypes'
+import {
+  laNoiDungVungChuBatBuoc,
+  lietKeVungChu,
+} from './textRegions'
 import { KIEU_KHUNG_QR } from '@/lib/qr/types'
 
 const anhSchema = z.object({
@@ -8,6 +13,19 @@ const anhSchema = z.object({
 })
 
 const maMauSchema = z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Màu phải ở dạng #RRGGBB')
+const tuyChinhVungChuSchema = z.object({
+  noiDung: z.string().max(500).optional(),
+  font: z.enum(FONT_CHU).optional(),
+  coChu: z.number().min(8).max(120).optional(),
+  mauChu: maMauSchema.optional(),
+  x: z.number().min(-100).max(100).optional(),
+  y: z.number().min(-100).max(100).optional(),
+})
+
+const tuyChinhChuSchema = z
+  .record(z.string().min(1), tuyChinhVungChuSchema)
+  .refine((v) => Object.keys(v).length <= 250, 'Tối đa 250 vùng chữ')
+
 const kieuKhungQrSchema = z.enum(KIEU_KHUNG_QR)
 const tuyChinhQrSchema = z.object({
   kieuKhung: kieuKhungQrSchema.optional(),
@@ -95,7 +113,7 @@ export const chiTietTrangTriSchema = z.object({
   chu: z
     .object({
       noiDung: z.string().max(500),
-      font: z.enum(['serif-co-dien', 'sans-sach']),
+      font: z.enum(FONT_CHU),
       coChu: z.number().int().min(12).max(72),
       mauChu: maMauSchema,
       canLe: z.enum(['left', 'center', 'right']),
@@ -150,11 +168,12 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
     })
     .optional(),
   chuyenChungMinh: z.array(
-    z.object({ anh: anhSchema, tieuDe: z.string(), noiDung: z.string() }),
+    z.object({ id: z.string().uuid().optional(), anh: anhSchema, tieuDe: z.string(), noiDung: z.string() }),
   ),
   album: z.array(anhSchema),
   suKien: z.array(
     z.object({
+      id: z.string().uuid().optional(),
       ngay: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Ngày phải theo dạng YYYY-MM-DD'),
       gio: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'Giờ phải theo dạng HH:mm'),
       ten: z.string(),
@@ -175,6 +194,19 @@ export const invitationSchema: z.ZodType<Invitation> = z.object({
     }),
   ),
   tuyChinhGiaoDien: tuyChinhGiaoDienSchema.optional(),
+  tuyChinhChu: tuyChinhChuSchema.optional(),
   chiTietTrangTri: z.array(chiTietTrangTriSchema).optional(),
   cauHinhRsvp: cauHinhRsvpSchema.optional(),
+}).superRefine((thiep, ctx) => {
+  for (const moTa of lietKeVungChu(thiep)) {
+    if (!laNoiDungVungChuBatBuoc(moTa)) continue
+    const noiDung = thiep.tuyChinhChu?.[moTa.id]?.noiDung
+    if (noiDung === undefined || noiDung.trim().length > 0) continue
+
+    ctx.addIssue({
+      code: 'custom',
+      message: 'Nội dung tiêu đề hoặc nút không được để trống',
+      path: ['tuyChinhChu', moTa.id, 'noiDung'],
+    })
+  }
 })

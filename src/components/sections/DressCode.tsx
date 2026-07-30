@@ -1,4 +1,5 @@
 import type { SectionProps } from './types'
+import { VungChu } from '@/components/text/VungChu'
 
 export function DressCode({ thiep }: SectionProps) {
   const dc = thiep.dressCode
@@ -11,14 +12,22 @@ export function DressCode({ thiep }: SectionProps) {
         className="text-2xl"
         style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
       >
-        Dress code
+        <VungChu id="dress-code.tieu-de" thiep={thiep} noiDung="Dress code" />
       </h2>
 
-      {dc.moTa && <p className="mx-auto mt-4 max-w-md">{dc.moTa}</p>}
+      {dc.moTa && (
+        <p className="mx-auto mt-4 max-w-md">
+          <VungChu id="dress-code.mo-ta" thiep={thiep} noiDung={dc.moTa} />
+        </p>
+      )}
 
       {dc.mauSac.length > 0 && (
         <p className="mx-auto mt-4 max-w-md text-sm" style={{ color: 'var(--mau-phu)' }}>
-          Vui lòng mặc trang phục theo tông màu dưới đây để bức ảnh chung thêm trọn vẹn.
+          <VungChu
+            id="dress-code.huong-dan"
+            thiep={thiep}
+            noiDung="Vui lòng mặc trang phục theo tông màu dưới đây để bức ảnh chung thêm trọn vẹn."
+          />
         </p>
       )}
 

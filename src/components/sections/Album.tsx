@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import type { SectionProps } from './types'
+import { VungChu } from '@/components/text/VungChu'
 
 export function Album({ thiep }: SectionProps) {
   const anh = thiep.album
@@ -31,7 +32,7 @@ export function Album({ thiep }: SectionProps) {
         className="text-center text-2xl"
         style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
       >
-        Album ảnh
+        <VungChu id="album.tieu-de" thiep={thiep} noiDung="Album ảnh" />
       </h2>
 
       <div className="mt-8 grid grid-cols-2 gap-2 md:grid-cols-3">

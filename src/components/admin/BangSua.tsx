@@ -3,10 +3,15 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import type { Invitation, SectionId } from '@/lib/invitation/types'
+import type { TextRegionId } from '@/lib/invitation/textTypes'
+import { damBaoIdVungChu } from '@/lib/invitation/normalizeTextIds'
+import { xoaOverrideTheoPrefix } from '@/lib/invitation/textOverrides'
 import type { SlotHoaTiet } from '@/lib/themes/types'
 import type { VongDoi } from '@/lib/vongDoi/types'
 import { THEMES, layTheme } from '@/lib/themes'
 import { InvitationRenderer } from '@/components/InvitationRenderer'
+import { TextEditorProvider } from './text/TextEditorProvider'
+import { BangChinhChu } from './text/BangChinhChu'
 import { SapXepSection } from './SapXepSection'
 import { ThanhDoDam } from './ThanhDoDam'
 import { OAlbum } from './OAlbum'
@@ -47,12 +52,42 @@ export function BangSua({
   spreadsheetId: string | null
   emailServiceAccount: string
 }) {
-  const [thiep, setThiep] = useState(banDau)
+  const [thiep, setThiep] = useState(() => damBaoIdVungChu(banDau))
+  const [dangChinhChu, setDangChinhChu] = useState(false)
+  const [vungChuDangChon, setVungChuDangChon] =
+    useState<TextRegionId | null>(null)
   const [trangThai, setTrangThai] = useState('')
   const [phanDangTrangTri, setPhanDangTrangTri] = useState<SectionId>('bia')
 
   function sua<K extends keyof Invitation>(khoa: K, giaTri: Invitation[K]) {
     setThiep((t) => ({ ...t, [khoa]: giaTri }))
+  }
+
+  function suaDanhSachCoId<
+    K extends 'suKien' | 'chuyenChungMinh',
+  >(
+    khoa: K,
+    giaTri: Invitation[K],
+  ) {
+    setThiep((t) => {
+      const prefix =
+        khoa === 'suKien' ? 'su-kien' : 'chuyen-chung-minh'
+      const idConLai = new Set(
+        giaTri.map((item) => item.id).filter((id): id is string => Boolean(id)),
+      )
+      const idDaXoa = t[khoa]
+        .map((item) => item.id)
+        .filter(
+          (id): id is string => Boolean(id) && !idConLai.has(id as string),
+        )
+      const tuyChinhChu = idDaXoa.reduce(
+        (hienTai, id) =>
+          xoaOverrideTheoPrefix(hienTai, `${prefix}.${id}.`),
+        t.tuyChinhChu,
+      )
+
+      return { ...t, [khoa]: giaTri, tuyChinhChu }
+    })
   }
 
   function suaDoDam(slot: SlotHoaTiet, v: number) {
@@ -93,8 +128,8 @@ export function BangSua({
   const theme = layTheme(thiep.themeId)
 
   return (
-    <div className="flex h-screen flex-col lg:flex-row">
-      <div className="space-y-6 overflow-y-auto border-r p-5 lg:w-[420px]">
+    <div className="flex min-h-screen flex-col overflow-x-hidden lg:h-screen lg:flex-row">
+      <div className="max-h-[55dvh] shrink-0 space-y-6 overflow-y-auto border-b p-5 lg:max-h-none lg:w-[420px] lg:border-b-0 lg:border-r">
         <div className="flex items-center gap-3">
           <Link href="/admin" className="text-sm underline">
             ← Danh sách
@@ -136,6 +171,28 @@ export function BangSua({
               </option>
             ))}
           </select>
+          <label className="mt-3 flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              aria-label="Chỉnh chữ"
+              checked={dangChinhChu}
+              onChange={(event) => {
+                setDangChinhChu(event.target.checked)
+                if (!event.target.checked) setVungChuDangChon(null)
+              }}
+            />
+            Chỉnh chữ trực tiếp trên thiệp
+          </label>
+          {dangChinhChu && (
+            <div className="mt-3">
+              <BangChinhChu
+                thiep={thiep}
+                dangChon={vungChuDangChon}
+                onChon={setVungChuDangChon}
+                onDoi={setThiep}
+              />
+            </div>
+          )}
         </section>
 
         <section>
@@ -192,7 +249,7 @@ export function BangSua({
               giaTri={thiep.suKien}
               ngayCuoi={thiep.ngayCuoi}
               slug={thiep.slug}
-              onDoi={(v) => sua('suKien', v)}
+              onDoi={(v) => suaDanhSachCoId('suKien', v)}
             />
           </div>
         </section>
@@ -333,8 +390,16 @@ export function BangSua({
         </section>
       </div>
 
-      <div className="flex-1 overflow-y-auto bg-neutral-100">
-        <InvitationRenderer thiep={thiep} theme={theme} />
+      <div className="min-h-[45dvh] flex-1 overflow-y-auto bg-neutral-100">
+        <TextEditorProvider
+          enabled={dangChinhChu}
+          thiep={thiep}
+          onDoi={setThiep}
+          dangChon={vungChuDangChon}
+          onChon={setVungChuDangChon}
+        >
+          <InvitationRenderer thiep={thiep} theme={theme} />
+        </TextEditorProvider>
       </div>
     </div>
   )

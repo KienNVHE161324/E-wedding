@@ -1,8 +1,9 @@
 import type {
   CanLeChuChiTiet,
   ChuChiTietTrangTri,
-  FontChuChiTiet,
 } from './types'
+import { FONT_CHU_OPTIONS } from './fonts'
+import type { FontChu } from './textTypes'
 
 export interface CauHinhChiTietCoChu {
   tiLe: string
@@ -16,9 +17,8 @@ export interface CauHinhChiTietCoChu {
   macDinh: Omit<ChuChiTietTrangTri, 'noiDung'>
 }
 
-export const FONT_CHU_CHI_TIET_CSS: Record<FontChuChiTiet, string> = {
-  'serif-co-dien': '"Noto Serif", "Times New Roman", serif',
-  'sans-sach': '"Be Vietnam Pro", Arial, sans-serif',
+export function layFontCss(font: FontChu | undefined): string | undefined {
+  return FONT_CHU_OPTIONS.find((luaChon) => luaChon.id === font)?.css
 }
 
 export const CAN_LE_CHU_CHI_TIET: readonly CanLeChuChiTiet[] = [

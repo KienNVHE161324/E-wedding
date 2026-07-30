@@ -1,6 +1,7 @@
 import type { Invitation } from './types'
 import { layTheme } from '@/lib/themes'
 import type { KieuKhungQr } from '@/lib/qr/types'
+import { damBaoIdVungChu } from './normalizeTextIds'
 
 /** Những đường dẫn thuộc về hệ thống, không được dùng làm slug thiệp. */
 const SLUG_HE_THONG = ['admin', 'api', 'dang-nhap', 'tao-moi', '_next', 'favicon.ico']
@@ -54,7 +55,7 @@ export function taoThiepMoi(tt: ThongTinTaoMoi): Invitation {
 
   const ngay = xepNgayCuoi(tt.ngayCuoi, tt.ngayPhu)
 
-  return {
+  return damBaoIdVungChu({
     slug: tt.slug,
     themeId: tt.themeId,
     kieuKhungQr: tt.kieuKhungQr,
@@ -73,5 +74,5 @@ export function taoThiepMoi(tt: ThongTinTaoMoi): Invitation {
       { ben: 'nha-trai', chuTaiKhoan: '', soTaiKhoan: '', nganHang: '' },
       { ben: 'nha-gai', chuTaiKhoan: '', soTaiKhoan: '', nganHang: '' },
     ],
-  }
+  })
 }

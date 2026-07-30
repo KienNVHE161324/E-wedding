@@ -19,6 +19,30 @@ function thuTuHienThi(container: HTMLElement): string[] {
 }
 
 describe('InvitationRenderer', () => {
+  it('cấp hệ quy chiếu responsive 520px cho cả vùng chữ nổi ngoài main', async () => {
+    const thiep = {
+      ...thiepMau,
+      tuyChinhChu: {
+        'nut-rsvp-noi': { coChu: 40, x: 10 },
+      },
+    }
+    const { container } = render(<InvitationRenderer thiep={thiep} theme={theme} />)
+    const root = container.querySelector('[data-invitation-root]') as HTMLElement
+
+    expect(root.style.getPropertyValue('--khung-thiep-rong')).toBe('min(100vw, 520px)')
+
+    await moThiep()
+    const nutNoi = container.querySelector(
+      '[data-text-region="nut-rsvp-noi"]',
+    ) as HTMLElement
+    expect(nutNoi.closest('main')).toBeNull()
+    expect(nutNoi.style.getPropertyValue('--co-chu-responsive')).toContain('vw')
+    expect(nutNoi.style.getPropertyValue('--co-chu-responsive')).toContain('40px')
+    expect(nutNoi.style.getPropertyValue('--dich-x-responsive')).toContain('10vw')
+    expect(nutNoi.style.getPropertyValue('--dich-x-responsive')).toContain('52px')
+    expect(nutNoi.style.cssText).not.toContain('cqw')
+  })
+
   it('giữ chiều rộng khung điện thoại trên mọi kích thước màn hình', () => {
     const { container } = render(<InvitationRenderer thiep={thiepMau} theme={theme} />)
     const main = container.querySelector('main')

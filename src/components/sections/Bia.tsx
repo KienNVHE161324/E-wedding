@@ -1,5 +1,6 @@
 import type { SectionProps } from './types'
 import { HoaTietThemeTuyChinh, MAC_DINH_HOA_TIET_BIA } from '@/components/HoaTiet'
+import { VungChu } from '@/components/text/VungChu'
 
 // Khung tối thiểu để nền tảng chạy được.
 // Session thiết kế thay toàn bộ phần bên trong <section>, giữ nguyên
@@ -19,15 +20,17 @@ export function Bia({ thiep, theme, onMoThiep }: SectionProps) {
 
       <div className="relative z-10 flex flex-col items-center">
         <p className="text-sm tracking-[0.3em]" style={{ color: 'var(--mau-phu)' }}>
-          THÂN MỜI
+          <VungChu id="bia.loi-mo-dau" thiep={thiep} noiDung="THÂN MỜI" />
         </p>
         <h1
           className="mt-6 text-4xl leading-tight md:text-6xl"
           style={{ fontFamily: 'var(--font-tieu-de)', color: 'var(--mau-chinh)' }}
         >
-          {thiep.chuRe.ten}
-          <span className="my-3 block text-2xl md:text-3xl">&amp;</span>
-          {thiep.coDau.ten}
+          <VungChu id="bia.chu-re.ten" thiep={thiep} noiDung={thiep.chuRe.ten} />
+          <span className="my-3 block text-2xl md:text-3xl">
+            <VungChu id="bia.ky-hieu-noi" thiep={thiep} noiDung="&" />
+          </span>
+          <VungChu id="bia.co-dau.ten" thiep={thiep} noiDung={thiep.coDau.ten} />
         </h1>
 
         <button
@@ -36,7 +39,7 @@ export function Bia({ thiep, theme, onMoThiep }: SectionProps) {
           className="mt-10 rounded-full px-8 py-3 text-white"
           style={{ backgroundColor: 'var(--mau-chinh)' }}
         >
-          Mở thiệp
+          <VungChu id="bia.nut-mo" thiep={thiep} noiDung="Mở thiệp" />
         </button>
       </div>
 

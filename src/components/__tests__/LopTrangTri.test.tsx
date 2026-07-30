@@ -123,6 +123,21 @@ describe('LopTrangTri', () => {
     expect(screen.getByText('Trân trọng kính mời')).toBeInTheDocument()
   })
 
+  it('dựng chữ D1 bằng font viet-tay từ catalog chung', () => {
+    render(
+      <LopTrangTri
+        chiTiet={[
+          chiTiet({
+            id: ID_D1_2,
+            chu: { ...CHU_D1, font: 'viet-tay' },
+          }),
+        ]}
+      />,
+    )
+
+    expect(screen.getByTestId('chu-chi-tiet').style.fontFamily).toContain('--font-viet-tay')
+  })
+
   it('không dựng lớp chữ khi nội dung D1 rỗng', () => {
     render(
       <LopTrangTri

@@ -4,11 +4,12 @@ import userEvent from '@testing-library/user-event'
 import { InvitationRenderer } from '../InvitationRenderer'
 import { thiepMau } from '@/lib/invitation/mau'
 import { layTheme } from '@/lib/themes'
+import type { Invitation } from '@/lib/invitation/types'
 
 const theme = layTheme('mac-dinh')
 
-async function moThiep() {
-  render(<InvitationRenderer thiep={thiepMau} theme={theme} />)
+async function moThiep(thiep: Invitation = thiepMau) {
+  render(<InvitationRenderer thiep={thiep} theme={theme} />)
   await userEvent.click(screen.getByRole('button', { name: 'Mở thiệp' }))
 }
 
@@ -24,6 +25,34 @@ describe('Popup xác nhận tham dự', () => {
     await userEvent.click(screen.getAllByRole('button', { name: 'Xác nhận tham dự' })[0])
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByLabelText('Họ và tên')).toBeInTheDocument()
+  })
+
+  it('áp dụng override cho nút nổi và tiêu đề popup trong production renderer', async () => {
+    await moThiep({
+      ...thiepMau,
+      tuyChinhChu: {
+        'nut-rsvp-noi': {
+          noiDung: 'Phản hồi ngay',
+          mauChu: '#123456',
+        },
+        'popup-rsvp.tieu-de': {
+          noiDung: 'Bạn sẽ tham dự chứ?',
+          mauChu: '#654321',
+        },
+      },
+    })
+
+    const nutNoi = screen.getByText('Phản hồi ngay')
+    expect(nutNoi).toHaveAttribute('data-text-region', 'nut-rsvp-noi')
+    expect(nutNoi.style.color).toBe('rgb(18, 52, 86)')
+    await userEvent.click(nutNoi)
+
+    const tieuDe = screen.getByText('Bạn sẽ tham dự chứ?')
+    expect(tieuDe).toHaveAttribute('data-text-region', 'popup-rsvp.tieu-de')
+    expect(tieuDe.style.color).toBe('rgb(101, 67, 33)')
+    const nutDong = screen.getByRole('button', { name: 'Đóng' })
+    expect(nutDong).not.toHaveAttribute('data-text-region')
+    expect(nutDong.querySelector('[data-text-region]')).not.toBeInTheDocument()
   })
 
   it('bấm nút trong phần xác nhận cũng mở đúng popup đó', async () => {

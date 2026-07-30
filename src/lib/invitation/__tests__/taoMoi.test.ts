@@ -65,6 +65,8 @@ describe('taoThiepMoi', () => {
     expect(thiep.album).toEqual([])
     expect(thiep.chuyenChungMinh).toEqual([])
     expect(thiep.suKien).toEqual([])
+    expect(thiep.chuyenChungMinh.every((moc) => Boolean(moc.id))).toBe(true)
+    expect(thiep.suKien.every((moc) => Boolean(moc.id))).toBe(true)
   })
 
   it('dựng sẵn hai ô mừng cưới nhà trai và nhà gái để admin chỉ việc điền', () => {
