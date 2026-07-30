@@ -25,4 +25,19 @@ describe('damBaoIdVungChu', () => {
     expect(thiep.suKien[0].id).toBeUndefined()
     expect(thiep.chuyenChungMinh[0].id).toBeUndefined()
   })
+
+  it('tạo ID mặc định deterministic để server và client cho cùng kết quả', () => {
+    const thiep: Invitation = {
+      ...thiepMau,
+      suKien: [{ ngay: '2026-09-29', gio: '09:00', ten: 'Đón khách' }],
+      chuyenChungMinh: [{ anh: thiepMau.album[0], tieuDe: 'Gặp nhau', noiDung: '...' }],
+    }
+
+    const lanMot = damBaoIdVungChu(thiep)
+    const lanHai = damBaoIdVungChu(thiep)
+
+    expect(lanMot).toEqual(lanHai)
+    expect(lanMot.suKien[0].id).toBe('legacy-su-kien-0')
+    expect(lanMot.chuyenChungMinh[0].id).toBe('legacy-chuyen-chung-minh-0')
+  })
 })

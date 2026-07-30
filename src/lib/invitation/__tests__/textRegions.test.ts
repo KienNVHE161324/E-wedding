@@ -37,7 +37,7 @@ const ID_HE_THONG = [
   'popup-mung-cuoi.tieu-de',
 ] as const
 
-const ID_SINH_TU_DU_LIEU = ['dem-nguoc.thang', 'dem-nguoc.thu', 'dem-nguoc.ngay'] as const
+const ID_SINH_TU_DU_LIEU = ['dem-nguoc.thang', 'dem-nguoc.thu.0', 'dem-nguoc.thu.6', 'dem-nguoc.ngay.1', 'dem-nguoc.ngay.30'] as const
 
 const ID_NOI_DUNG_NGHIEP_VU = [
   'bia.chu-re.ten',
@@ -197,13 +197,13 @@ describe('lietKeVungChu', () => {
     }
   })
 
-  it('nội dung sinh từ lịch chỉ cho chỉnh kiểu chữ, không cho sửa nội dung', () => {
+  it('nội dung sinh từ lịch cho phép ghi đè nội dung hiển thị', () => {
     const thiep = thiepCoId()
     const ids = [...ID_SINH_TU_DU_LIEU, 'su-kien.ngay.2026-11-14']
 
     for (const id of ids) {
       const vung = timVungChu(thiep, id)
-      expect(vung?.choSuaNoiDung, id).toBe(false)
+      expect(vung?.choSuaNoiDung, id).toBe(true)
       expect(vung?.capNhatNoiDung, id).toBeUndefined()
     }
   })

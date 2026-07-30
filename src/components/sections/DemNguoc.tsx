@@ -30,14 +30,14 @@ export function DemNguoc({ thiep }: SectionProps) {
       <table className="mx-auto mt-6 border-separate border-spacing-1">
         <thead>
           <tr>
-            {TEN_THU.map((thu) => (
+            {TEN_THU.map((thu, index) => (
               <th
                 key={thu}
                 scope="col"
                 className="w-10 pb-1 text-xs font-normal"
                 style={{ color: 'var(--mau-phu)' }}
               >
-                <VungChu id="dem-nguoc.thu" thiep={thiep} noiDung={thu} />
+                <VungChu id={`dem-nguoc.thu.${index}`} thiep={thiep} noiDung={thu} />
               </th>
             ))}
           </tr>
@@ -68,7 +68,7 @@ export function DemNguoc({ thiep }: SectionProps) {
                               : undefined
                         }
                       >
-                        <VungChu id="dem-nguoc.ngay" thiep={thiep} noiDung={ngay} />
+                        <VungChu id={`dem-nguoc.ngay.${ngay}`} thiep={thiep} noiDung={ngay} />
                       </span>
                     )}
                   </td>

@@ -47,7 +47,7 @@ describe('các vùng chữ tĩnh', () => {
     expect(container.querySelector('[data-text-region="bia.chu-re.ten"]')?.closest('h1')).not.toBeNull()
   })
 
-  it('đăng ký vùng đếm ngược theo nhóm và không đăng ký từng ô lịch', () => {
+  it('đăng ký riêng từng tiêu đề thứ và từng ngày trong lịch', () => {
     const { container } = render(
       <DemNguoc
         thiep={{
@@ -63,13 +63,16 @@ describe('các vùng chữ tĩnh', () => {
     expect(ids(container)).toEqual(expect.arrayContaining([
       'dem-nguoc.tieu-de',
       'dem-nguoc.thang',
-      'dem-nguoc.thu',
-      'dem-nguoc.ngay',
+      'dem-nguoc.thu.0',
+      'dem-nguoc.thu.6',
+      'dem-nguoc.ngay.1',
+      'dem-nguoc.ngay.30',
     ]))
     const tieuDe = screen.getByText('Lưu ngày này')
     expect(tieuDe).toHaveStyle({ color: 'rgb(18, 52, 86)' })
     expect(tieuDe.closest('h2')).not.toBeNull()
-    expect(container.querySelectorAll('[data-text-region^="dem-nguoc.ngay."]')).toHaveLength(0)
+    expect(container.querySelectorAll('[data-text-region^="dem-nguoc.thu."]')).toHaveLength(7)
+    expect(container.querySelectorAll('[data-text-region^="dem-nguoc.ngay."]')).toHaveLength(30)
   })
 
   it('đăng ký đầy đủ vùng cô dâu chú rể và áp dụng ghi đè', () => {

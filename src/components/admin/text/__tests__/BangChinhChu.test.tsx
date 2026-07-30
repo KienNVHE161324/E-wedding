@@ -410,11 +410,11 @@ describe('BangChinhChu', () => {
     })
   })
 
-  it('không cho sửa nội dung sinh từ dữ liệu', async () => {
+  it('cho phép ghi đè nội dung sinh từ dữ liệu', async () => {
     render(<KhungBangChinhChu />)
     await chonVung('dem-nguoc.thang')
 
-    expect(screen.getByLabelText('Nội dung vùng chữ')).toBeDisabled()
+    expect(screen.getByLabelText('Nội dung vùng chữ')).not.toBeDisabled()
   })
 
   it('color picker và ô mã màu dùng chung giá trị hợp lệ', async () => {

@@ -1,4 +1,4 @@
-import { ngayTrongThang, TEN_THU, tenThang } from './lich'
+import { luoiLichThang, TEN_THU, tenThang } from './lich'
 import type { TextRegionId } from './textTypes'
 import type {
   Ben,
@@ -60,7 +60,7 @@ function vungSinhTuDuLieu(
   nhom: NhomVungChu,
   noiDung: string,
 ): MoTaVungChu {
-  return { id, section, nhan, nhom, noiDung, choSuaNoiDung: false }
+  return { id, section, nhan, nhom, noiDung, choSuaNoiDung: true }
 }
 
 function suaNguoiCuoi(
@@ -121,6 +121,11 @@ function biaRegions(thiep: Invitation): MoTaVungChu[] {
 }
 
 function demNguocRegions(thiep: Invitation): MoTaVungChu[] {
+  const ngayCuoiHopLe = /^\d{4}-(0[1-9]|1[0-2])-\d{2}$/.test(thiep.ngayCuoi)
+  const ngayTrongLich = ngayCuoiHopLe
+    ? luoiLichThang(thiep.ngayCuoi).flat().filter((ngay): ngay is number => ngay !== null)
+    : []
+
   return [
     vungHeThong('dem-nguoc.tieu-de', 'dem-nguoc', 'Tiêu đề', 'title', 'Save the date'),
     vungSinhTuDuLieu(
@@ -130,20 +135,24 @@ function demNguocRegions(thiep: Invitation): MoTaVungChu[] {
       'caption',
       tenThang(thiep.ngayCuoi).toUpperCase(),
     ),
-    vungSinhTuDuLieu(
-      'dem-nguoc.thu',
-      'dem-nguoc',
-      'Các thứ trong tuần',
-      'caption',
-      TEN_THU.join(' · '),
+    ...TEN_THU.map((thu, index) =>
+      vungSinhTuDuLieu(
+        `dem-nguoc.thu.${index}`,
+        'dem-nguoc',
+        `Thứ ${thu}`,
+        'caption',
+        thu,
+      ),
     ),
-    vungSinhTuDuLieu(
-      'dem-nguoc.ngay',
-      'dem-nguoc',
-      'Các ngày trong tháng',
-      'body',
-      String(ngayTrongThang(thiep.ngayCuoi)),
-    ),
+    ...ngayTrongLich.map((ngay) =>
+        vungSinhTuDuLieu(
+          `dem-nguoc.ngay.${ngay}`,
+          'dem-nguoc',
+          `Ngày ${ngay}`,
+          'body',
+          String(ngay),
+        ),
+      ),
   ]
 }
 
