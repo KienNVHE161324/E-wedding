@@ -82,41 +82,19 @@ test('chạm và kéo vùng chữ trên mobile sẽ cập nhật tọa độ', a
 
   const x = box.x + box.width / 2
   const y = box.y + box.height / 2
-  await coDau.dispatchEvent('pointerdown', {
-    pointerId: 21,
-    pointerType: 'touch',
-    isPrimary: true,
-    button: 0,
-    clientX: x,
-    clientY: y,
+  const cdp = await page.context().newCDPSession(page)
+  await cdp.send('Input.dispatchTouchEvent', {
+    type: 'touchStart',
+    touchPoints: [{ x, y, id: 21 }],
   })
-  await page.evaluate(
-    ({ startX, startY }) => {
-      window.dispatchEvent(
-        new PointerEvent('pointermove', {
-          bubbles: true,
-          cancelable: true,
-          pointerId: 21,
-          pointerType: 'touch',
-          isPrimary: true,
-          clientX: startX + 36,
-          clientY: startY + 20,
-        }),
-      )
-      window.dispatchEvent(
-        new PointerEvent('pointerup', {
-          bubbles: true,
-          cancelable: true,
-          pointerId: 21,
-          pointerType: 'touch',
-          isPrimary: true,
-          clientX: startX + 36,
-          clientY: startY + 20,
-        }),
-      )
-    },
-    { startX: x, startY: y },
-  )
+  await cdp.send('Input.dispatchTouchEvent', {
+    type: 'touchMove',
+    touchPoints: [{ x: x + 36, y: y + 20, id: 21 }],
+  })
+  await cdp.send('Input.dispatchTouchEvent', {
+    type: 'touchEnd',
+    touchPoints: [],
+  })
 
   await expect(page.getByLabel('Tọa độ X vùng chữ')).not.toHaveValue('')
 })

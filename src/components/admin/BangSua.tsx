@@ -128,8 +128,8 @@ export function BangSua({
   const theme = layTheme(thiep.themeId)
 
   return (
-    <div className="flex h-screen flex-col lg:flex-row">
-      <div className="space-y-6 overflow-y-auto border-r p-5 lg:w-[420px]">
+    <div className="flex min-h-screen flex-col overflow-x-hidden lg:h-screen lg:flex-row">
+      <div className="max-h-[55dvh] shrink-0 space-y-6 overflow-y-auto border-b p-5 lg:max-h-none lg:w-[420px] lg:border-b-0 lg:border-r">
         <div className="flex items-center gap-3">
           <Link href="/admin" className="text-sm underline">
             ← Danh sách
@@ -390,7 +390,7 @@ export function BangSua({
         </section>
       </div>
 
-      <div className="flex-1 overflow-y-auto bg-neutral-100">
+      <div className="min-h-[45dvh] flex-1 overflow-y-auto bg-neutral-100">
         <TextEditorProvider
           enabled={dangChinhChu}
           thiep={thiep}

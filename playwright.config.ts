@@ -23,7 +23,7 @@ export default defineConfig({
   testDir: './e2e',
   use: { baseURL: E2E_BASE_URL },
   projects: [
-    { name: 'mobile', use: { ...devices['iPhone 13'] } },
+    { name: 'mobile', use: { ...devices['Pixel 7'] } },
     { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
   ],
   webServer: {
